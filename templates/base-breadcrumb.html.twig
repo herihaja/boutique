@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block class_title_icon%}nc-icon nc-tap-01{% endblock %}
+
+{% block body %}
+                 <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card strpied-tabled-with-hover">
+                                {% block breadcrumb %}
+                                {% endblock %}
+                                <div class="card-header ">
+                                    <h4 class="card-category">{% block toString %}{% endblock %}</h4><br/>
+                                    <h4 class="card-title {{ block('class_title_icon') }}">{% block titre %}{% endblock %}</h4>
+                                    <p class="card-category">&nbsp;</p>
+                                </div>
+                                <div class="card-body table-full-width table-responsive" style="margin-left:0;">
+                                    {% block contenu %}
+                                    {% endblock %}
+                                </div>
+                            </div>
+                            {% block add_button %}{% endblock %}
+                        </div>
+
+                    </div>
+                </div>
+{% endblock %}

@@ -1,0 +1,37 @@
+                                     <div class="form-group" style="margin-left:0;">
+                                        <label for="" class=" requiredField">
+                                            Observation, Remarque, commentaire:
+                                        </label>
+                                        {% for comment in commentaires %}
+                                        <blockquote>
+                                            <p class="blockquote blockquote-primary">
+                                                "{{ comment.texte }}"
+                                                <br/>
+                                                <small style="margin-left:40px;">
+                                                    Par {{ comment.owner.firstName }} {{ comment.owner.lastName }} le {{ comment.when|date('d/m/Y') }} 
+                                                </small>
+                                            </p>
+                                        </blockquote>
+                                       {% endfor %}
+                                     </div>
+
+
+                                 {% if form is defined %}
+                                 <div class="form-group">
+                                    <form name="formateur" method="post" id="form-formateur" enctype="multipart/form-data">
+                                        <div class="form-group">
+                                            <span>Votre observation:</span>
+                                            <div class="">
+                                                {{ form_widget(form.texte, {'attr': {'class': 'form-control'}}) }}
+                                                {{ form_widget(form.owner, {'attr': {'style': 'display:none'}}) }}
+                                                {{ form_widget(form.parent) }}
+                                                {{ form_widget(form.type_parent) }}
+                                                {{ form_widget(form.when, {'attr': {'style': 'display:none'}}) }}
+                                            </div>
+                                         </div>
+                                     <button type="submit" class="btn btn-info btn-fill pull-right">Enregistrer</button>
+                                     <div class="clearfix"></div>
+                                     {{ form_widget(form._token) }}
+                                    </form>
+                                 </div>
+                                 {% endif %}

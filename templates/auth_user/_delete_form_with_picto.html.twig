@@ -1,0 +1,10 @@
+<form method="post" style="display:inline;" action="{{ path('auth_user_delete', {'id': user.id}) }}" onsubmit="return ">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}"/>
+
+    {% if is_edit is defined and is_edit %}
+    <a class="btn btn-info delete-btn delete_icon btn-fill" alt="l'utilisateur: '{{ user.fullName }}'?">Supprimer</a>
+    {% else %}
+    <a href="javascript:void(0);" onclick="" class="delete_icon"  alt="l'utilisateur: '{{ user.fullName }}?"><img src="/static/img/delete-icon.png"/></a>
+    {% endif %}
+</form>

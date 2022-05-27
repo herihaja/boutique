@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block class_title_icon %}nc-icon nc-tap-01{% endblock %}
+
+
+{% block body %}
+                 <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card strpied-tabled-with-hover">
+                                {% block breadcrumb %}
+                                {% endblock %}
+                                <div class="card-header ">
+                                    <h4 class="card-title {{ block('class_title_icon') }}">{% block titre %}{% endblock %}</h4>
+                                    <p class="card-category">&nbsp;</p>
+                                </div>
+                                <div class="card-body table-full-width table-responsive" style="margin-left:0;">
+                                    
+                                    <div class="col-xs-12 ">
+                                        <nav>
+                                            <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                                            {% for key, tab in tabs %}
+                                                 {% if tab.link is not defined %}
+                                                <a class="nav-item nav-link {% if tab.active_class is defined %}active{% endif %}" id="nav-{{ key }}-tab" data-toggle="tab" href="#nav-{{ key }}" role="tab" aria-controls="nav-{{ key }}" aria-selected="true">{{ key|capitalize }}</a>
+                                                {% else %}
+                                                <a class="nav-item nav-link {% if tab.active_class is defined %}active{% endif %}" id="nav-{{ key }}-tab" data-toggle="" href="{{ tab.link }}#nav-{{ key }}" role="tab" aria-controls="{{ tab.link }}#nav-{{ key }}" aria-selected="false">{{ key|capitalize }}</a>
+                                                {% endif %}
+                                            {% endfor %}
+                                            </div>
+                                        </nav>
+                                        <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+                                            {% block activetab %}
+                                            {% endblock %}
+                                        </div>
+                                    </div>
+
+                                    
+                                    
+                                </div>
+                            </div>
+                            {% block add_button %}{% endblock %}
+                        </div>
+
+                    </div>
+                </div>
+{% endblock %}

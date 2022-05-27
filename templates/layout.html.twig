@@ -1,0 +1,927 @@
+<!-- 
+=========================================================
+ Light Bootstrap Dashboard - v2.0.1
+=========================================================
+
+ Product Page: https://www.creative-tim.com/product/light-bootstrap-dashboard
+ Copyright 2019 Creative Tim (https://www.creative-tim.com)
+ Licensed under MIT (https://github.com/creativetimofficial/light-bootstrap-dashboard/blob/master/LICENSE)
+
+ Coded by Creative Tim
+
+=========================================================
+
+ The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.  -->
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="apple-touch-icon" sizes="76x76" href="/static/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="/static/img/favicon.ico">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>SIMINDDL</title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+    <!--     Fonts and icons     -->
+    <!--<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />-->
+    <!-- CSS Files -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/static/css/light-bootstrap-dashboard.css?v=2.0.0 " rel="stylesheet" />
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link href="/static/css/demo.css" rel="stylesheet" />
+    <link href="/static/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link href="/static/css/bootstrap.css" rel="stylesheet" />
+    {% block block_css %}
+    {% endblock %}
+    
+    <!--   Core JS Files   -->
+    <script src="/static/js/core/jquery.3.2.1.min.js" type="text/javascript"></script>
+
+    <script src="/static/js/core/popper.min.js" type="text/javascript"></script>
+    <script src="/static/js/core/bootstrap.min.js" type="text/javascript"></script>
+
+    <!--  Plugin for Switches, full documentation here: http://www.jque.re/plugins/version3/bootstrap.switch/ -->
+    <script src="/static/js/plugins/bootstrap-switch.js"></script>
+
+    <script src="/static/js/plugins/bootstrap-notify.js"></script>
+    <script src="/static/js/jquery.dataTables.min.js"></script>
+    <script src="/static/js/dataTables.bootstrap4.min.js"></script>
+    <script src="/static/js/light-bootstrap-dashboard.js?v=2.0.0 " type="text/javascript"></script>
+    {% block block_js %}
+    {% endblock %}
+
+    <style>
+        .btn{
+            background-color:#74D0B9 !important;
+            color: #FFF !important;
+        }
+        form[onsubmit=*]{
+            display:inline;
+        }
+        #accounttab .dropdown-menu:before, #accounttab .dropdown-menu:after {
+             right: 15px!important;
+             box-sizing: content-box!important;
+             left: unset !important;
+        }
+        #accounttab .dropdown-menu{
+            top:83px!important;
+        }
+        
+        button.nc-icon:before{
+            padding-right: 5px;
+        }
+        
+        #accounttab a.nav-link:after{
+            display:none !important;
+        }
+        
+        h4.nc-icon {
+            font-size: 1.75rem !important;
+        }
+        
+        .save-button .col-md-12 button,.save-button .col-md-12 a.pull-right  {
+            position: absolute;
+            right: 16px;
+        }
+        
+        .save-button .col-md-12 {
+            height: 53px;
+        }
+        
+        button.save-btn{
+            background-image: url("/static/img/save-icon.png");
+            background-position: 6px 7px;
+            padding-left: 33px;
+            background-size: 22px;
+            background-repeat: no-repeat;
+        }
+        button.add-btn, a.add-btn{
+            background-image: url("/static/img/add-icon.png");
+            background-position: 6px 7px;
+            padding-left: 33px;
+            background-size: 22px;
+            background-repeat: no-repeat;
+        }
+        
+        button.delete-btn, a.delete-btn{
+            background-image: url("/static/img/delete-icon.png");
+            background-position: 6px 8px;
+            padding-left: 25px;
+            background-size: 16px;
+            background-repeat: no-repeat;
+            position: absolute;
+            right: 166px;
+        }
+
+        a.download-btn{
+            background-image: url("/static/img/download-icon.png");
+            background-position: 6px 4px;
+            padding-left: 33px;
+            background-size: 30px;
+            background-repeat: no-repeat;
+        }
+
+        ol.breadcrumb{
+            background-color: #DA4238;
+        }
+        ol.breadcrumb li a, ol.breadcrumb li {
+            color: #FFFFFF !important;
+        }
+        
+        .ms-selectable .search-input, .ms-selection .search-input{
+            width:100%;
+        }
+        
+        .nav-tabs .nav-link, .nav-tabs .nav-link {
+            border-color: #e9ecef #e9ecef #dee2e6;
+        }
+        .breadcrumb-item + .breadcrumb-item::before {
+            content: ">";
+            color: #FFF;
+        }
+        
+        .sidebar .collapse .nav .nav-item a span, .sidebar .collapse .nav a.nav-link span{
+            /*padding-left: 54px;*/
+            font-size: 9px !important;
+        }
+        .sidebar .collapse .nav .nav-item a i, .sidebar .collapse .nav a.nav-link i{
+            float:none;
+            padding-left: 15px;
+            font-size: 12px !important;
+        }
+        
+        #liste-table tbody tr td:last-child a, .liste-table tbody tr td:last-child a{
+            margin-right: 8px;
+        }
+        
+        #liste-table tbody tr td:last-child a.delete_icon img, .liste-table tbody tr td:last-child a.delete_icon img{
+            width: 21px !important;
+        }
+        /*.navbar-nav .nav-item .dropdown-menu::after*/
+        
+        .hidden{
+            display: none;
+        }
+        .nav .nav-item .nav-link.active, .nav a.nav-link.active{
+            background: rgba(255, 255, 255, 0.13);
+            opacity: 1;
+        }
+        .nav a.nav-link:hover,  .nav li.nav-item a.nav-link:hover{
+            background: rgba(0, 0, 0, 0.13);
+            opacity: 1;
+            font-color: #FFFFFF;
+        }
+        .sidebar .nav li .nav-link i, body>.navbar-collapse .nav li .nav-link i{
+            font-size: 20px;
+            padding-top: 6px;
+        }
+        /*
+        .sidebar .nav li .nav-link p, body>.navbar-collapse .nav li .nav-link p {
+            font-size: 8px;
+        }*/
+        .sidebar .nav-link{
+            padding: 0px!important;
+        }
+        .sidebar:before, body>.navbar-collapse:before {
+            opacity: 0.73;
+        }
+        .nav-tabs a.active {
+            background: rgba(120, 120, 120, 0.13) !important;
+            opacity: 1;
+            font-color: #FFFFFF;
+        }
+        
+        .dataTables_empty{
+            display:revert !important;
+        }
+        .ms-container{
+            width: 100% !important;
+        }
+        .ms-container img{
+            width: 10%;
+            padding-top: 10%;
+        }
+        #notifs-list{
+          max-height: 10rem;
+          min-height: 2rem;
+          overflow: scroll;
+          padding-left: 0;
+        }
+        #overlay {
+          background: #000;
+          color: #666666;
+          position: fixed;
+          height: 100%;
+          width: 100%;
+          z-index: 5000;
+          top: 0;
+          left: 0;
+          float: left;
+          text-align: center;
+          padding-top: 25%;
+          opacity: .40;
+        }
+        .sidebar[data-color="green"]::after{
+          background: linear-gradient(to bottom, #03BE5A 0%, #6dc030 100%) !important;
+          /*background: linear-gradient(to bottom, #87CB16 0%, #6dc030 100%)*/
+        }
+        .sidebar, .sidebar .sidebar-wrapper, body> .navbar-collapse{
+          width: 272px !important;
+        }
+        .sidebar .nav li .nav-link p, body > .navbar-collapse .nav li .nav-link p{
+          font-size: 11px !important;
+        }
+        @media (min-width: 992px) {
+          .sidebar-wrapper .nav-mobile-menu{
+            display:none !important;
+          }
+        }
+          #accounttab{
+            background: transparent !important;
+          }
+        
+    </style>
+
+    <script type="text/javascript">
+        var SIMINDDL = {};
+        $(document).ready(function() {
+
+            /* Initialize datable with French language activated by default */
+            SIMINDDL.dt = $('#liste-table, .liste-table').DataTable({
+                language: {url: "/static/js/datatable-French.json"},
+            });
+            
+                
+            /* Open select file window when clicking on avatar */
+            $('#change-avatar').click(function(){
+                $('[type=file]').trigger('click');
+                   return false;
+            });
+
+            /* Adding activite dynamically,
+             Todo: to be removed and replaced by template macro
+             */
+            $("#addActivite").bind('click', function(){
+                var i = $("#idActivites div.card").length;
+                $(this).before(activiteNode(i+1, metierId));
+            });
+
+            /* Confirm before deleting item */
+            $(".delete_icon").click(function(){
+                var confirmText = $(this).attr('alt') ?  "Etes-vous sûr de vouloir supprimer " +$(this).attr('alt'): 'Etes vous sûr de vouloir supprimer?';
+                
+                if (confirm(confirmText)) {
+                    this.closest('form').submit();
+                }
+                return false;
+            });
+
+            /* Update automatically document type when a file is selected */
+            $(".document-container, #projet-fields-list").on('change', "input[name*='fichier']", function(){
+                var fileExtension = $(this).val().split('.').pop().toLowerCase();
+                var selectInput = $(this).parents(".document-container").find("[name*='type_document']")
+                selectInput.find("option[selected]").removeAttr('selected'); 
+                selectInput.find("option:contains('"+fileExtension+")')").attr('selected', 'selected');
+                var nomInput = $(this).parents(".document-container").find("[name*='nom']");
+                if (!nomInput.val()) {
+                    var nomFichier = $(this).val();
+                    nomFichier = nomFichier.substring(12, $(this).val().length - (fileExtension.length +1));
+                    nomInput.val(nomFichier);
+                }
+            });
+
+            /* handle document permission */
+            $("#form-document").on('submit', function(){
+                var url = $(location).attr('href');
+                if (url.indexOf('edit') != -1){
+                    
+                }
+            });
+
+            /* Activate default selected Tab */
+            if ($("#nav-tab").length) {
+                var url = $(location).attr('href');
+                if (url.indexOf("#") != -1) {
+                    var hash = url.substring(url.indexOf("#")+1);
+                    if ($("#" + hash).length) {
+                    $('#nav-tab a[href*="#' + hash + '"]').tab('show');
+                    }
+                }
+            }
+             
+            /*   Initialiser les selects multiple avec auto complete à chaque ajout de nouvelle collection    */
+            if ("function" === typeof initialiseSearchableMultiselect){
+                initialiseSearchableMultiselect();
+                $("button.add-another-collection-widget").on('click', function(){
+                    if ("function" === typeof initialiseSearchableMultiselect){
+                        initialiseSearchableMultiselect();
+                    }
+                });
+            }
+
+            $("button.save-btn").on('click', function(){
+                var form = $("form[enctype='multipart/form-data']");
+                if (form[0].reportValidity())
+                    form.submit();
+            });
+            
+            /* activate menu */
+            getMenu = function (rank, parentNode=false){
+                var menu = $("ol.breadcrumb li:nth-child(" + rank +") a").html();
+                menu = $.escapeSelector(menu);
+                if (parentNode) {
+                    var nodeActiveMenu = parentNode.find(".nav a.nav-link:contains('" + menu +"')");
+                } else {
+                    var nodeActiveMenu = $("#mainNav > .nav-item > a.nav-link:contains('" + menu +"')");
+                }
+                /* make sure there is only one active menu */
+                if (nodeActiveMenu.length !==1) {
+                  nodeActiveMenu.each(function(i){
+                    var str = $(this).html();
+                    str = str.replace( /(<([^>]+)>)/ig, '');
+                    str = str.replace(/(\r\n|\n|\r)/gm, "");
+                    if (str.trim() == menu){
+                        nodeActiveMenu = $(this);
+                        return false;
+                    }
+                  })
+                }
+                return nodeActiveMenu;
+            }
+            
+            var firstMenu = getMenu(1);
+            firstMenu.addClass("active");
+            if (firstMenu.attr("data-toggle") == "collapse") {
+                $(firstMenu.attr("href")).collapse("show");
+                var ndMenu = getMenu(2, firstMenu.parent());
+                if (ndMenu.length == 0) {
+                    ndMenu = getMenu(1, firstMenu.parent());
+                }
+                if (ndMenu.length == 2){
+                    ndMenu = ndMenu.first();
+                }
+                ndMenu.addClass("active");
+            }
+        });
+    </script>
+    {% block javascripts %}{% endblock %}
+</head>
+
+<body>
+    <div class="wrapper">
+      
+        <div class="sidebar" data-image="/static/img/sidebar-6.jpg" data-color="green">
+            <!--
+        Tip 1: You can change the color of the sidebar using: data-color="purple | blue | green | orange | red"
+
+        Tip 2: you can also add an image using data-image tag
+    -->
+            <div class="sidebar-wrapper">
+                <div class="logo" align="center">
+                  <a href="{{ path('dashboard') }}">
+			              <img src="/static/img/server_white.png" height="40px"> <img src="/static/img/logo_inddl.jpg">                    
+                  </a>
+                </div>
+                <ul class="nav" id="mainNav">
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#rc-collapse-components">
+                         <i class="nc-icon nc-support-17"></i> 
+                         <p>Renforcement de capacités</p>
+                            <b class="caret"></b>
+                        </a>
+                        <div class="collapse" id="rc-collapse-components">
+                          <ul class="nav">
+                            <li class="nav-item">
+                              <a class="nav-link" href="{{ path('dashboard') }}">
+                                <i class="nc-icon nc-badge"></i>   
+                                <span class="sidebar-normal"> Formation/Accompagnement </span>
+                              </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="{{ path('dashboard') }}">
+                                <i class="nc-icon nc-check-2"></i>     
+                                <span class="sidebar-normal"> Valorisation </span>
+                              </a>
+                            </li>
+                          </ul>  
+                        </div>
+                        
+                        
+                        
+                    </li>
+                    <!--li>
+                        <a class="nav-link nav-gris" href="#">
+                            <i class="nc-icon nc-badge"></i>
+                            <p>Formation continue</p>
+                        </a>
+                    </li-->
+                    <li class="nav-item ">
+                        <a class="nav-link" data-toggle="collapse" href="#formationInitialeCollapse">
+                         <i class="nc-icon nc-time-alarm"></i><p>Formation initiale</p>
+                            <b class="caret"></b>
+                          
+                        </a>
+                        <div class="collapse" id="formationInitialeCollapse">
+                          <ul class="nav">
+                            <li class="nav-item ">
+                                <a class="nav-link nav-gris disabled" href="{{ path('dashboard', {'id': 0}) }}">
+                                    <i class="nc-icon nc-atom"></i>
+                                    <span class="sidebar-normal"> Parcours de formation </span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                              <a class="nav-link nav-gris disabled" href="{{ path('dashboard') }}">
+                                <i class="nc-icon nc-puzzle-10"></i>
+                                <span>Scolarisation</span>
+                              </a>
+                            </li>
+                            <!--
+                            <li class="nav-item">
+                              <a class="nav-link  nav-gris disabled" href="{{ path('dashboard') }}">
+                                <i class="nc-icon nc-ruler-pencil"></i>
+                                <span>Examen</span>
+                              </a>
+                            </li>
+                            -->
+                          </ul>
+                        </div>
+                    </li>
+                    
+                    <li class="nav-item ">
+                        <a class="nav-link" data-toggle="collapse" href="#collapseCertification">
+                         <i class="nc-icon nc-check-2"></i><p>Certification</p>
+                            <b class="caret"></b>
+                        </a>
+                        <div class="collapse" id="collapseCertification">
+                          <ul class="nav">
+                            <li class="nav-item ">
+                              <a class="nav-link" href="{{ path('dashboard') }}">
+                                <i class="nc-icon nc-badge"></i>
+                                <span>Certification</span>
+                              </a>
+                            </li>
+                            <li class="nav-item ">
+                              <a class="nav-link" href="{{ path('dashboard') }}">
+                                <i class="nc-icon nc-puzzle-10"></i>
+                                <span>Accr&eacute;ditation</span>
+                              </a>
+                            </li>
+                            <li class="nav-item ">
+                              <a class="nav-link nav-gris disabled" href="{{ path('dashboard') }}">
+                                <i class="nc-icon nc-ruler-pencil"></i>
+                                <span>Labellisation</span>
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#collapseBesoin">
+                            <i class="nc-icon nc-audio-92"></i>
+                            <p> Besoins </p>
+                        </a>
+                        <div class="collapse" id="collapseBesoin">
+                          <ul class="nav">
+                            <li class="nav-item ">
+                              <a class="nav-link" href="{{ path('dashboard') }}">
+                                <i class="nc-icon nc-puzzle-10"></i>
+                                <span>Expression de besoins</span>
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" data-toggle="collapse" href="#componentsCollapse">
+                         <i class="nc-icon nc-time-alarm"></i><p>Activités</p>
+                            <b class="caret"></b>
+                        </a>
+                        <div class="collapse" id="componentsCollapse">
+                          <ul class="nav">
+                            <li class="nav-item ">
+                              <a class="nav-link" href="{{ path('dashboard') }}">
+                                <i class="nc-icon nc-puzzle-10"></i>
+                                <span>Hebdomadaire</span>
+                              </a>
+                            </li>
+                            <li class="nav-item ">
+                              <a class="nav-link" href="{{ path('dashboard') }}">
+                                <i class="nc-icon nc-single-copy-04"></i>
+                                <span class="sidebar-normal"> PTA </span>
+                              </a>
+                            </li>
+                            
+                            <li class="nav-item ">
+                              <a class="nav-link" href="{{ path('dashboard') }}">
+                                <i class="nc-icon nc-bullet-list-67"></i>
+                                <span>Activit&eacute;s</span>
+                              </a>
+                            </li>
+                            <li class="nav-item ">
+                              <a class="nav-link" href="{{ path('dashboard') }}">
+                                <i class="nc-icon nc-notes"></i>
+                                <span>Activit&eacute;s PTA</span>
+                              </a>
+                            </li>
+                            
+                            
+                            <li class="nav-item ">
+                              <a class="nav-link" href="{{ path('dashboard')}}">
+                                <i class="nc-icon nc-bullet-list-67"></i>
+                                <span> Reporting </span>
+                              </a>
+                            </li>
+                            
+                          </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" data-toggle="collapse" href="#collapseCommunication">
+                         <i class="nc-icon nc-chat-round"></i><p>Communication</p>
+                            <b class="caret"></b>
+                        </a>
+                        
+                        <div class="collapse" id="collapseCommunication">
+                          <ul class="nav">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('dashboard') }}">
+                                        <i class="nc-icon nc-notification-70"></i>
+                                        <span>Publications</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link nav-gris disabled" href="javascript:void(0);">
+                                        <i class="nc-icon nc-notification-70"></i>
+                                        <span>Veille informationnelle</span>
+                                    </a>
+                                </li>
+                          </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" data-toggle="collapse" href="#componentsCollapse1">
+                         <i class="nc-icon nc-single-02"></i><p>Bénéficiaires</p>
+                            <b class="caret"></b>
+                        </a>
+                        
+                        <div class="collapse" id="componentsCollapse1">
+                          <ul class="nav">
+                            <li class="nav-item ">
+                              
+                                <a class="nav-link" href="{{ path('dashboard') }}">
+                                <i class="nc-icon nc-air-baloon"></i>    
+                                <span class="sidebar-normal"> CTD </span>
+                              </a>
+                            </li>
+                            <li class="nav-item ">
+                             
+                                <a class="nav-link" href="{{ path('dashboard') }}">
+                                <i class="nc-icon nc-circle-09"></i>
+                                <span class="sidebar-normal"> Ressources humaines </span>
+                              </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="{{ path('dashboard') }}">
+                                <i class="nc-icon nc-circle-09"></i>
+                                <span class="sidebar-normal"> Autres activités de formation </span>
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                    </li>
+                    
+                    <li class="nav-item ">
+                        <a class="nav-link" data-toggle="collapse" href="#componentsCollapse3">
+                         <i class="nc-icon nc-support-17"></i> 
+                         <p>Ressources et Supports</p>
+                            <b class="caret"></b>
+                        </a>
+                        <div class="collapse" id="componentsCollapse3">
+                          <ul class="nav">
+                            <li class="nav-item ">
+                                <a class="nav-link" href="{{ path('dashboard') }}">
+                                <i class="nc-icon nc-circle-09"></i>     
+                                <span class="sidebar-normal"> Agents </span>
+                              </a>
+                            </li>
+                              <li>  
+                                <a class="nav-link" href="{{ path('dashboard') }}">
+                                  <i class="nc-icon nc-badge"></i>   
+                                  <span class="sidebar-normal"> Collaborateurs </span>
+                                </a>
+                              </li>
+                            
+                            <li class="nav-item ">
+                                
+                                <a class="nav-link" href="{{ path('dashboard') }}">
+                                <i class="nc-icon nc-album-2"></i>     
+                                <span class="sidebar-normal"> Organisations </span>
+                              </a>
+                            </li>
+                            <li class="nav-item ">                                
+                                <a class="nav-link" href="{{ path('dashboard') }}">
+                                <i class="nc-icon nc-pin-3"></i>     
+                                <span class="sidebar-normal"> Endroit d'intervention </span>
+                              </a>
+                            </li>
+
+                            <!--
+                            <li class="nav-item ">
+                                
+                                <a class="nav-link" href="{{ path('dashboard') }}">
+                                <i class="nc-icon nc-compass-05"></i> 
+                                <span class="sidebar-normal"> Rubriques budget </span>
+                              </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="{{ path('dashboard') }}">
+                                <i class="nc-icon nc-money-coins"></i> 
+                                <span class="sidebar-normal"> Compte administratif </span>
+                              </a>
+                            </li>
+                            -->
+                            <li class="nav-item ">
+                                <a class="nav-link" href="{{ path('dashboard') }}">
+                                    <i class="nc-icon nc-apple"></i>
+                                    <span class="sidebar-normal">Matériel/Fourniture</span>
+                              </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="{{ path('dashboard') }}">
+                                    <i class="nc-icon nc-button-play"></i>
+                                    <span class="sidebar-normal">Utilisation matériel</span>
+                              </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="{{ path('dashboard') }}">
+                                    <i class="nc-icon nc-ambulance"></i>
+                                    <span class="sidebar-normal">Acquisition matériel</span>
+                              </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link nav-gris isDisabled" href="#0">
+                                    <i class="nc-icon nc-istanbul"></i> 
+                                    <span class="sidebar-normal"> Centre de formation </span>
+                              </a>
+                            </li>
+                            
+                          </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#componentsCollapse4">
+                         <i class="nc-icon nc-single-copy-04"></i><p>Fonds documentaires</p>
+                            <b class="caret"></b>
+                        </a>
+                        <div class="collapse" id="componentsCollapse4"> 
+                          <ul class="nav">
+                            <li class="nav-item ">
+                                <a class="nav-link" href="{{ path('dashboard') }}">
+                                                                  
+                                <i class="nc-icon nc-paper-2"></i> 
+                                <span class="sidebar-normal"> Base documentaires
+                                </span>
+                              </a>
+                            </li>
+                            
+                            <li class="nav-item ">
+                              
+                                <a class="nav-link nav-gris isDisabled" href="#0">
+                                                                  
+                                <i class="nc-icon nc-bullet-list-67"></i>
+                                <span class="sidebar-normal"> Rapports </span>
+                              </a>
+                            </li>
+                           </ul>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#administrationCollapse">
+                         <i class="nc-icon nc-settings-gear-64"></i><p>Administration</p>
+                            <b class="caret"></b>
+                        </a>
+                        <div class="collapse" id="administrationCollapse"> 
+                          <ul class="nav">
+                            <li class="nav-item ">
+                                <a class="nav-link" href="{{ path('dashboard') }}">
+                                    <i class="nc-icon nc-bank"></i>
+                                    <span class="sidebar-normal">Organigramme</span>
+                              </a>
+                            </li>  
+                            <li class="nav-item ">
+                                <a class="nav-link" href="{{ path('dashboard') }}">
+                                    <i class="nc-icon nc-globe-2"></i>
+                                    <span class="sidebar-normal"> Th&egrave;me de formation </span>
+                              </a>
+                            </li>
+                            <li class="nav-item ">
+                              <a class="nav-link" href="{{ path('dashboard') }}">
+                                <i class="nc-icon nc-bullet-list-67"></i>
+                                <span>Programme de formation</span>
+                              </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="{{ path('dashboard') }}">
+                                    <i class="nc-icon nc-preferences-circle-rotate"></i>
+                                    <span class="sidebar-normal"> Parametres</span>
+                              </a>
+                            </li>
+
+                          </ul>
+                        </div>
+                    </li>
+
+
+                    <li class="nav-item ">
+                        <li class="nav-item ">
+                        <a class="nav-link" data-toggle="collapse" href="#componentsCollapse5">
+                          <span><i class="nc-icon nc-single-copy-04"></i><p>Référentiels</p>
+                            <b class="caret"></b>
+                          </span>
+                        </a>
+                        <div class="collapse" id="componentsCollapse5">
+                          <ul class="nav">
+                            <li class="nav-item ">
+                              
+                                <a class="nav-link" href="{{ path('dashboard') }}">
+                                <i class="nc-icon nc-planet"></i>
+                                <span class="sidebar-normal"> Métiers</span>
+                              </a>
+                            </li>
+                            <!--
+                            <li class="nav-item ">
+                              
+                                <a class="nav-link nav-gris isDisabled" href="javascript:void(0);">
+                                    <i class="nc-icon nc-puzzle-10"></i>
+                                    <span class="sidebar-normal"> Compétences</span>
+                              </a>
+                            </li>
+                            <li class="nav-item ">
+                              
+                                <a class="nav-link nav-gris isDisabled" href="#0">
+                                <i class="nc-icon nc-notes"></i>
+                                <span class="sidebar-normal"> Formations </span>
+                              </a>
+                            </li>
+                            -->
+                            <li class="nav-item ">
+                                <a class="nav-link" href="{{ path('dashboard') }}">
+                                    <i class="nc-icon nc-chart-pie-36"></i>
+                                    <span class="sidebar-normal"> Modules </span>
+                              </a>
+                            </li>
+                            
+                            
+                            
+                              <li>
+                                <a class="nav-link" href="{{ path('dashboard') }}">
+                                   <i class="nc-icon nc-badge"></i>
+                                   <span class="sidebar-normal">Renforcement de capacités</span>
+                                </a>
+                             </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="{{ path('dashboard') }}">
+                                    <i class="nc-icon nc-atom"></i>
+                                    <span class="sidebar-normal"> Session </span>
+                                </a>
+                            </li>
+                           </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link nav-gris disabed" href="javascript:void(0);">
+                            <i class="nc-icon nc-bank"></i>
+                            <p>Reporting</p>
+                            <b class="caret"></b>
+                      </a>
+                    </li> 
+                    <li class="nav-item ">
+                        <a class="nav-link" data-toggle="collapse" href="#componentsCollapse6">
+                         <i class="nc-icon nc-settings-90"></i><p>Administration système</p>
+                            <b class="caret"></b>
+                        </a>
+                        <div class="collapse" id="componentsCollapse6">
+                          <ul class="nav">
+                            
+                            <li class="nav-item ">  
+                                <a class="nav-link" href="{{ path('dashboard') }}">
+                                    <i class="nc-icon nc-single-02"></i>
+                                    <span class="sidebar-normal"> Gestion utilisateur</span>
+                              </a>
+                            </li>
+                            <li class="nav-item ">  
+                                <a class="nav-link" href="{{ path('dashboard') }}">
+                                    <i class="nc-icon nc-badge"></i>
+                                    <span class="sidebar-normal"> Gestion groupe d'utilisateurs</span>
+                              </a>
+                            </li>
+                            
+                            <li class="nav-item ">
+                              
+                                <a class="nav-link" href="{{ path('dashboard') }}">
+                                    <i class="nc-icon nc-square-pin"></i>
+                                    <span class="sidebar-normal"> Localités</span>
+                              </a>
+                            </li>
+                           </ul>
+                        </div>
+                    </li>
+                    
+                </ul>
+            </div>
+            
+        </div>
+        <div class="main-panel">
+            <!-- Navbar -->
+            <nav class="navbar navbar-expand-lg " color-on-scroll="500">
+                <div class="container-fluid">﻿            
+                    <a class="navbar-brand" href="{{ path('dashboard') }}"> Tableau de bord </a>
+                    <button href="" class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-bar burger-lines"></span>
+                        <span class="navbar-toggler-bar burger-lines"></span>
+                        <span class="navbar-toggler-bar burger-lines"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-end" id="navigation">
+                        
+                         <ul class="nav navbar-nav mr-auto">
+                            <li class="nav-item">
+                                <a href="{{ path('dashboard') }}" class="nav-link" data-toggle="dropdown">
+                                    <span class="d-lg-none">Tableau de bord</span>
+                                </a>
+                            </li>
+                            <li class="dropdown nav-item">
+                                {% set notifications = get_information(app.user) %}
+                                <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+                                    <i class="nc-icon nc-planet"></i>
+                                    <span class="notification">{{ notifications|length }}</span>
+                                    <span class="d-lg-none">Notification</span>
+                                </a>
+                                
+                                {% if notifications|length %} 
+                                <div class="dropdown-menu" >
+                                  <ul id="notifs-list">
+                                    {% for notification in notifications %}
+                                    <a class="dropdown-item" href="{{ path('dashboard', {'id': notification.id}) }}">{{ notification.notification.intitule }}</a>
+                                    {% endfor %}
+                                    
+                                  </ul>
+                                </div>
+                                {% endif %}
+                                
+                            </li>
+                            
+                        </ul>
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item dropdown card card-user" style="border:none;" id="accounttab">
+                                <a class="nav-link  dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding:0px;"> 
+                                    <span style="padding-top: 22px; padding-right: 9px;">{{ app.user.personne }}</span>                                    
+                                    {% if app.user.avatar %}
+                                            <img class="avatar border-gray" src="data:image/png;base64,{{ app.user.encodedAvatar }}" alt="..." style="width:40px; height:40px; top:22px;">
+                                    {% else %}
+                                            <img class="avatar border-gray" src="/static/img/default-avatar.png" alt="..." style="width:40px; height:40px; top:22px;">
+                                    {% endif %}
+                                    
+
+                                </a>
+                                <div class="dropdown-menu drop-down-menu-right" aria-labelledby="navbarDropdownMenuLink" style=" right:-1px;">
+                                    <a class="dropdown-item" href="{{ path('user_pwdreset') }}">Modification mot de passe</a>
+                                    <a class="dropdown-item" href="{{ path('app_logout') }}">Se d&eacute;connecter</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <!-- End Navbar -->
+            <div class="content">
+                {% block content %}
+                {% endblock %}
+            </div>
+            <footer class="footer">
+                <div class="container-fluid">
+                    <nav>
+                        
+                        <p class="copyright text-center">
+                            ©
+                            <script>
+                                document.write(new Date().getFullYear())
+                            </script>
+                            <a href="https://www.techmada-isolutions.com/" target="blank">Techmada Innovative Solutions</a>
+                        </p>
+                    </nav>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <div id="overlay" style="display:none;">
+        <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+          <span class="sr-only">Chargement...</span>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,157 @@
+{% extends "base-breadcrumb.html.twig" %}
+
+{% block breadcrumb %}
+    {% set breadcrumb = {"main": 'Tableau de bord', 
+            } %}
+    {% include "breadcrumb.html.twig" %}
+{% endblock %}
+
+{% block class_title_icon %}nc-icon {% endblock %}
+
+{% block block_js %}
+<!--  Charts Plugin -->
+	<script src="/static/js/chartist.min.js"></script>
+    <script src="/static/js/plugins/chartist-plugin-legend.js"></script>
+    <script type="text/javascript">
+    
+    	$(document).ready(function(){
+            /*
+            var agentsData = {
+                    labels: ['En mission ({{ agentsEnMission }})', 'Non disponible ({{ agentsNonDisponible }})', 'Disponible ({{ agentsDisponible }})'],
+                    series: [{{ agentsEnMission}}, {{ agentsNonDisponible }}, {{ agentsDisponible }}]
+                    };
+            var rcData = {
+                    labels: ['En preparation ({{ rcEnPreparation }})', 'En cours ({{ rcEnCours }})', 'Réalisées ({{ rcRealisees }})'],
+                    series: [{{ rcEnPreparation }}, {{ rcEnCours }}, {{ rcRealisees }}]
+                    };
+            var pieOptions = {
+                donut: true,
+                showLabel: true,
+                plugins: [
+                    Chartist.plugins.legend(),
+                ],
+                labelInterpolationFnc: function(value) {
+                    return value
+                },
+                height: 200,
+	        };
+            Chartist.Pie('#agentsPie', agentsData, pieOptions );
+            Chartist.Pie('#rcPie', rcData, pieOptions );
+
+            var data = {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                series: [
+                    [5, 4, 3, 7, 5, 10],
+                    [6, 4, 2, 7, 1, 8],
+                    [3, 2, 9, 5, 4, 6]
+                ]
+            };
+
+            var options = {
+                seriesBarDistance: 30
+            };
+            var responsiveOptions = [
+                ['screen and (max-width: 640px)', {
+                    seriesBarDistance: 5,
+                    axisX: {
+                    labelInterpolationFnc: function (value) {
+                        return value[0];
+                    }
+                    }
+                }]
+            ];
+            */
+
+            //new Chartist.Bar('#rhBar', data, options, responsiveOptions);
+
+
+        });
+	</script>
+{% endblock %}
+
+{% block block_css %}
+<link href="/static/css/chartist.min.css" rel="stylesheet" />
+<style>
+  .ct-legend {
+    position: relative;
+    z-index: 10;
+  }
+.ct-legend li {
+        position: relative;
+        padding-left: 23px;
+        margin-bottom: 3px;
+    }
+
+   .ct-legend li:before {
+        width: 12px;
+        height: 12px;
+        position: absolute;
+        left: 0;
+        content: '';
+        border: 3px solid transparent;
+        border-radius: 2px;
+    }
+
+   .ct-legend li.inactive:before {
+        background: transparent;
+    }
+
+    .ct-legend &.ct-legend-inside {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+.ct-chart-donut{
+    width: 70% !important;
+    margin-left: -45%;
+}
+.ct-legend-inside{
+    width: 50%;
+    float: left;
+}
+</style>
+{% endblock %}
+
+
+{% block contenu %}
+                <div class="container-fluid">
+                    <table class="table">
+                        <tbody>
+                    {% for key, item in items %}
+                        {% if item is iterable %}
+                        <tr>
+                            <th>{{ key }}</th>
+                            <td>&nbsp;</td>
+                        </tr>
+                            {% for subItem in item %}
+                            <tr>
+                                <td align="right">{{ subItem.subItem }}</td>
+                                <td>{{ subItem.nombre }}</td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                        <tr>
+                            <th>
+                            {{ key }}
+                        </th>
+                        <td>
+                            {{ item }}
+                        </td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <b>Agents:</b>
+                    <div id="agentsPie">
+                    </div>
+                    <b>Renforcement de capacités:</b>
+                    <div id="rcPie">
+                    </div>
+                    <div id="rhBar">
+                    </div>
+                </div>
+                
+
+{% endblock %}
