@@ -1,0 +1,54 @@
+{% extends 'base-breadcrumb.html.twig' %}
+
+{% block title %}AuthUser{% endblock %}
+
+{% block body %}
+    <h1>AuthUser</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ auth_user.id }}</td>
+            </tr>
+            <tr>
+                <th>Password</th>
+                <td>{{ auth_user.password }}</td>
+            </tr>
+            <tr>
+                <th>LastLogin</th>
+                <td>{{ auth_user.lastLogin ? auth_user.lastLogin|date('Y-m-d H:i:s T') : '' }}</td>
+            </tr>
+            <tr>
+                <th>IsSuperuser</th>
+                <td>{{ auth_user.isSuperuser ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Username</th>
+                <td>{{ auth_user.username }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ auth_user.email }}</td>
+            </tr>
+            <tr>
+                <th>IsActive</th>
+                <td>{{ auth_user.isActive ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>DateJoined</th>
+                <td>{{ auth_user.dateJoined ? auth_user.dateJoined|date('Y-m-d H:i:s T') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Avatar</th>
+                <td>{{ auth_user.avatar }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('utilisateur_index') }}">back to list</a>
+
+    <a href="{{ path('utilisateur_edit', {'id': auth_user.id}) }}">edit</a>
+
+    {{ include('utilisateur/_delete_form.html.twig') }}
+{% endblock %}

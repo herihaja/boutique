@@ -28,7 +28,8 @@ class AppFixtures extends Fixture
         $user = new AuthUser();
         $user->setEmail("hery.imiary@gmail.com");
         $user->setIsSuperuser(true);
-        $user->setPassword('$2y$13$2.4iPwyuGrXxCAA5BI3Z5OxlsgMHkReLMu4m5GU7clcH2apTnWGLq');
+        $user->setPassword('$2y$13$wlgFTIsjBPDUYwTX1mL/2ewHj6YoCjDS/AHriYuoWjb5L6yxzBqt.');
+
         $user->setIsActive(true);
         $user->setPersonne($personne);
         $manager->persist($user);

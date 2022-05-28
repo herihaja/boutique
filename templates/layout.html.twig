@@ -21,7 +21,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="/static/img/apple-icon.png">
     <link rel="icon" type="image/png" href="/static/img/favicon.ico">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>SIMINDDL</title>
+    <title>{{ app_name }}</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
     <!--     Fonts and icons     -->
     <!--<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
@@ -245,11 +245,11 @@
     </style>
 
     <script type="text/javascript">
-        var SIMINDDL = {};
+        var BTQ = {};
         $(document).ready(function() {
 
             /* Initialize datable with French language activated by default */
-            SIMINDDL.dt = $('#liste-table, .liste-table').DataTable({
+            BTQ.dt = $('#liste-table, .liste-table').DataTable({
                 language: {url: "/static/js/datatable-French.json"},
             });
             

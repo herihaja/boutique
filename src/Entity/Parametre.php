@@ -19,59 +19,53 @@ class Parametre
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer", options={"unsigned":true})
      */
-    private $id_parametre;
+    private $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="nom_parametre", type="string", length=254, nullable=false)
      */
-    private $nom_parametre;
+    private $nomParametre;
 
     /**
      * @var text
      *
-     * @ORM\Column(name="description_parametre", type="text", nullable=false)
+     * @ORM\Column(name="description", type="text", nullable=true)
      */
-    private $description_parametre;
+    private $description;
 
-    public function getIdParametre(): ?int
+    public function __toString()
     {
-        return $this->id_parametre;
+        return $this->nomParametre;
     }
 
-    public function setIdParametre($id): self
+    public function getId(): ?int
     {
-        $this->id_parametre = $id;
-        return $this;
+        return $this->id;
     }
 
     public function getNomParametre(): ?string
     {
-        return $this->nom_parametre;
+        return $this->nomParametre;
     }
 
-    public function setNomParametre(string $nom_parametre): self
+    public function setNomParametre(string $nomParametre): self
     {
-        $this->nom_parametre = $nom_parametre;
+        $this->nomParametre = $nomParametre;
 
         return $this;
     }
 
-    public function getDescriptionParametre(): ?string
+    public function getDescription(): ?string
     {
-        return $this->description_parametre;
+        return $this->description;
     }
 
-    public function setDescriptionParametre(string $description_parametre): self
+    public function setDescription(?string $description): self
     {
-        $this->description_parametre = $description_parametre;
+        $this->description = $description;
 
         return $this;
-    }
-
-    public function __toString()
-    {
-        return $this->nom_parametre;
     }
 }

@@ -1,0 +1,9 @@
+<form method="post" action="{{ path('parametre_delete', {'id': parametre.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ parametre.id) }}">
+    {% if is_edit is defined and is_edit %}
+    <a class="btn btn-info delete-btn delete_icon btn-fill" alt="Parametre '{{ parametre }}'?">Supprimer</a>
+    {% else %}
+    <a href="javascript:void(0);" onclick="" class="delete_icon" alt="Parametre '{{ parametre }}'?"><img src="/static/img/delete-icon.png" /></a>
+    {% endif %}
+</form>

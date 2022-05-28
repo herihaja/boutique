@@ -57,7 +57,7 @@ class AuthUser implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=254, nullable=false)
+     * @ORM\Column(name="email", type="string", length=254, nullable=true)
      */
     private $email;
 
@@ -173,7 +173,6 @@ class AuthUser implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmail(string $email): self
     {
         $this->email = $email;
-        $this->username = $email;
 
         return $this;
     }
@@ -216,8 +215,9 @@ class AuthUser implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setAvatar($avatar): self
     {
-        if ($avatar)
+        if ($avatar) {
             $this->avatar = file_get_contents($avatar);
+        }
 
         return $this;
     }
@@ -307,80 +307,6 @@ class AuthUser implements UserInterface, PasswordAuthenticatedUserInterface
         return $roles;
     }
 
-    public function getCollaborateur(): ?Collaborateur
-    {
-        return $this->collaborateur;
-    }
-
-    public function setCollaborateur(?Collaborateur $collaborateur): self
-    {
-        // unset the owning side of the relation if necessary
-        if ($collaborateur === null && $this->collaborateur !== null) {
-            $this->collaborateur->setUser(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($collaborateur !== null && $collaborateur->getUser() !== $this) {
-            $collaborateur->setUser($this);
-        }
-
-        $this->collaborateur = $collaborateur;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Collaborateur[]
-     */
-    public function getFormateursValidPar(): Collection
-    {
-        return $this->collaborateurs_valid_par;
-    }
-
-    public function addFormateursValidPar(Collaborateur $collaborateursValidPar): self
-    {
-        if (!$this->collaborateurs_valid_par->contains($collaborateursValidPar)) {
-            $this->collaborateurs_valid_par[] = $collaborateursValidPar;
-            $collaborateursValidPar->setValidePar($this);
-        }
-
-        return $this;
-    }
-
-    public function removeFormateursValidPar(Collaborateur $collaborateursValidPar): self
-    {
-        if ($this->collaborateurs_valid_par->removeElement($collaborateursValidPar)) {
-            // set the owning side to null (unless already changed)
-            if ($collaborateursValidPar->getValidePar() === $this) {
-                $collaborateursValidPar->setValidePar(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getFormateur(): ?Collaborateur
-    {
-        return $this->collaborateur;
-    }
-
-    public function setFormateur(?Collaborateur $collaborateur): self
-    {
-        // unset the owning side of the relation if necessary
-        if ($collaborateur === null && $this->collaborateur !== null) {
-            $this->collaborateur->setUser(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($collaborateur !== null && $collaborateur->getUser() !== $this) {
-            $collaborateur->setUser($this);
-        }
-
-        $this->collaborateur = $collaborateur;
-
-        return $this;
-    }
-
     public static function getById($entityManager, $id)
     {
         return $entityManager->getRepository(AuthUser::class)
@@ -409,6 +335,16 @@ class AuthUser implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return $this->email;
+        return $this->username;
+    }
+
+    public function isIsSuperuser(): ?bool
+    {
+        return $this->isSuperuser;
+    }
+
+    public function isIsActive(): ?bool
+    {
+        return $this->isActive;
     }
 }

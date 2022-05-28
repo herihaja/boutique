@@ -1,0 +1,77 @@
+{% extends 'base-breadcrumb-tabs.html.twig' %}
+
+{% block titre %}Liste des utilisateurs{% endblock %}
+
+{% block breadcrumb %}
+    {% set breadcrumb = {'root': 'Administration système',
+            (path('utilisateur_index')) : 'Gestion utilisateur' , 
+            'no-link': block('titre')} %}
+    {% include "breadcrumb.html.twig" %}
+{% endblock %}
+
+
+{% block contenu %}
+    <div class="card-body table-full-width table-responsive" style="margin-left:0;">
+    <table class="table table-hover table-striped" id="liste-table">
+                                            <thead>
+                                                <th>Nom</th>
+                                                <th>Pr&eacute;nom</th>
+                                                <th>Adresse email</th>
+                                                <th>Contact</th>
+                                                <th data-sortable="false">&nbsp;</th>
+
+                                            </thead>
+                                            <tbody>
+                                            {% for user in auth_users %}
+                                                <tr>
+                                                    <td>{{ user.personne.prenom }}</td>
+                                                    <td>{{ user.personne.nom }}</td>
+                                                    <td>{{ user.email }}</td>
+                                                    <td>{{ user.personne.tel1 }}</td>
+                                                    <td>
+                                                        <a href="{{ path('utilisateur_edit', {'id': user.id}) }}"><img src="/static/img/edit-icon.png" style="width:25px;"/></a>
+                                                        {{ include('utilisateur/_delete_form_with_picto.html.twig') }}
+                                                    </td>
+
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+    </div>
+{% endblock %}
+
+{% block add_button %}
+                        <button type="submit" class="btn btn-info btn-fill pull-right add-btn" onclick="location.href='{{ path('utilisateur_new', {agent: '0'}) }}'">Ajouter un utilisateur</button>
+{% endblock %}
+
+{% block none %}
+                 <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card strpied-tabled-with-hover">
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="javascript:void(0);">Administration syst&egrave;me</a></li>
+                                        <li class="breadcrumb-item"><a href="{{ path('utilisateur_index') }}">Utilisateurs</a></li>
+                                    </ol>
+                                </nav>
+                                <div class="card-header ">
+                                    <h4 class="card-title nc-icon nc-notes">Liste des utilisateurs</h4>
+                                    <p class="card-category">&nbsp;</p>
+                                </div>
+                                
+                                    <form action="" method="POST" id="form-liste">
+                                        
+                                    </form>
+                                </div>
+                            </div>
+                        <button type="submit" class="btn btn-info btn-fill pull-right add-btn" onclick="location.href='{{ path('utilisateur_new', {agent: '0'}) }}'">Ajouter un utilisateur</button>
+                        </div>
+
+                    </div>
+                </div>
+{% endblock %}
+
+
+
+
