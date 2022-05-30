@@ -35,7 +35,7 @@ class AppFixtures extends Fixture
         $manager->persist($user);
 
         $parametre = new Parametre();
-        $parametre->setNomParametre("Categorie produit");
+        $parametre->setNomParametre("Categorie produit"); //1
         $parametre->setDescription("");
         $manager->persist($parametre);
 
@@ -72,7 +72,7 @@ class AppFixtures extends Fixture
         $manager->persist($categorieProduit);
 
         $parametre = new Parametre();
-        $parametre->setNomParametre("Type produit");
+        $parametre->setNomParametre("Type produit"); //2
         $parametre->setDescription("");
         $manager->persist($parametre);
 
@@ -90,6 +90,99 @@ class AppFixtures extends Fixture
         $categorieProduit->setValeur("Non stockable");
         $categorieProduit->setValeur2(0);
         $categorieProduit->setDescription("On ne peut pas stocker");
+        $manager->persist($categorieProduit);
+
+        $parametre = new Parametre();
+        $parametre->setNomParametre("Unité produit"); //3
+        $parametre->setDescription("");
+        $manager->persist($parametre);
+
+        $categorieProduit = new ParametreValeur();
+        $categorieProduit->setParametre($parametre);
+        $categorieProduit->setCodeValeur("sac");
+        $categorieProduit->setValeur("Sac");
+        $categorieProduit->setValeur2(0);
+        $categorieProduit->setDescription("");
+        $manager->persist($categorieProduit);
+
+        $categorieProduit = new ParametreValeur();
+        $categorieProduit->setParametre($parametre);
+        $categorieProduit->setCodeValeur("bouteille");
+        $categorieProduit->setValeur("Bouteille");
+        $categorieProduit->setValeur2(0);
+        $categorieProduit->setDescription("");
+        $manager->persist($categorieProduit);
+
+        $categorieProduit = new ParametreValeur();
+        $categorieProduit->setParametre($parametre);
+        $categorieProduit->setCodeValeur("carton");
+        $categorieProduit->setValeur("Carton");
+        $categorieProduit->setValeur2(0);
+        $categorieProduit->setDescription("");
+        $manager->persist($categorieProduit);
+
+        $categorieProduit = new ParametreValeur();
+        $categorieProduit->setParametre($parametre);
+        $categorieProduit->setCodeValeur("paquet");
+        $categorieProduit->setValeur("Paquet");
+        $categorieProduit->setValeur2(0);
+        $categorieProduit->setDescription("");
+        $manager->persist($categorieProduit);
+
+        $categorieProduit = new ParametreValeur();
+        $categorieProduit->setParametre($parametre);
+        $categorieProduit->setCodeValeur("cartouche");
+        $categorieProduit->setValeur("Cartouche");
+        $categorieProduit->setValeur2(0);
+        $categorieProduit->setDescription("");
+        $manager->persist($categorieProduit);
+
+        $categorieProduit = new ParametreValeur();
+        $categorieProduit->setParametre($parametre);
+        $categorieProduit->setCodeValeur("kapoaka");
+        $categorieProduit->setValeur("Kapoaka");
+        $categorieProduit->setValeur2(0);
+        $categorieProduit->setDescription("");
+        $manager->persist($categorieProduit);
+
+        $categorieProduit = new ParametreValeur();
+        $categorieProduit->setParametre($parametre);
+        $categorieProduit->setCodeValeur("sachet");
+        $categorieProduit->setValeur("Sachet");
+        $categorieProduit->setValeur2(0);
+        $categorieProduit->setDescription("");
+        $manager->persist($categorieProduit);
+
+        $categorieProduit = new ParametreValeur();
+        $categorieProduit->setParametre($parametre);
+        $categorieProduit->setCodeValeur("kg");
+        $categorieProduit->setValeur("Kilogramme");
+        $categorieProduit->setValeur2(0);
+        $categorieProduit->setDescription("");
+        $manager->persist($categorieProduit);
+
+        $categorieProduit = new ParametreValeur();
+        $categorieProduit->setParametre($parametre);
+        $categorieProduit->setCodeValeur("litre");
+        $categorieProduit->setValeur("Litre");
+        $categorieProduit->setValeur2(0);
+        $categorieProduit->setDescription("");
+        $manager->persist($categorieProduit);
+
+        $categorieProduit = new ParametreValeur();
+        $categorieProduit->setParametre($parametre);
+        $categorieProduit->setCodeValeur("m3");
+        $categorieProduit->setValeur("m3");
+        $categorieProduit->setValeur2(0);
+        $categorieProduit->setDescription("");
+        $manager->persist($categorieProduit);
+
+        $categorieProduit = new ParametreValeur();
+        $categorieProduit->setParametre($parametre);
+        $categorieProduit->setCodeValeur("unite");
+        $categorieProduit->setValeur("Unité");
+        $categorieProduit->setValeur2(0);
+        $categorieProduit->setDescription("");
         $manager->persist($categorieProduit);
 
         $manager->flush();

@@ -89,12 +89,6 @@ class UtilisateurController extends AbstractController
         return $this->redirectToRoute('utilisateur_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/dashboard', name: 'dashboard', methods: ['GET'])]
-    public function dashboard(): Response
-    {
-        return new Response('utilisateur/show.html.twig');
-    }
-
     #[Route('/reset-password/', name: 'user_pwdreset', methods: ['GET', 'POST'])]
     public function resetPassword(
         Request $request,

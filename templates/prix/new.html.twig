@@ -1,0 +1,16 @@
+{% extends 'base-breadcrumb.html.twig' %}
+
+{% block title %}New Prix{% endblock %}
+
+{% block titre %}Ajouter Prix{% endblock %}
+
+
+{% block breadcrumb %}
+	{% set breadcrumb = {'main': app_name, (path('prix_index')): 'Prixs' , 'no-link': 		block('titre')} %}
+	{% include "breadcrumb.html.twig" %}
+{% endblock %}
+
+{% block contenu %}
+	{{ include('prix/_form.html.twig') }}
+{% endblock %}
+

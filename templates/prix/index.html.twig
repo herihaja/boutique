@@ -1,0 +1,44 @@
+{% extends 'base-breadcrumb.html.twig' %}
+
+{% block title %}Prix index{% endblock %}
+
+{% block titre %}Liste des Prixs{% endblock %}
+
+
+{% block breadcrumb %}
+    {% set breadcrumb = {'main': app_name, 'no-link': block('titre')} %}
+    {% include "breadcrumb.html.twig" %}
+{% endblock %}
+
+{% block class_title_icon %}nc-icon nc-notes{% endblock %}
+
+{% block contenu %}
+    <table class="table table-hover table-striped" id="liste-table">
+        <thead>
+            <tr>
+                        <th>Date_ajout</th>
+                        <th>Valeur</th>
+                        <th>PrixAchat</th>
+                    <th data-orderable="false">&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for prix in prixes %}
+            <tr>
+                <td>{{ prix.dateAjout ? prix.dateAjout|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ prix.valeur }}</td>
+                <td>{{ prix.prixAchat }}</td>
+                <td>
+                    <a href="{{ path('prix_edit', {'id': prix.id}) }}"><img src="/static/img/edit-icon.png" style="width:25px;"/></a>
+                    {{ include('prix/_delete_form.html.twig') }}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
+
+{% block add_button %}
+                        <button type="submit" class="btn btn-info btn-fill pull-right add-btn" onclick="location.href='{{ path('prix_new') }}'">Ajouter Prix</button>
+{% endblock %}

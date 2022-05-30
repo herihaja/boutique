@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProduitRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -48,6 +50,16 @@ class Produit
      * @ORM\Column(name="image", type="blob",  nullable=true)
      */
     private $image;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Prix::class, mappedBy="produit", orphanRemoval=true)
+     */
+    private $prix;
+
+    public function __construct()
+    {
+        $this->prix = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -124,5 +136,35 @@ class Produit
     public function getEncodedImage()
     {
         return base64_encode(stream_get_contents($this->image));
+    }
+
+    /**
+     * @return Collection<int, Prix>
+     */
+    public function getPrix(): Collection
+    {
+        return $this->prix;
+    }
+
+    public function addPrix(Prix $prix): self
+    {
+        if (!$this->prix->contains($prix)) {
+            $this->prix[] = $prix;
+            $prix->setProduit($this);
+        }
+
+        return $this;
+    }
+
+    public function removePrix(Prix $prix): self
+    {
+        if ($this->prix->removeElement($prix)) {
+            // set the owning side to null (unless already changed)
+            if ($prix->getProduit() === $this) {
+                $prix->setProduit(null);
+            }
+        }
+
+        return $this;
     }
 }
