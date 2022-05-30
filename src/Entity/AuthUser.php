@@ -197,11 +197,8 @@ class AuthUser implements UserInterface, PasswordAuthenticatedUserInterface
     public function setDateJoined($dateJoined): self
     {
         $this->dateJoined = $dateJoined;
-
         return $this;
     }
-
-
 
     public function getAvatar()
     {

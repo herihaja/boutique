@@ -1,0 +1,44 @@
+{% extends 'base-breadcrumb.html.twig' %}
+
+{% block titre %}Liste des valeurs (paramètre){% endblock %}
+
+
+{% block breadcrumb %}
+    {% set breadcrumb = {'main': app_name, 'no-link': block('titre')} %}
+    {% include "breadcrumb.html.twig" %}
+{% endblock %}
+
+{% block class_title_icon %}nc-icon nc-notes{% endblock %}
+
+{% block contenu %}
+    <table class="table table-hover table-striped" id="liste-table">
+        <thead>
+            <tr>
+                        <th>Code</th>
+                        <th>Valeur</th>
+                        <th>Valeur 2</th>
+                        <th>Description</th>
+                    <th data-orderable="false">&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for parametre_valeur in parametre_valeurs %}
+            <tr>
+                <td>{{ parametre_valeur.codeValeur }}</td>
+                <td>{{ parametre_valeur.valeur }}</td>
+                <td>{{ parametre_valeur.valeur2 }}</td>
+                <td>{{ parametre_valeur.description }}</td>
+                <td>
+                    <a href="{{ path('parametre_valeur_edit', {'id': parametre_valeur.id}) }}"><img src="/static/img/edit-icon.png" style="width:25px;"/></a>
+                    {{ include('parametre_valeur/_delete_form.html.twig') }}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
+
+{% block add_button %}
+                        <button type="submit" class="btn btn-info btn-fill pull-right add-btn" onclick="location.href='{{ path('parametre_valeur_new') }}'">Ajouter une valeur (paramètre)</button>
+{% endblock %}

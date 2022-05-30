@@ -1,0 +1,52 @@
+                                     <form name="ParametreValeur" method="post" id="form-ParametreValeur" enctype="multipart/form-data">
+                                        
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Paramètre</label>
+                                                    {{ form_widget(form.parametre, {'attr': {'class': 'form-control'}}) }}
+                                                    {{ form_errors(form.parametre) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Code</label>
+                                                    {{ form_widget(form.codeValeur, {'attr': {'class': 'form-control'}}) }}
+                                                    {{ form_errors(form.codeValeur) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Valeur (paramètre)</label>
+                                                    {{ form_widget(form.valeur, {'attr': {'class': 'form-control'}}) }}
+                                                    {{ form_errors(form.valeur) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Valeur2</label>
+                                                    {{ form_widget(form.valeur2, {'attr': {'class': 'form-control'}}) }}
+                                                    {{ form_errors(form.valeur2) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Description</label>
+                                                    {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+                                                    {{ form_errors(form.description) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                                                        
+                                        <div class="clearfix"></div>
+                                        {{ form_widget(form._token) }}
+                                    </form>
+                                        {% include "save-button.html.twig" %}

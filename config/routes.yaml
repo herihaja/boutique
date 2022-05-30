@@ -8,4 +8,4 @@ kernel:
 
 app_homepage:
     path: /
-    controller: App\Controller\AuthUserController::dashboard
+    controller: App\Controller\UtilisateurController::dashboard

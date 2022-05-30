@@ -22,10 +22,32 @@ class Produit
      */
     private $nom;
 
+
     /**
-     * @ORM\Column(type="smallint", nullable=true)
+     * @ORM\ManyToOne(targetEntity="App\Entity\ParametreValeur", inversedBy="produitsByCat")
+     * @ORM\JoinColumn(name="id_parametre", referencedColumnName="id", nullable=true)
      */
     private $categorie;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\ParametreValeur", inversedBy="produitsByType")
+     * @ORM\JoinColumn(name="id_type", referencedColumnName="id", nullable=true)
+     */
+    private $type;
+
+    /**
+     * @var text
+     *
+     * @ORM\Column(name="description", type="text", nullable=true)
+     */
+    private $description;
+
+    /**
+     * @var blob
+     *
+     * @ORM\Column(name="image", type="blob",  nullable=true)
+     */
+    private $image;
 
     public function getId(): ?int
     {
@@ -44,14 +66,50 @@ class Produit
         return $this;
     }
 
-    public function getCategorie(): ?int
+    public function getCategorie(): ?ParametreValeur
     {
         return $this->categorie;
     }
 
-    public function setCategorie(?int $categorie): self
+    public function setCategorie(?ParametreValeur $categorie): self
     {
         $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    public function getType(): ?ParametreValeur
+    {
+        return $this->type;
+    }
+
+    public function setType(?ParametreValeur $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    public function setImage($image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }

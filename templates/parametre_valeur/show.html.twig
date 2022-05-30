@@ -1,0 +1,38 @@
+{% extends 'base-breadcrumb.html.twig' %}
+
+{% block title %}ParametreValeur{% endblock %}
+
+{% block body %}
+    <h1>ParametreValeur</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ parametre_valeur.id }}</td>
+            </tr>
+            <tr>
+                <th>CodeValeur</th>
+                <td>{{ parametre_valeur.codeValeur }}</td>
+            </tr>
+            <tr>
+                <th>Valeur</th>
+                <td>{{ parametre_valeur.valeur }}</td>
+            </tr>
+            <tr>
+                <th>Valeur2</th>
+                <td>{{ parametre_valeur.valeur2 }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ parametre_valeur.description }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('parametre_valeur_index') }}">back to list</a>
+
+    <a href="{{ path('parametre_valeur_edit', {'id': parametre_valeur.id}) }}">edit</a>
+
+    {{ include('parametre_valeur/_delete_form.html.twig') }}
+{% endblock %}
