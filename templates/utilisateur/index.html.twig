@@ -3,7 +3,7 @@
 {% block titre %}Liste des utilisateurs{% endblock %}
 
 {% block breadcrumb %}
-    {% set breadcrumb = {'root': 'Administration système',
+    {% set breadcrumb = {'root': app_name,
             (path('utilisateur_index')) : 'Gestion utilisateur' , 
             'no-link': block('titre')} %}
     {% include "breadcrumb.html.twig" %}

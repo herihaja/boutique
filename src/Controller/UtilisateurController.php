@@ -13,6 +13,8 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
+use App\Form\ResetPasswordForm;
+
 #[Route('/utilisateur')]
 class UtilisateurController extends AbstractController
 {
@@ -50,7 +52,7 @@ class UtilisateurController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'utilisateur_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'utilisateur_show', methods: ['GET'], requirements: ["id" => "\d+"])]
     public function show(AuthUser $authUser): Response
     {
         return $this->render('utilisateur/show.html.twig', [
@@ -93,11 +95,48 @@ class UtilisateurController extends AbstractController
         return new Response('utilisateur/show.html.twig');
     }
 
-    #[Route('/reset-password', name: 'user_pwdreset', methods: ['GET'])]
-    public function resetpwd(AuthUser $authUser): Response
-    {
-        return $this->render('utilisateur/show.html.twig', [
-            'auth_user' => $authUser,
+    #[Route('/reset-password/', name: 'user_pwdreset', methods: ['GET', 'POST'])]
+    public function resetPassword(
+        Request $request,
+        UserPasswordHasherInterface $passwordEncoder,
+        EntityManagerInterface $entityManager
+    ): Response {
+        $authUser = $this->getUser();
+        $form = $this->createForm(ResetPasswordForm::class, $authUser);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $plainPassword = $form->getData()->getPassword();
+            $authUser->setPassword(
+                $passwordEncoder->hashPassword(
+                    $authUser,
+                    $plainPassword
+                )
+            );
+            $entityManager->flush();
+
+            return $this->redirectToRoute('utilisateur_edit', ['id' => $authUser->getId()]);
+        }
+
+        return $this->render('utilisateur/resetpassword.html.twig', [
+            'auth_users' => $authUser,
+            'form' => $form->createView(),
+            'tabs' => $this->getTabsUser($authUser, "utilisateur", array()),
         ]);
+    }
+
+    public function getTabsUser($user, $activeTab, $options)
+    {
+
+        $tabs = array(
+            //'info. générale' => array('link' => $this->generateUrl('utilisateur_edit', ['id' => $user->getId()])),
+            //'profiles' => array('link' => $this->generateUrl('auth_permission_liste', ['id' => $user->getId(), 'entity' => 'user'])),
+        );
+
+        foreach ($tabs as $key => $tab) {
+            if ($key === $activeTab)
+                $tabs[$key]['active_class'] = 'active';
+        }
+        return $tabs;
     }
 }

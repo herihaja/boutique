@@ -1,0 +1,14 @@
+{% extends 'base-breadcrumb.html.twig' %}
+
+{% block titre %}Ajouter un produit{% endblock %}
+
+
+{% block breadcrumb %}
+	{% set breadcrumb = {'main': app_name, (path('produit_index')): 'Produits' , 'no-link': 		block('titre')} %}
+	{% include "breadcrumb.html.twig" %}
+{% endblock %}
+
+{% block contenu %}
+	{{ include('produit/_form.html.twig') }}
+{% endblock %}
+

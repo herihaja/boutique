@@ -97,7 +97,9 @@ class Produit
 
     public function setImage($image): self
     {
-        $this->image = $image;
+        if ($image) {
+            $this->image = file_get_contents($image);
+        }
 
         return $this;
     }
@@ -112,5 +114,15 @@ class Produit
         $this->description = $description;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->nom;
+    }
+
+    public function getEncodedImage()
+    {
+        return base64_encode(stream_get_contents($this->image));
     }
 }

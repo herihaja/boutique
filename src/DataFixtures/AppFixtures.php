@@ -71,6 +71,27 @@ class AppFixtures extends Fixture
         $categorieProduit->setDescription("");
         $manager->persist($categorieProduit);
 
+        $parametre = new Parametre();
+        $parametre->setNomParametre("Type produit");
+        $parametre->setDescription("");
+        $manager->persist($parametre);
+
+        $categorieProduit = new ParametreValeur();
+        $categorieProduit->setParametre($parametre);
+        $categorieProduit->setCodeValeur("STK");
+        $categorieProduit->setValeur("Stockable");
+        $categorieProduit->setValeur2(0);
+        $categorieProduit->setDescription("On peut stocker");
+        $manager->persist($categorieProduit);
+
+        $categorieProduit = new ParametreValeur();
+        $categorieProduit->setParametre($parametre);
+        $categorieProduit->setCodeValeur("NST");
+        $categorieProduit->setValeur("Non stockable");
+        $categorieProduit->setValeur2(0);
+        $categorieProduit->setDescription("On ne peut pas stocker");
+        $manager->persist($categorieProduit);
+
         $manager->flush();
     }
 }
