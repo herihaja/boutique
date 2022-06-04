@@ -25,11 +25,7 @@ class PrixType extends AbstractType
                 'choice_label' => function (ParametreValeur $user) {
                     return $user->getValeur();
                 },
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('u')
-                        ->where('u.parametre = 3')
-                        ->orderBy('u.valeur', 'ASC');
-                },
+                'choices' => $builder->getData()->getProduit()->getUnites(),
                 'multiple' => false,
                 'attr' => ['class' => 'form-control']
             ]);

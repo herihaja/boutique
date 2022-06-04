@@ -38,6 +38,12 @@ class Produit
     private $type;
 
     /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\ParametreValeur", inversedBy="produitsByUnite")
+     * @ORM\JoinTable(name="produit_unites")
+     */
+    private $unites;
+
+    /**
      * @var text
      *
      * @ORM\Column(name="description", type="text", nullable=true)
@@ -65,6 +71,7 @@ class Produit
     {
         $this->prix = new ArrayCollection();
         $this->achats = new ArrayCollection();
+        $this->unites = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -200,6 +207,30 @@ class Produit
                 $achat->setProduit(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ParametreValeur>
+     */
+    public function getUnites(): Collection
+    {
+        return $this->unites;
+    }
+
+    public function addUnite(ParametreValeur $unite): self
+    {
+        if (!$this->unites->contains($unite)) {
+            $this->unites[] = $unite;
+        }
+
+        return $this;
+    }
+
+    public function removeUnite(ParametreValeur $unite): self
+    {
+        $this->unites->removeElement($unite);
 
         return $this;
     }

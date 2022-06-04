@@ -19,6 +19,19 @@ class ProduitType extends AbstractType
         $builder
             ->add('nom')
             ->add('description')
+            ->add('unites', EntityType::class, [
+                'class' => ParametreValeur::class,
+                'choice_label' => function (ParametreValeur $user) {
+                    return $user->getValeur();
+                },
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                        ->where('u.parametre = 3')
+                        ->orderBy('u.valeur', 'ASC');
+                },
+                'multiple' => true,
+                'attr' => ['class' => 'form-control']
+            ])
             ->add('image', FileType::class, ["data_class" => null, 'required' => false])
             ->add('categorie', EntityType::class, [
                 'class' => ParametreValeur::class,
