@@ -102,12 +102,18 @@ class AuthUser implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $personne;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Achat::class, mappedBy="caissier")
+     */
+    private $achatTraites;
+
 
 
     public function __construct()
     {
         $this->groups = new ArrayCollection();
         $this->permissions = new ArrayCollection();
+        $this->achatTraites = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -343,5 +349,35 @@ class AuthUser implements UserInterface, PasswordAuthenticatedUserInterface
     public function isIsActive(): ?bool
     {
         return $this->isActive;
+    }
+
+    /**
+     * @return Collection<int, Achat>
+     */
+    public function getAchatTraites(): Collection
+    {
+        return $this->achatTraites;
+    }
+
+    public function addAchatTraite(Achat $achatTraite): self
+    {
+        if (!$this->achatTraites->contains($achatTraite)) {
+            $this->achatTraites[] = $achatTraite;
+            $achatTraite->setCaissier($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAchatTraite(Achat $achatTraite): self
+    {
+        if ($this->achatTraites->removeElement($achatTraite)) {
+            // set the owning side to null (unless already changed)
+            if ($achatTraite->getCaissier() === $this) {
+                $achatTraite->setCaissier(null);
+            }
+        }
+
+        return $this;
     }
 }

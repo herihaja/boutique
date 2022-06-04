@@ -14,6 +14,8 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/produit')]
 class ProduitController extends AbstractController
 {
+    use TraitCommonMethods;
+
     #[Route('/', name: 'produit_index', methods: ['GET'])]
     public function index(ProduitRepository $produitRepository): Response
     {
@@ -64,13 +66,14 @@ class ProduitController extends AbstractController
         return $this->renderForm('produit/edit.html.twig', [
             'produit' => $produit,
             'form' => $form,
+            'tabs' => $this->getTabsPrix($produit, "info. générale", array()),
         ]);
     }
 
     #[Route('/{id}', name: 'produit_delete', methods: ['POST'])]
     public function delete(Request $request, Produit $produit, ProduitRepository $produitRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$produit->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $produit->getId(), $request->request->get('_token'))) {
             $produitRepository->remove($produit, true);
         }
 

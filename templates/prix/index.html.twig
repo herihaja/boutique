@@ -1,24 +1,26 @@
-{% extends 'base-breadcrumb.html.twig' %}
+{% extends 'base-breadcrumb-tabs.html.twig' %}
 
-{% block title %}Prix index{% endblock %}
-
-{% block titre %}Liste des Prixs{% endblock %}
+{% block titre %}Liste des prix{% endblock %}
 
 
 {% block breadcrumb %}
-    {% set breadcrumb = {'main': app_name, 'no-link': block('titre')} %}
+    {% set breadcrumb = {'root': app_name,
+            (path('produit_index')) : 'Produits' , 
+            (path('produit_edit', {'id': produit.id})) : produit ,
+            'no-link': block('titre')} %}
     {% include "breadcrumb.html.twig" %}
 {% endblock %}
 
 {% block class_title_icon %}nc-icon nc-notes{% endblock %}
 
-{% block contenu %}
+
+{% block tabContent %}
     <table class="table table-hover table-striped" id="liste-table">
         <thead>
             <tr>
-                        <th>Date_ajout</th>
-                        <th>Valeur</th>
-                        <th>PrixAchat</th>
+                        <th>Date ajout</th>
+                        <th>Prix</th>
+                        <th>Prix d'achat</th>
                     <th data-orderable="false">&nbsp;</th>
             </tr>
         </thead>
@@ -40,5 +42,5 @@
 {% endblock %}
 
 {% block add_button %}
-                        <button type="submit" class="btn btn-info btn-fill pull-right add-btn" onclick="location.href='{{ path('prix_new') }}'">Ajouter Prix</button>
+                        <button type="submit" class="btn btn-info btn-fill pull-right add-btn" onclick="location.href='{{ path('prix_new', {'id': produit.id}) }}'">Ajouter un prix</button>
 {% endblock %}

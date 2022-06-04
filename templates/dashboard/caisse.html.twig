@@ -1,0 +1,36 @@
+{% extends 'base-breadcrumb.html.twig' %}
+
+{% block titre %}Bienvenu à la caisse de {{ app_name }}{% endblock %}
+
+{% block contenu %}
+
+    <form name="Caisse" method="post" id="form-Produit" enctype="multipart/form-data">
+        
+                                        
+                                        
+                <input type="hidden" name="token" value="{{ csrf_token('caisse') }}"/>                    
+                                        <div class="clearfix"></div>
+
+    <table class="table table-hover table-striped" id="liste-table">
+        <thead>
+            <tr>
+                        <th>Produit</th>
+                        <th>Prix unitaire</th>
+                        <th>Unité</th>
+                         <th>Total</th>
+                    
+            </tr>
+        </thead>
+        <tbody>
+        
+        </tbody>
+    </table>
+                                        
+                                    </form>
+                                        {% include "save-button.html.twig" %}
+
+<div id="AchatItem-list">
+</div>
+    
+
+{% endblock %}

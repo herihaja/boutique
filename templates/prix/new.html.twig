@@ -1,16 +1,18 @@
-{% extends 'base-breadcrumb.html.twig' %}
+{% extends 'base-breadcrumb-tabs.html.twig' %}
 
-{% block title %}New Prix{% endblock %}
-
-{% block titre %}Ajouter Prix{% endblock %}
+{% block titre %}Ajouter un prix{% endblock %}
 
 
 {% block breadcrumb %}
-	{% set breadcrumb = {'main': app_name, (path('prix_index')): 'Prixs' , 'no-link': 		block('titre')} %}
-	{% include "breadcrumb.html.twig" %}
+    {% set breadcrumb = {'root': app_name,
+            (path('produit_index')) : 'Produits' , 
+            (path('produit_edit', {'id': produit.id})) : produit ,
+            (path('prix_index', {'id': produit.id})) : 'Prix' ,
+            'no-link': block('titre')} %}
+    {% include "breadcrumb.html.twig" %}
 {% endblock %}
 
-{% block contenu %}
+{% block tabContent %}
 	{{ include('prix/_form.html.twig') }}
 {% endblock %}
 

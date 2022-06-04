@@ -65,6 +65,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
+
         $token = new CsrfToken('authenticate', $credentials['csrf_token']);
         if (!$this->csrfTokenManager->isTokenValid($token)) {
             throw new InvalidCsrfTokenException();
@@ -91,11 +92,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        $authUser = $this->getUser();
-        if ($authUser->isSuperuser())
-            $redirectUrl = 'caisse';
-        else
-            $redirectUrl = 'dashboard';
+
 
         // For example : return new RedirectResponse($this->router->generate('some_route'));
         //throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);

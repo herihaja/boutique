@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=PrixRepository::class)
+ * @ORM\HasLifecycleCallbacks
  */
 class Prix
 {
@@ -107,5 +108,20 @@ class Prix
         $this->dateAjout = $dateAjout;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getValeur() . " " . $this->dateAjout->format("Y-m-d");
+    }
+
+    /**
+     * Gets triggered only on insert
+
+     * @ORM\PrePersist
+     */
+    public function onPrePersist()
+    {
+        $this->dateAjout = new \DateTime("now");
     }
 }

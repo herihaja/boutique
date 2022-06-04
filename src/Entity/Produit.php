@@ -56,9 +56,15 @@ class Produit
      */
     private $prix;
 
+    /**
+     * @ORM\OneToMany(targetEntity=AchatItem::class, mappedBy="produit")
+     */
+    private $achats;
+
     public function __construct()
     {
         $this->prix = new ArrayCollection();
+        $this->achats = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -162,6 +168,36 @@ class Produit
             // set the owning side to null (unless already changed)
             if ($prix->getProduit() === $this) {
                 $prix->setProduit(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AchatItem>
+     */
+    public function getAchats(): Collection
+    {
+        return $this->achats;
+    }
+
+    public function addAchat(AchatItem $achat): self
+    {
+        if (!$this->achats->contains($achat)) {
+            $this->achats[] = $achat;
+            $achat->setProduit($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAchat(AchatItem $achat): self
+    {
+        if ($this->achats->removeElement($achat)) {
+            // set the owning side to null (unless already changed)
+            if ($achat->getProduit() === $this) {
+                $achat->setProduit(null);
             }
         }
 

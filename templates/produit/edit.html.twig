@@ -1,11 +1,17 @@
-{% extends 'produit/new.html.twig' %}
+{% extends 'base-breadcrumb-tabs.html.twig' %}
 
 {% set delete_button="produit/_delete_form.html.twig" %}
 
 {% block titre %}Modifier un produit{% endblock %}
 
+{% block breadcrumb %}
+    {% set breadcrumb = {'root': app_name,
+            (path('produit_index')) : 'Produits' , 
+            'no-link': block('titre')} %}
+    {% include "breadcrumb.html.twig" %}
+{% endblock %}
 
-{% block contenu %}
+{% block tabContent %}
     {% if produit.id and produit.image is not null %}
     <div class="produit_image" style="text-align:center;">
         <img class="border-gray" style="width:20%" src="data:image/png;base64,{{ produit.encodedImage }}" alt="...">
@@ -13,4 +19,3 @@
     {% endif %}
 	{{ include('produit/_form.html.twig') }}
 {% endblock %}
-
