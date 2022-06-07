@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/produit')]
@@ -43,7 +44,7 @@ class ProduitController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'produit_show', methods: ['GET'])]
+    #[Route('/{id<\d+>}', name: 'produit_show', methods: ['GET'])]
     public function show(Produit $produit): Response
     {
         return $this->render('produit/show.html.twig', [
@@ -51,7 +52,7 @@ class ProduitController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'produit_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id<\d+>}/edit', name: 'produit_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Produit $produit, ProduitRepository $produitRepository): Response
     {
         $form = $this->createForm(ProduitType::class, $produit);
@@ -70,7 +71,7 @@ class ProduitController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'produit_delete', methods: ['POST'])]
+    #[Route('/{id<\d+>}', name: 'produit_delete', methods: ['POST'])]
     public function delete(Request $request, Produit $produit, ProduitRepository $produitRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $produit->getId(), $request->request->get('_token'))) {
@@ -78,5 +79,17 @@ class ProduitController extends AbstractController
         }
 
         return $this->redirectToRoute('produit_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/list', name: 'produit_list', methods: ['GET'])]
+    public function list(ProduitRepository $produitRepository): Response
+    {
+        return new JsonResponse([
+            ['id' => '1', 'nom' => 'Vary', 'unite' => 'string', 'prix' => ['kapoaka' => 120, 'kilo' => 1500]],
+            ['id' => '2', 'nom' => 'Satroka', 'unite' => 'string', 'prix' => ['kilo' => 200, 'litre' => 1000]],
+        ]);
+        return $this->render('produit/index.html.twig', [
+            'produits' => $produitRepository->findAll(),
+        ]);
     }
 }

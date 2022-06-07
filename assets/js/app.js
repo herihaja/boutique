@@ -21,16 +21,27 @@ import Select from "react-select";
             AchatName: 'Achat default',
             description: 'Lorem ipsum',
             showAddItem: false,
-            editedItem: {'produit': 0, 'quantite': 0, 'unite': 0, 'prixUnitaire':0}
+            editedItem: {'produit': 0, 'quantite': 0, 'unite': 0, 'prixUnitaire':0},
+            toSelectProduits: [{'id': 1, 'nom': 'Kiraro'}, {'id':2, 'nom': 'Mofo'}],
+            allProducts: [],
+            total:0
         };
+        
     }
 
+    refsCollection = {};
+
     componentDidMount = () => {
-        fetch('https://localhost:8000/Achat-AchatItem/')
+        fetch(produitListUrl)
             .then(response => response.json())
-            .then(entries => {
+            .then(toSelectProduits => {
+                var allProducts = JSON.parse(JSON.stringify(toSelectProduits));
                 this.setState({
-                    entries,
+                    'allProducts': allProducts
+                });
+
+                this.setState({
+                    'toSelectProduits':toSelectProduits
                 });
             });
     }
@@ -39,27 +50,26 @@ import Select from "react-select";
         this.setState({AchatName: e.target.value});
     }
 
-    clickDeleteItem = (id) => {
+    clickDeleteItem = (achatItem) => {
+        var id = achatItem.index;
         var entries = this.state.entries;
+        var toSelect = entries[id];
+        var toSelectProduits = this.state.toSelectProduits;
+        //toSelectProduits.append();
+        var allProducts = this.state.allProducts;
+        var toGetBack = false;
+        for (var index in allProducts) {
+            if (allProducts[index].id == toSelect.produit){
+                toGetBack = allProducts[index];
+                break;
+            }
+        }
+        if (toGetBack)
+            toSelectProduits.push(toGetBack);
+
         entries.splice(id, 1);
-        this.setState({entries: entries});
-    }
-
-    addItem = () => {
-        if (!this.state.showAddItem)
-        this.setState({showAddItem: true});
-        else
-        this.setState({showAddItem: false});
-    }
-
-    closeItemModal = () => {
-        this.setState({showAddItem: false});
-    }
-
-    updateEditedItemProduit = (selected) => {
-        var editedItem = this.state.editedItem;
-        editedItem.produit = selected;
-        this.setState(editedItem);
+        this.addPrixToTotal(-achatItem.prixTotal());
+        this.setState({entries, toSelectProduits});
     }
 
     updateEditedItemUnite = (selected) => {
@@ -68,18 +78,7 @@ import Select from "react-select";
         this.setState(editedItem);
     }
 
-    updateEditedItemQuantite = (e) => {
-        var editedItem = this.state.editedItem;
-        editedItem.quantite = e.target.value;
-        this.setState({'editedItem': editedItem});
-    }
-
-    itemTypeOptions = [
-        {'value':'text', 'label': 'Text'}, 
-        {'value':'number', 'label': 'Number'}, 
-        {'value':'date', 'label': 'Date'}, 
-        {'value':'relation', 'label':'Relation'},
-    ];
+    
 
     saveItemForm = () => {
         var entries = this.state.entries; 
@@ -88,62 +87,99 @@ import Select from "react-select";
         this.setState({'entries': entries, 'showAddItem': false})
     }
 
+    selectProduit = (e) => {
+        var toSelectProduits = this.state.toSelectProduits;
+        var entries = this.state.entries;
+        var selected = false;
+        for (const index in toSelectProduits){
+            if (toSelectProduits[index].id == e.target.value) {
+                var selected = toSelectProduits[index];
+                toSelectProduits.splice(index, 1);
+                break;
+            }
+        }
+        if (selected) {
+            entries.push({
+                'id': selected.id,
+                'produit': selected.id, 
+                'quantite': 1, 
+                'prix': selected.prix, 
+                'unite':selected.unite,
+                'produitNom': selected.nom
+            });
+        }
+        this.setState({toSelectProduits, entries});
+        return false;
+    }
+
+    addPrixToTotal = (prix) => {
+        var total = this.state.total;
+        total += prix;
+        this.setState({total});
+    }
     
     render () { 
+        let total = 0;
         return (
             <div className="Achat-container">
-                <input type="button" onClick={this.addItem} value="Add field"/>
-                <input type="text" value={this.state.AchatName} onChange={this.changeAchatName} /> 
-                <textarea name="description" defaultValue={this.state.description}></textarea>
-
-                {this.state.entries.map(
-                     ({ id, produit, unite, quantite, prixUnitaire }, index) => (
-                        <AchatItem
-                        key={index+1}
-                        index={index+1}
-                        id={id}
-                        produit={produit}
-                        unite={unite.value}
-                        quantite={quantite}
-                        prixUnitaire={prixUnitaire}
-                        clickDelete={this.clickDeleteItem}
-                    >
-                    </AchatItem>
-                     )
-                 )}
+                {/*-- Todo: to herihaja cleanup */}
+                <input type="button" className='d-none' onClick={this.addItem} value="Add field"/>
+                <input type="text" className="d-none" value={this.state.AchatName} onChange={this.changeAchatName} /> 
+                <textarea name="description" className="d-none" defaultValue={this.state.description}></textarea>
+                <table className="table table-hover table-striped" id="liste-table">
+                    <thead>
+                        <tr>
+                                    <th>Produit</th>
+                                    <th>Nombre</th>
+                                    <th>Unité</th>
+                                    <th>PU</th>
+                                    <th>Total</th>
+                                
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.state.entries.map(
+                            ({ id, produit, produitNom, unite, quantite, prix }, index) => {
+                                let achatItem = (<AchatItem
+                                    key={index+1}
+                                    index={index}
+                                    id={id}
+                                    produit={produit}
+                                    produitNom={produitNom}
+                                    unite={unite.value}
+                                    quantite={quantite}
+                                    prix={prix}
+                                    prixTotal={this.prixTotal}
+                                    clickDelete={this.clickDeleteItem}
+                                    addPrixToTotal={this.addPrixToTotal}
+                                />);
+                                
+                                return achatItem;
+                            }
+                        )}
+                        <tr>
+                            <td colSpan="2">
+                                <select id="produitSelect" onChange={this.selectProduit}>
+                                    <option value="">-- Selectionnez Produit</option>
+                                    
+                                        {this.state.toSelectProduits.map(
+                                            (toSelect, index) => (
+                                            
+                                        <option value={ toSelect.id } key={toSelect.id}>{ toSelect.nom }</option>
+                                            )
+                                        )}
+                                    
+                                </select>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td>{this.state.total}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
                 <StrictMode>
-                <Modal show={this.state.showAddItem} animation={true} onHide={this.closeItemModal} backdrop="static">
-
-                    <Modal.Header closeButton>
-                        <Modal.Title>Produit</Modal.Title>
-                    </Modal.Header>
-            
-                    <Modal.Body>
-                        <label>Produit: </label>
-                        <Select defaultValue={this.state.editedItem.produit} value={this.state.editedItem.produit} onChange={this.updateEditedItemProduit} options={this.fieldTypeOptions}>
-                        </Select>
-                        <br/>
-                        <label>Unit&eacute;: </label>
-                        <Select defaultValue={this.state.editedItem.unite} value={this.state.editedItem.unite} onChange={this.updateEditedItemUnite} options={this.fieldTypeOptions}>
-                        </Select>
-                        <br/>
-                        <label>Quantité: </label>
-                        <input type="text" value={this.state.editedItem.quantite}  onChange={this.updateEditedItemQuantite}/> 
-                        <br/>
-                        <label>Prix unitaire: </label>
-                        <input type="text" value={this.state.editedItem.prixUnitaire}  readOnly="readonly"/> 
-                        <label>Prix: </label>
-                        <input type="text" value={this.state.editedItem.prix}  readOnly="readonly"/> 
-                        
-                        
-                    </Modal.Body>
-            
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={this.saveItemForm}>Secondary</Button>
-                        <Button variant="primary" onClick={this.saveItemForm}>Primary</Button>
-                    </Modal.Footer>
-            
-                </Modal>
+                
                 </StrictMode>
             </div>
         );
