@@ -35,6 +35,7 @@ import Select from "react-select";
         fetch(produitListUrl)
             .then(response => response.json())
             .then(toSelectProduits => {
+                
                 var allProducts = JSON.parse(JSON.stringify(toSelectProduits));
                 this.setState({
                     'allProducts': allProducts
@@ -51,11 +52,15 @@ import Select from "react-select";
     }
 
     clickDeleteItem = (achatItem) => {
-        var id = achatItem.index;
+        var id = achatItem.id;
         var entries = this.state.entries;
-        var toSelect = entries[id];
+        var toSelect = entries.filter((item)=> {
+            if (item.id == id)
+                return true;
+            return false;
+        })[0];
+        
         var toSelectProduits = this.state.toSelectProduits;
-        //toSelectProduits.append();
         var allProducts = this.state.allProducts;
         var toGetBack = false;
         for (var index in allProducts) {
@@ -67,9 +72,13 @@ import Select from "react-select";
         if (toGetBack)
             toSelectProduits.push(toGetBack);
 
-        entries.splice(id, 1);
+        entries = entries.filter((item)=> {
+                if (item.id == id)
+                    return false;
+                return true;
+            });
         this.addPrixToTotal(-achatItem.prixTotal());
-        this.setState({entries, toSelectProduits});
+        this.setState({entries: entries, toSelectProduits: toSelectProduits});
     }
 
     updateEditedItemUnite = (selected) => {
@@ -99,6 +108,17 @@ import Select from "react-select";
             }
         }
         if (selected) {
+            var prices = selected.prices.split("|");
+            selected['prix'] = [];
+            for(var i in prices) {
+                var prix = prices[i].split(";");
+                selected['prix'][prix[1]] = [];
+                selected['prix'][prix[1]]['valeur'] = parseFloat(prix[0]);
+                selected['prix'][prix[1]]['id'] = prix[2]; //id parametre valeur
+                selected['prix'][prix[1]]['prixId'] = prix[3]; // id prix
+                if (typeof(selected['unite'])== "undefined")
+                    selected['unite'] = prix[1];
+            }
             entries.push({
                 'id': selected.id,
                 'produit': selected.id, 
@@ -122,10 +142,6 @@ import Select from "react-select";
         let total = 0;
         return (
             <div className="Achat-container">
-                {/*-- Todo: to herihaja cleanup */}
-                <input type="button" className='d-none' onClick={this.addItem} value="Add field"/>
-                <input type="text" className="d-none" value={this.state.AchatName} onChange={this.changeAchatName} /> 
-                <textarea name="description" className="d-none" defaultValue={this.state.description}></textarea>
                 <table className="table table-hover table-striped" id="liste-table">
                     <thead>
                         <tr>
@@ -139,23 +155,20 @@ import Select from "react-select";
                     </thead>
                     <tbody>
                         {this.state.entries.map(
-                            ({ id, produit, produitNom, unite, quantite, prix }, index) => {
-                                let achatItem = (<AchatItem
-                                    key={index+1}
-                                    index={index}
-                                    id={id}
-                                    produit={produit}
-                                    produitNom={produitNom}
-                                    unite={unite.value}
-                                    quantite={quantite}
-                                    prix={prix}
+                            ( product , index) => (
+                                <AchatItem
+                                    key={product.id}
+                                    id={product.id}
+                                    produit={product.id}
+                                    produitNom={product.produitNom}
+                                    unite={product.unite}
+                                    quantite={product.quantite}
+                                    prix={product.prix}
                                     prixTotal={this.prixTotal}
                                     clickDelete={this.clickDeleteItem}
                                     addPrixToTotal={this.addPrixToTotal}
-                                />);
-                                
-                                return achatItem;
-                            }
+                                />
+                            )
                         )}
                         <tr>
                             <td colSpan="2">
@@ -173,7 +186,10 @@ import Select from "react-select";
                             </td>
                             <td></td>
                             <td></td>
-                            <td>{this.state.total}</td>
+                            <td>
+                                <input type="hidden" name="grandTotal" value={this.state.total}/>
+                                {this.state.total}
+                            </td>
                         </tr>
                     </tbody>
                 </table>

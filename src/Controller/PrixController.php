@@ -67,7 +67,7 @@ class PrixController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $prixRepository->add($prix, true);
 
-            return $this->redirectToRoute('prix_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('prix_index', ['id' => $prix->getProduit()->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('prix/edit.html.twig', [

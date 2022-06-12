@@ -84,12 +84,7 @@ class ProduitController extends AbstractController
     #[Route('/list', name: 'produit_list', methods: ['GET'])]
     public function list(ProduitRepository $produitRepository): Response
     {
-        return new JsonResponse([
-            ['id' => '1', 'nom' => 'Vary', 'unite' => 'string', 'prix' => ['kapoaka' => 120, 'kilo' => 1500]],
-            ['id' => '2', 'nom' => 'Satroka', 'unite' => 'string', 'prix' => ['kilo' => 200, 'litre' => 1000]],
-        ]);
-        return $this->render('produit/index.html.twig', [
-            'produits' => $produitRepository->findAll(),
-        ]);
+        $produits = $produitRepository->getAllWithPrice();
+        return new JsonResponse($produits);
     }
 }

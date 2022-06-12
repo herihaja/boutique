@@ -16,7 +16,7 @@ class PrixType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('date_ajout')
+            //->add('date_ajout')
             ->add('valeur')
             ->add('prixAchat')
             ->add('produit')

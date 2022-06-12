@@ -112,7 +112,7 @@ class Prix
 
     public function __toString()
     {
-        return $this->getValeur() . " " . $this->dateAjout->format("Y-m-d");
+        return $this->getValeur(); // . " " . $this->dateAjout->format("Y-m-d");
     }
 
     /**

@@ -6,20 +6,20 @@
     <script>
         const produitListUrl = "{{ path('produit_list')|escape('js') }}";
     </script>
-    <form name="Caisse" method="post" id="form-Produit" enctype="multipart/form-data">
+    <form name="Caisse" method="post" id="form-Produit" enctype="multipart/form-data" action="/caisse">
         
                                         
                                         
                 <input type="hidden" name="token" value="{{ csrf_token('caisse') }}"/>                    
                                         <div class="clearfix"></div>
-
+                    <div id="AchatItem-list">
+                    </div>
     
-                                        
+                                     <input type="submit" value="Enregistrer"/>   
                                     </form>
                                         {% include "save-button.html.twig" %}
 
-<div id="AchatItem-list">
-</div>
+
     
 
 {% endblock %}

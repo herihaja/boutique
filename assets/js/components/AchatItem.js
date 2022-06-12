@@ -9,24 +9,24 @@
             this.quantite= props.quantite;
             this.prix = props.prix;
             this.clickDelete = props.clickDelete;
-            this.index = props.index;
+            this.id = props.id;
+            this.unite = props.unite;
             this.state = {'quantite': props.quantite, 
             'unite': props.unite || Object.keys(props.prix)[0], 'total':0};
             this.updateTotalState();
         }
 
         updateTotalState = () => {
-            var total = this.prix[this.state.unite] * this.state.quantite;
+            var total = this.prixTotal();
             this.props.addPrixToTotal(total);
-            this.props.returnState(this.state);
         }
 
         prixTotal = () => {
-            return this.prix[this.state.unite] * this.state.quantite;
+            return this.prixUnitaire() * this.state.quantite;
         }
 
         prixUnitaire = () => {
-            return this.prix[this.state.unite];
+            return this.prix[this.state.unite]['valeur'];
         }
 
         changeQuantite = (e) =>  {
@@ -36,12 +36,17 @@
 
         changeUnite = (e) => {
             this.oldValue = this.prixTotal();
-            this.setState({'unite': e.target.value}, this.updateTotalCallBack);
+            this.setState({'unite': e.target[e.target.selectedIndex].text}, this.updateTotalCallBack);
         }
 
         updateTotalCallBack = () => {
             var diff = this.prixTotal() - this.oldValue;
+            console.log('\noldvalue: '+this.oldValue, 'diff: '+diff);
             this.props.addPrixToTotal(diff);
+        }
+
+        selectedPrix = () => {
+            return this.prix[this.state.unite].prixId;
         }
 
         render () {
@@ -51,15 +56,16 @@
                     <p><a href="#" onClick={ () => this.clickDelete(this)}><img src="/static/img/delete-icon.png" className='deleteProduit'/></a> &nbsp; {this.produitNom}</p>
                 </td>
                 <td className="col-2">
-                    <input type="number" value={this.state.quantite} onChange={this.changeQuantite}/>
+                    <input type="hidden" name="produit[]" value={this.id}/>
+                    <input type="number" value={this.state.quantite} onChange={this.changeQuantite} name="quantite[]"/>
                 </td>
                 <td className="col-2">
-                    {this.unite}
-                    <select id="selectUnite" onChange={this.changeUnite}>
+                    <input type="hidden" name="prixId[]" value={this.selectedPrix()}/>
+                    <select onChange={this.changeUnite} name="unite[]">
                         {Object.keys(this.prix).map(
-                            (unite, index) => (
+                            (key, value) => (
                             
-                        <option value={ unite } key={index}>{ unite }</option>
+                        <option value={ this.prix[key].id } key={key}>{ key }</option>
                             )
                         )}
                     </select>
