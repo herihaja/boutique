@@ -61,6 +61,7 @@
                 </td>
                 <td className="col-2">
                     <input type="hidden" name="prixId[]" value={this.selectedPrix()}/>
+                    <input type="hidden" name="total[]" value={this.prixTotal()}/>
                     <select onChange={this.changeUnite} name="unite[]">
                         {Object.keys(this.prix).map(
                             (key, value) => (

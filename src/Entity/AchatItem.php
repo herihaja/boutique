@@ -34,6 +34,17 @@ class AchatItem
      */
     private $nombre;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $total;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Prix::class, inversedBy="achatItems")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $prixUT;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -71,6 +82,30 @@ class AchatItem
     public function setNombre(int $nombre): self
     {
         $this->nombre = $nombre;
+
+        return $this;
+    }
+
+    public function getTotal(): ?int
+    {
+        return $this->total;
+    }
+
+    public function setTotal(int $total): self
+    {
+        $this->total = $total;
+
+        return $this;
+    }
+
+    public function getPrixUT(): ?Prix
+    {
+        return $this->prixUT;
+    }
+
+    public function setPrixUT(?Prix $prixUT): self
+    {
+        $this->prixUT = $prixUT;
 
         return $this;
     }

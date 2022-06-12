@@ -20,13 +20,11 @@ import Select from "react-select";
             entries: [],
             AchatName: 'Achat default',
             description: 'Lorem ipsum',
-            showAddItem: false,
-            editedItem: {'produit': 0, 'quantite': 0, 'unite': 0, 'prixUnitaire':0},
             toSelectProduits: [{'id': 1, 'nom': 'Kiraro'}, {'id':2, 'nom': 'Mofo'}],
             allProducts: [],
-            total:0
+            total:0,
+            montantRendu: 0
         };
-        
     }
 
     refsCollection = {};
@@ -81,21 +79,6 @@ import Select from "react-select";
         this.setState({entries: entries, toSelectProduits: toSelectProduits});
     }
 
-    updateEditedItemUnite = (selected) => {
-        var editedItem = this.state.editedItem;
-        editedItem.unite = selected;
-        this.setState(editedItem);
-    }
-
-    
-
-    saveItemForm = () => {
-        var entries = this.state.entries; 
-        var edited = JSON.parse(JSON.stringify(this.state.editedItem));
-        entries.push(edited);
-        this.setState({'entries': entries, 'showAddItem': false})
-    }
-
     selectProduit = (e) => {
         var toSelectProduits = this.state.toSelectProduits;
         var entries = this.state.entries;
@@ -135,7 +118,17 @@ import Select from "react-select";
     addPrixToTotal = (prix) => {
         var total = this.state.total;
         total += prix;
-        this.setState({total});
+        this.setState({total}, this.getMontantRendu);
+    }
+
+    getMontantRendu = () => {
+        var montantRendu = this.state.montantRemis - this.state.total;
+        this.setState({montantRendu});
+    }
+
+    changeMontantRemis = (e) => {
+        var montantRemis = e.target.value;
+        this.setState({montantRemis}, this.getMontantRendu);     
     }
     
     render () { 
@@ -193,7 +186,20 @@ import Select from "react-select";
                         </tr>
                     </tbody>
                 </table>
-                
+                <div className="row">
+                    <div className="col-md-6">
+                        <div className="form-group">
+                            <label>Montant rémis</label>
+                                <input type="integer" className="form-control" name="montantRemis" onChange={this.changeMontantRemis}/>
+                        </div>
+                    </div>
+                    <div className="col-md-6">
+                        <div className="form-group">
+                            <label>Montant rendu</label>
+                                <input type="integer" className="form-control" name="montantRendu" readOnly="readonly" value={this.state.montantRendu}/>
+                        </div>
+                    </div>
+                </div>
                 <StrictMode>
                 
                 </StrictMode>
