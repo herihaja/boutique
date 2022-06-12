@@ -122,7 +122,7 @@ import Select from "react-select";
     }
 
     getMontantRendu = () => {
-        var montantRendu = this.state.montantRemis - this.state.total;
+        var montantRendu = !isNaN(this.state.montantRemis) ? this.state.montantRemis - this.state.total :0 ;
         this.setState({montantRendu});
     }
 
@@ -178,7 +178,7 @@ import Select from "react-select";
                                 </select>
                             </td>
                             <td></td>
-                            <td></td>
+                            <td>Total:</td>
                             <td>
                                 <input type="hidden" name="grandTotal" value={this.state.total}/>
                                 {this.state.total}
@@ -190,13 +190,13 @@ import Select from "react-select";
                     <div className="col-md-6">
                         <div className="form-group">
                             <label>Montant rémis</label>
-                                <input type="integer" className="form-control" name="montantRemis" onChange={this.changeMontantRemis}/>
+                                <input type="number" className="form-control" name="montantRemis" onChange={this.changeMontantRemis}/>
                         </div>
                     </div>
                     <div className="col-md-6">
                         <div className="form-group">
                             <label>Montant rendu</label>
-                                <input type="integer" className="form-control" name="montantRendu" readOnly="readonly" value={this.state.montantRendu}/>
+                                <input type="number" className="form-control" name="montantRendu" readOnly="readonly" value={this.state.montantRendu}/>
                         </div>
                     </div>
                 </div>

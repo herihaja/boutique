@@ -41,7 +41,6 @@
 
         updateTotalCallBack = () => {
             var diff = this.prixTotal() - this.oldValue;
-            console.log('\noldvalue: '+this.oldValue, 'diff: '+diff);
             this.props.addPrixToTotal(diff);
         }
 
