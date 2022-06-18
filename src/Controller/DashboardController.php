@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Produit;
-use App\Entity\Achat;
-use App\Entity\AchatItem;
+use App\Entity\Mouvement;
+use App\Entity\MouvementItem;
 use App\Entity\Prix;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -47,23 +47,24 @@ class DashboardController extends AbstractController
             $montantRemis = $request->request->get('montantRemis');
             $montantRendu = $request->request->get('montantRendu');
 
-            $achat = new Achat();
-            $achat->setDateAchat(new \Datetime());
-            $achat->setMontantTotal($grandTotal);
-            $achat->setMontantRemis($montantRemis);
-            $achat->setMontantRendu($montantRendu);
-            $achat->setCaissier($user);
-            $entityManager->persist($achat);
+            $mouvement = new Mouvement();
+            $mouvement->setDateMouvement(new \Datetime());
+            $mouvement->setMontantTotal($grandTotal);
+            $mouvement->setMontantRemis($montantRemis);
+            $mouvement->setMontantRendu($montantRendu);
+            $mouvement->setCaissier($user);
+            $mouvement->setIsVente(true);
+            $entityManager->persist($mouvement);
             $sousTotal = 0;
 
             foreach ($produits as $key => $produitId) {
-                $achatItem = new AchatItem();
-                $achatItem->setAchat($achat);
-                $achatItem->setProduit($entityManager->getReference(Produit::class, $produitId));
-                $achatItem->setNombre($quantite[$key]);
-                $achatItem->setTotal($total[$key]);
-                $achatItem->setPrixUT($entityManager->getReference(Prix::class, $prixId[$key]));
-                $entityManager->persist($achatItem);
+                $mouvementItem = new MouvementItem();
+                $mouvementItem->setMouvement($mouvement);
+                $mouvementItem->setProduit($entityManager->getReference(Produit::class, $produitId));
+                $mouvementItem->setNombre($quantite[$key]);
+                $mouvementItem->setTotal($total[$key]);
+                $mouvementItem->setPrixUT($entityManager->getReference(Prix::class, $prixId[$key]));
+                $entityManager->persist($mouvementItem);
                 $sousTotal += $total[$key];
             }
 

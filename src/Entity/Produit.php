@@ -63,14 +63,14 @@ class Produit
     private $prix;
 
     /**
-     * @ORM\OneToMany(targetEntity=AchatItem::class, mappedBy="produit")
+     * @ORM\OneToMany(targetEntity=MouvementItem::class, mappedBy="produit")
      */
-    private $achats;
+    private $mouvements;
 
     public function __construct()
     {
         $this->prix = new ArrayCollection();
-        $this->achats = new ArrayCollection();
+        $this->mouvements = new ArrayCollection();
         $this->unites = new ArrayCollection();
     }
 
@@ -182,29 +182,29 @@ class Produit
     }
 
     /**
-     * @return Collection<int, AchatItem>
+     * @return Collection<int, MouvementItem>
      */
-    public function getAchats(): Collection
+    public function getMouvements(): Collection
     {
-        return $this->achats;
+        return $this->mouvements;
     }
 
-    public function addAchat(AchatItem $achat): self
+    public function addMouvement(MouvementItem $mouvement): self
     {
-        if (!$this->achats->contains($achat)) {
-            $this->achats[] = $achat;
-            $achat->setProduit($this);
+        if (!$this->mouvements->contains($mouvement)) {
+            $this->mouvements[] = $mouvement;
+            $mouvement->setProduit($this);
         }
 
         return $this;
     }
 
-    public function removeAchat(AchatItem $achat): self
+    public function removeMouvement(MouvementItem $mouvement): self
     {
-        if ($this->achats->removeElement($achat)) {
+        if ($this->mouvements->removeElement($mouvement)) {
             // set the owning side to null (unless already changed)
-            if ($achat->getProduit() === $this) {
-                $achat->setProduit(null);
+            if ($mouvement->getProduit() === $this) {
+                $mouvement->setProduit(null);
             }
         }
 

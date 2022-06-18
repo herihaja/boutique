@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\AchatItemRepository;
+use App\Repository\MouvementItemRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=AchatItemRepository::class)
+ * @ORM\Entity(repositoryClass=MouvementItemRepository::class)
  */
-class AchatItem
+class MouvementItem
 {
     /**
      * @ORM\Id
@@ -18,16 +18,16 @@ class AchatItem
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Produit::class, inversedBy="achats")
+     * @ORM\ManyToOne(targetEntity=Produit::class, inversedBy="mouvements")
      * @ORM\JoinColumn(nullable=false)
      */
     private $produit;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Achat::class, inversedBy="achatItems")
+     * @ORM\ManyToOne(targetEntity=Mouvement::class, inversedBy="mouvementItems")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $achat;
+    private $mouvement;
 
     /**
      * @ORM\Column(type="integer")
@@ -40,7 +40,7 @@ class AchatItem
     private $total;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Prix::class, inversedBy="achatItems")
+     * @ORM\ManyToOne(targetEntity=Prix::class, inversedBy="mouvementItems")
      * @ORM\JoinColumn(nullable=false)
      */
     private $prixUT;
@@ -58,18 +58,6 @@ class AchatItem
     public function setProduit(?Produit $produit): self
     {
         $this->produit = $produit;
-
-        return $this;
-    }
-
-    public function getAchat(): ?Achat
-    {
-        return $this->achat;
-    }
-
-    public function setAchat(?Achat $achat): self
-    {
-        $this->achat = $achat;
 
         return $this;
     }
@@ -106,6 +94,18 @@ class AchatItem
     public function setPrixUT(?Prix $prixUT): self
     {
         $this->prixUT = $prixUT;
+
+        return $this;
+    }
+
+    public function getMouvement(): ?Mouvement
+    {
+        return $this->mouvement;
+    }
+
+    public function setMouvement(?Mouvement $mouvement): self
+    {
+        $this->mouvement = $mouvement;
 
         return $this;
     }

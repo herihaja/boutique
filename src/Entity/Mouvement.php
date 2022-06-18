@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\AchatRepository;
+use App\Repository\MouvementRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=AchatRepository::class)
+ * @ORM\Entity(repositoryClass=MouvementRepository::class)
  */
-class Achat
+class Mouvement
 {
     /**
      * @ORM\Id
@@ -22,10 +22,10 @@ class Achat
     /**
      * @ORM\Column(type="datetime")
      */
-    private $dateAchat;
+    private $dateMouvement;
 
     /**
-     * @ORM\ManyToOne(targetEntity=AuthUser::class, inversedBy="achatTraites")
+     * @ORM\ManyToOne(targetEntity=AuthUser::class, inversedBy="mouvementTraites")
      * @ORM\JoinColumn(nullable=false)
      */
     private $caissier;
@@ -34,6 +34,11 @@ class Achat
      * @ORM\Column(type="bigint")
      */
     private $montantTotal;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isVente;
 
     /**
      * @ORM\Column(type="bigint")
@@ -51,13 +56,15 @@ class Achat
     private $modePaiement;
 
     /**
-     * @ORM\OneToMany(targetEntity=AchatItem::class, mappedBy="achat")
+     * @ORM\OneToMany(targetEntity=MouvementItem::class, mappedBy="mouvement")
      */
-    private $achatItems;
+    private $mouvementItems;
+
+
 
     public function __construct()
     {
-        $this->achatItems = new ArrayCollection();
+        $this->mouvementItems = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -65,14 +72,14 @@ class Achat
         return $this->id;
     }
 
-    public function getDateAchat(): ?\DateTimeInterface
+    public function getDateMouvement(): ?\DateTimeInterface
     {
-        return $this->dateAchat;
+        return $this->dateMouvement;
     }
 
-    public function setDateAchat(\DateTimeInterface $dateAchat): self
+    public function setDateMouvement(\DateTimeInterface $dateMouvement): self
     {
-        $this->dateAchat = $dateAchat;
+        $this->dateMouvement = $dateMouvement;
 
         return $this;
     }
@@ -137,33 +144,47 @@ class Achat
         return $this;
     }
 
-    /**
-     * @return Collection<int, AchatItem>
-     */
-    public function getAchatItems(): Collection
+    public function isIsVente(): ?bool
     {
-        return $this->achatItems;
+        return $this->isVente;
     }
 
-    public function addAchatItem(AchatItem $achatItem): self
+    public function setIsVente(bool $isVente): self
     {
-        if (!$this->achatItems->contains($achatItem)) {
-            $this->achatItems[] = $achatItem;
-            $achatItem->setAchat($this);
+        $this->isVente = $isVente;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MouvementItem>
+     */
+    public function getMouvementItems(): Collection
+    {
+        return $this->mouvementItems;
+    }
+
+    public function addMouvementItem(MouvementItem $mouvementItem): self
+    {
+        if (!$this->mouvementItems->contains($mouvementItem)) {
+            $this->mouvementItems[] = $mouvementItem;
+            $mouvementItem->setMouvement($this);
         }
 
         return $this;
     }
 
-    public function removeAchatItem(AchatItem $achatItem): self
+    public function removeMouvementItem(MouvementItem $mouvementItem): self
     {
-        if ($this->achatItems->removeElement($achatItem)) {
+        if ($this->mouvementItems->removeElement($mouvementItem)) {
             // set the owning side to null (unless already changed)
-            if ($achatItem->getAchat() === $this) {
-                $achatItem->setAchat(null);
+            if ($mouvementItem->getMouvement() === $this) {
+                $mouvementItem->setMouvement(null);
             }
         }
 
         return $this;
     }
+
+    
 }

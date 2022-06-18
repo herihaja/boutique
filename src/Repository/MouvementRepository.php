@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\AchatItem;
+use App\Entity\Mouvement;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<AchatItem>
+ * @extends ServiceEntityRepository<Mouvement>
  *
- * @method AchatItem|null find($id, $lockMode = null, $lockVersion = null)
- * @method AchatItem|null findOneBy(array $criteria, array $orderBy = null)
- * @method AchatItem[]    findAll()
- * @method AchatItem[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Mouvement|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Mouvement|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Mouvement[]    findAll()
+ * @method Mouvement[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class AchatItemRepository extends ServiceEntityRepository
+class MouvementRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, AchatItem::class);
+        parent::__construct($registry, Mouvement::class);
     }
 
-    public function add(AchatItem $entity, bool $flush = false): void
+    public function add(Mouvement $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class AchatItemRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(AchatItem $entity, bool $flush = false): void
+    public function remove(Mouvement $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class AchatItemRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return AchatItem[] Returns an array of AchatItem objects
+//     * @return Mouvement[] Returns an array of Mouvement objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class AchatItemRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?AchatItem
+//    public function findOneBySomeField($value): ?Mouvement
 //    {
 //        return $this->createQueryBuilder('a')
 //            ->andWhere('a.exampleField = :val')

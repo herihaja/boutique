@@ -103,9 +103,9 @@ class AuthUser implements UserInterface, PasswordAuthenticatedUserInterface
     private $personne;
 
     /**
-     * @ORM\OneToMany(targetEntity=Achat::class, mappedBy="caissier")
+     * @ORM\OneToMany(targetEntity=Mouvement::class, mappedBy="caissier")
      */
-    private $achatTraites;
+    private $mouvementTraites;
 
 
 
@@ -113,7 +113,7 @@ class AuthUser implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->groups = new ArrayCollection();
         $this->permissions = new ArrayCollection();
-        $this->achatTraites = new ArrayCollection();
+        $this->mouvementTraites = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -352,29 +352,29 @@ class AuthUser implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Achat>
+     * @return Collection<int, Mouvement>
      */
-    public function getAchatTraites(): Collection
+    public function getMouvementTraites(): Collection
     {
-        return $this->achatTraites;
+        return $this->mouvementTraites;
     }
 
-    public function addAchatTraite(Achat $achatTraite): self
+    public function addMouvementTraite(Mouvement $mouvementTraite): self
     {
-        if (!$this->achatTraites->contains($achatTraite)) {
-            $this->achatTraites[] = $achatTraite;
-            $achatTraite->setCaissier($this);
+        if (!$this->mouvementTraites->contains($mouvementTraite)) {
+            $this->mouvementTraites[] = $mouvementTraite;
+            $mouvementTraite->setCaissier($this);
         }
 
         return $this;
     }
 
-    public function removeAchatTraite(Achat $achatTraite): self
+    public function removeMouvementTraite(Mouvement $mouvementTraite): self
     {
-        if ($this->achatTraites->removeElement($achatTraite)) {
+        if ($this->mouvementTraites->removeElement($mouvementTraite)) {
             // set the owning side to null (unless already changed)
-            if ($achatTraite->getCaissier() === $this) {
-                $achatTraite->setCaissier(null);
+            if ($mouvementTraite->getCaissier() === $this) {
+                $mouvementTraite->setCaissier(null);
             }
         }
 

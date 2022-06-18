@@ -5,20 +5,20 @@ import '../bootstrap';
 
 
 import React, {StrictMode} from 'react';
-import AchatItem from './components/AchatItem';
+import MouvementItem from './components/MouvementItem';
 import { createRoot } from 'react-dom/client';
 import { Modal, Button, Form } from "react-bootstrap";
 import Select from "react-select";
 
 
 
- class Achat extends React.Component {
+ class Mouvement extends React.Component {
     constructor() {
         super();
 
         this.state = {
             entries: [],
-            AchatName: 'Achat default',
+            MouvementName: 'Mouvement default',
             description: 'Lorem ipsum',
             toSelectProduits: [{'id': 1, 'nom': 'Kiraro'}, {'id':2, 'nom': 'Mofo'}],
             allProducts: [],
@@ -45,8 +45,8 @@ import Select from "react-select";
             });
     }
 
-    changeAchatName = (e) => {
-        this.setState({AchatName: e.target.value});
+    changeMouvementName = (e) => {
+        this.setState({MouvementName: e.target.value});
     }
 
     clickDeleteItem = (achatItem) => {
@@ -134,7 +134,7 @@ import Select from "react-select";
     render () { 
         let total = 0;
         return (
-            <div className="Achat-container">
+            <div className="Mouvement-container">
                 <table className="table table-hover table-striped" id="liste-table">
                     <thead>
                         <tr>
@@ -149,7 +149,7 @@ import Select from "react-select";
                     <tbody>
                         {this.state.entries.map(
                             ( product , index) => (
-                                <AchatItem
+                                <MouvementItem
                                     key={product.id}
                                     id={product.id}
                                     produit={product.id}
@@ -209,5 +209,5 @@ import Select from "react-select";
     
 }
 
-const rootElement = document.getElementById("AchatItem-list");
-createRoot(rootElement).render(<Achat />);
+const rootElement = document.getElementById("MouvementItem-list");
+createRoot(rootElement).render(<Mouvement />);

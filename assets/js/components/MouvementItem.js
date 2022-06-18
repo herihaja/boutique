@@ -1,7 +1,7 @@
-    // ./assets/js/components/AchatItem.js
+    // ./assets/js/components/MouvementItem.js
     import React from 'react';
      
-    class AchatItem extends React.Component {
+    class MouvementItem extends React.Component {
         constructor (props) {
             super(props);
             this.produit = props.produit;
@@ -81,4 +81,4 @@
         )};
     };
     
-    export default AchatItem;
+    export default MouvementItem;
