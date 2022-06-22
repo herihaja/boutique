@@ -130,6 +130,10 @@ import Select from "react-select";
         var montantRemis = e.target.value;
         this.setState({montantRemis}, this.getMontantRendu);     
     }
+
+    isFormValid = () => {
+        return (this.state.montantRendu < 0 || this.state.total == 0);
+    }
     
     render () { 
         let total = 0;
@@ -196,8 +200,13 @@ import Select from "react-select";
                     <div className="col-md-6">
                         <div className="form-group">
                             <label>Montant rendu</label>
-                                <input type="number" className="form-control" name="montantRendu" readOnly="readonly" value={this.state.montantRendu}/>
+                                <input type="number" className="form-control" name="montantRendu" min="0" readOnly="readonly" value={this.state.montantRendu}/>
                         </div>
+                    </div>
+                </div>
+                <div class="row save-button" >
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-info btn-fill pull-right save-btn" disabled={this.isFormValid()}>Enregistrer</button>
                     </div>
                 </div>
                 <StrictMode>

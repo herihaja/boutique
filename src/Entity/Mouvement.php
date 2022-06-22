@@ -65,6 +65,15 @@ class Mouvement
     public function __construct()
     {
         $this->mouvementItems = new ArrayCollection();
+        $this->setDateMouvement(new \Datetime());
+    }
+
+    public function setVenteData($grandTotal, $montantRemis, $montantRendu, $user){
+        $this->setMontantTotal($grandTotal);
+        $this->setMontantRemis($montantRemis);
+        $this->setMontantRendu($montantRendu);
+        $this->setCaissier($user);
+        $this->setIsVente(true);
     }
 
     public function getId(): ?int

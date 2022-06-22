@@ -50,12 +50,7 @@ class DashboardController extends AbstractController
             $isVente = true;
 
             $mouvement = new Mouvement();
-            $mouvement->setDateMouvement(new \Datetime());
-            $mouvement->setMontantTotal($grandTotal);
-            $mouvement->setMontantRemis($montantRemis);
-            $mouvement->setMontantRendu($montantRendu);
-            $mouvement->setCaissier($user);
-            $mouvement->setIsVente($isVente);
+            $mouvement->setVenteData($grandTotal, $montantRemis, $montantRendu, $user);
             $entityManager->persist($mouvement);
             $sousTotal = 0;
 
@@ -71,11 +66,7 @@ class DashboardController extends AbstractController
                 }
                 $stock->updateStock($quantite[$key], $isVente);
 
-                $mouvementItem->setMouvement($mouvement);
-                $mouvementItem->setProduit($produit);
-                $mouvementItem->setNombre($quantite[$key]);
-                $mouvementItem->setTotal($total[$key]);
-                $mouvementItem->setPrixUT($prixUt);
+                $mouvementItem->setData($mouvement, $produit, $quantite[$key], $total[$key], $prixUt);
                 $entityManager->persist($mouvementItem);
                 $sousTotal += $total[$key];
                 $entityManager->persist($stock);

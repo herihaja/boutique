@@ -50,6 +50,14 @@ class MouvementItem
         return $this->id;
     }
 
+    public function setData($mouvement, $produit, $quantite, $total, $prixUt){
+        $this->setMouvement($mouvement);
+        $this->setProduit($produit);
+        $this->setNombre($quantite);
+        $this->setTotal($total);
+        $this->setPrixUT($prixUt);
+    }
+
     public function getProduit(): ?Produit
     {
         return $this->produit;
