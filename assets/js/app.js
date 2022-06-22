@@ -190,7 +190,7 @@ import Select from "react-select";
                     <div className="col-md-6">
                         <div className="form-group">
                             <label>Montant rémis</label>
-                                <input type="number" className="form-control" name="montantRemis" onChange={this.changeMontantRemis}/>
+                                <input type="number" className="form-control" name="montantRemis" required="required" onChange={this.changeMontantRemis}/>
                         </div>
                     </div>
                     <div className="col-md-6">

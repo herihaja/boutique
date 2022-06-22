@@ -67,11 +67,17 @@ class Produit
      */
     private $mouvements;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Stock::class, mappedBy="produit")
+     */
+    private $stocks;
+
     public function __construct()
     {
         $this->prix = new ArrayCollection();
         $this->mouvements = new ArrayCollection();
         $this->unites = new ArrayCollection();
+        $this->stocks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -234,4 +240,37 @@ class Produit
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Stock>
+     */
+    public function getStocks(): Collection
+    {
+        return $this->stocks;
+    }
+
+    public function addStock(Stock $stock): self
+    {
+        if (!$this->stocks->contains($stock)) {
+            $this->stocks[] = $stock;
+            $stock->setProduit($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStock(Stock $stock): self
+    {
+        if ($this->stocks->removeElement($stock)) {
+            // set the owning side to null (unless already changed)
+            if ($stock->getProduit() === $this) {
+                $stock->setProduit(null);
+            }
+        }
+
+        return $this;
+    }
+
+    
+
 }

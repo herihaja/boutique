@@ -6,6 +6,7 @@ use App\Entity\Produit;
 use App\Entity\Mouvement;
 use App\Entity\MouvementItem;
 use App\Entity\Prix;
+use App\Entity\Stock;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -46,6 +47,7 @@ class DashboardController extends AbstractController
             $grandTotal = $request->request->get('grandTotal');
             $montantRemis = $request->request->get('montantRemis');
             $montantRendu = $request->request->get('montantRendu');
+            $isVente = true;
 
             $mouvement = new Mouvement();
             $mouvement->setDateMouvement(new \Datetime());
@@ -53,19 +55,30 @@ class DashboardController extends AbstractController
             $mouvement->setMontantRemis($montantRemis);
             $mouvement->setMontantRendu($montantRendu);
             $mouvement->setCaissier($user);
-            $mouvement->setIsVente(true);
+            $mouvement->setIsVente($isVente);
             $entityManager->persist($mouvement);
             $sousTotal = 0;
 
             foreach ($produits as $key => $produitId) {
                 $mouvementItem = new MouvementItem();
+                $produit = $entityManager->getReference(Produit::class, $produitId);
+                $prixUt = $entityManager->getReference(Prix::class, $prixId[$key]);
+                $stock = $entityManager->getRepository(Stock::class)->findByProduitUnite($produit, $prixUt);
+                if (!$stock) {
+                    $stock = new Stock();
+                    $stock->setProduit($produit);
+                    $stock->setPrix($prixUt);
+                }
+                $stock->updateStock($quantite[$key], $isVente);
+
                 $mouvementItem->setMouvement($mouvement);
-                $mouvementItem->setProduit($entityManager->getReference(Produit::class, $produitId));
+                $mouvementItem->setProduit($produit);
                 $mouvementItem->setNombre($quantite[$key]);
                 $mouvementItem->setTotal($total[$key]);
-                $mouvementItem->setPrixUT($entityManager->getReference(Prix::class, $prixId[$key]));
+                $mouvementItem->setPrixUT($prixUt);
                 $entityManager->persist($mouvementItem);
                 $sousTotal += $total[$key];
+                $entityManager->persist($stock);
             }
 
             if ($sousTotal != $grandTotal) {

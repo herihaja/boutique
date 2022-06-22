@@ -56,20 +56,36 @@ class ProduitRepository extends ServiceEntityRepository
 
     }
 
-    //    /**
-    //     * @return Produit[] Returns an array of Produit objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('p.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    /**
+     * @return Produit[] Returns an array of Produit objects
+     */
+    public function findByExampleField($value): array
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.exampleField = :val')
+            ->setParameter('val', $value)
+            ->orderBy('p.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function getAllStock()
+    {
+        $con = $this->getEntityManager()->getConnection();
+        $query = $con->exeCuteQuery(
+            "SELECT p.nom, p.id, GROUP_CONCAT(stk.quantite, ' ', u.valeur, '(s)' SEPARATOR ', ') as stocks FROM `produit` p 
+                join prix px ON px.produit_id = p.id
+                join stock stk ON stk.produit_id = p.id and px.id = stk.prix_id 
+                join parametre_valeur u ON u.id = px.unite_id
+                Group by p.id"
+
+        );
+
+        return $query->fetchAllAssociative();
+
+    }
 
     //    public function findOneBySomeField($value): ?Produit
     //    {

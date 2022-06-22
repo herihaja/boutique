@@ -87,4 +87,12 @@ class ProduitController extends AbstractController
         $produits = $produitRepository->getAllWithPrice();
         return new JsonResponse($produits);
     }
+
+    #[Route('/stock', name: 'produit_stock', methods: ['GET'])]
+    public function stock(ProduitRepository $produitRepository): Response
+    {
+        return $this->render('produit/stock.html.twig', [
+            'produits' => $produitRepository->getAllStock(),
+        ]);
+    }
 }
