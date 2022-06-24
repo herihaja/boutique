@@ -11,7 +11,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
-
+use App\Entity\Stock;
+use App\Entity\Mouvement;
+use App\Entity\MouvementItem;
 #[Route('/produit')]
 class ProduitController extends AbstractController
 {
@@ -93,6 +95,48 @@ class ProduitController extends AbstractController
     {
         return $this->render('produit/stock.html.twig', [
             'produits' => $produitRepository->getAllStock(),
+        ]);
+    }
+
+    #[Route('/approvisionnement', name: 'approvisionnement')]
+    public function approvisionnement(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        if ($request->isMethod("post")) {
+            $user = $this->getUser();
+
+            $produits = $request->request->all('produit');
+            $quantite = $request->request->all('quantite');
+            $prixId = $request->request->all('prixId');
+            $isVente = false;
+
+            $mouvement = new Mouvement();
+            $mouvement->setApproData($user);
+            $entityManager->persist($mouvement);
+            
+            foreach ($produits as $key => $produitId) {
+                $mouvementItem = new MouvementItem();
+                $produit = $entityManager->getReference(Produit::class, $produitId);
+                $prixUt = $entityManager->getReference(Prix::class, $prixId[$key]);
+                $stock = $entityManager->getRepository(Stock::class)->findByProduitUnite($produit, $prixUt);
+                if (!$stock) {
+                    $stock = new Stock();
+                    $stock->setProduit($produit);
+                    $stock->setPrix($prixUt);
+                }
+                $stock->updateStock($quantite[$key], $isVente);
+
+                $mouvementItem->setData($mouvement, $produit, $quantite[$key], 0, $prixUt);
+                $entityManager->persist($mouvementItem);
+                $entityManager->persist($stock);
+            }
+
+            
+            $entityManager->flush();
+            return $this->redirectToRoute('approvisionnement');
+        }
+
+        return $this->render('produit/appro.html.twig', [
+            'controller_name' => 'ApproController',
         ]);
     }
 }

@@ -13,7 +13,7 @@ import Select from "react-select";
 
 
  class Mouvement extends React.Component {
-    constructor() {
+    constructor(props) {
         super();
 
         this.state = {
@@ -25,6 +25,7 @@ import Select from "react-select";
             total:0,
             montantRendu: 0
         };
+        this.isVente = props.operation == "vente" ;
     }
 
     refsCollection = {};
@@ -142,11 +143,14 @@ import Select from "react-select";
                 <table className="table table-hover table-striped" id="liste-table">
                     <thead>
                         <tr>
+                            
                                     <th>Produit</th>
                                     <th>Nombre</th>
                                     <th>Unité</th>
+                                    { this.isVente ? <>
                                     <th>PU</th>
-                                    <th>Total</th>
+                                    <th>Total</th></> : null }
+                                <th>&nbsp;</th>
                                 
                         </tr>
                     </thead>
@@ -164,6 +168,7 @@ import Select from "react-select";
                                     prixTotal={this.prixTotal}
                                     clickDelete={this.clickDeleteItem}
                                     addPrixToTotal={this.addPrixToTotal}
+                                    isVente={this.isVente}
                                 />
                             )
                         )}
@@ -182,14 +187,17 @@ import Select from "react-select";
                                 </select>
                             </td>
                             <td></td>
+                            { this.isVente ? <>
                             <td>Total:</td>
                             <td>
                                 <input type="hidden" name="grandTotal" value={this.state.total}/>
                                 {this.state.total}
-                            </td>
+                            </td></>: null}
+                            <td>&nbsp;</td>
                         </tr>
                     </tbody>
                 </table>
+                { this.isVente ? <>
                 <div className="row">
                     <div className="col-md-6">
                         <div className="form-group">
@@ -203,10 +211,10 @@ import Select from "react-select";
                                 <input type="number" className="form-control" name="montantRendu" min="0" readOnly="readonly" value={this.state.montantRendu}/>
                         </div>
                     </div>
-                </div>
-                <div class="row save-button" >
-                    <div class="col-md-12">
-                        <button type="submit" class="btn btn-info btn-fill pull-right save-btn" disabled={this.isFormValid()}>Enregistrer</button>
+                </div></>:null}
+                <div className="row save-button" >
+                    <div className="col-md-12">
+                        <button type="submit" className="btn btn-info btn-fill pull-right save-btn" disabled={this.isFormValid()}>Enregistrer</button>
                     </div>
                 </div>
                 <StrictMode>
@@ -219,4 +227,4 @@ import Select from "react-select";
 }
 
 const rootElement = document.getElementById("MouvementItem-list");
-createRoot(rootElement).render(<Mouvement />);
+createRoot(rootElement).render(<Mouvement operation={rootElement.getAttribute('data-param')}/>);

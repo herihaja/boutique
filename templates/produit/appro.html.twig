@@ -1,18 +1,26 @@
 {% extends 'base-breadcrumb.html.twig' %}
 
-{% block titre %}Bienvenu à la caisse de {{ app_name }}{% endblock %}
+{% block titre %}Approvisionnement{% endblock %}
+
+{% block breadcrumb %}
+    {% set breadcrumb = {'root': app_name,
+            (path('produit_index')) : 'Produits' , 
+            'no-link': block('titre')} %}
+    {% include "breadcrumb.html.twig" %}
+{% endblock %}
+
 
 {% block contenu %}
     <script>
         const produitListUrl = "{{ path('produit_list')|escape('js') }}";
     </script>
-    <form name="Caisse" method="post" id="form-Produit" enctype="multipart/form-data" action="/caisse">
+    <form name="Appro" method="post" id="form-Produit" enctype="multipart/form-data" action="/approvisionnement">
         
                                         
                                         
-                <input type="hidden" name="token" value="{{ csrf_token('caisse') }}"/>                    
+                <input type="hidden" name="token" value="{{ csrf_token('appro') }}"/>                    
                                         <div class="clearfix"></div>
-                    <div id="MouvementItem-list" data-param="vente">
+                    <div id="MouvementItem-list" data-param="appro"></div>
                     </div>
                                         
                    
@@ -26,3 +34,4 @@
     
 
 {% endblock %}
+

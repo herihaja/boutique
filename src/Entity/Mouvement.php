@@ -76,6 +76,14 @@ class Mouvement
         $this->setIsVente(true);
     }
 
+    public function setApproData($user){
+        $this->setMontantTotal(0);
+        $this->setMontantRemis(0);
+        $this->setMontantRendu(0);
+        $this->setCaissier($user);
+        $this->setIsVente(false);
+    }
+
     public function getId(): ?int
     {
         return $this->id;

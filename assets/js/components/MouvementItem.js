@@ -14,6 +14,7 @@
             this.state = {'quantite': props.quantite, 
             'unite': props.unite || Object.keys(props.prix)[0], 'total':0};
             this.updateTotalState();
+            this.isVente = props.isVente;
         }
 
         updateTotalState = () => {
@@ -51,14 +52,15 @@
         render () {
             return (
             <tr>
-                <td className="col-2">
+                
+                <td className="col">
                     <p><a href="#" onClick={ () => this.clickDelete(this)}><img src="/static/img/delete-icon.png" className='deleteProduit'/></a> &nbsp; {this.produitNom}</p>
                 </td>
-                <td className="col-2">
+                <td className="col">
                     <input type="hidden" name="produit[]" value={this.id}/>
                     <input type="number" value={this.state.quantite} onChange={this.changeQuantite} name="quantite[]"/>
                 </td>
-                <td className="col-2">
+                <td className="col"> 
                     <input type="hidden" name="prixId[]" value={this.selectedPrix()}/>
                     <input type="hidden" name="total[]" value={this.prixTotal()}/>
                     <select onChange={this.changeUnite} name="unite[]">
@@ -70,13 +72,16 @@
                         )}
                     </select>
                 </td>
-                <td className="col-3">
+                { this.isVente ? <>
+                <td className="col" >
                     { this.prixUnitaire()}
                 </td>
-                <td className="col-3">
+                <td className="col">
                     {this.prixTotal() }
-                </td>
-                
+                </td> </> :
+                null
+                }
+                <td>&nbsp;</td>
             </tr>
         )};
     };
