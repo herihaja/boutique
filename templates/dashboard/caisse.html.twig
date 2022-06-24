@@ -4,9 +4,9 @@
 
 {% block contenu %}
     <script>
-        const produitListUrl = "{{ path('produit_list')|escape('js') }}";
+        const produitListUrl = "{{ path('produit_list', {'caisse': true})|escape('js') }}";
     </script>
-    <form name="Caisse" method="post" id="form-Produit" enctype="multipart/form-data" action="/caisse">
+    <form name="Caisse" method="post" id="form-Produit" enctype="multipart/form-data" action="{{ path('caisse') }}">
         
                                         
                                         

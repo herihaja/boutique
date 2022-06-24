@@ -14,6 +14,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Stock;
 use App\Entity\Mouvement;
 use App\Entity\MouvementItem;
+use App\Entity\ParametreValeur;
+use App\Entity\Prix;
+
 #[Route('/produit')]
 class ProduitController extends AbstractController
 {
@@ -83,10 +86,15 @@ class ProduitController extends AbstractController
         return $this->redirectToRoute('produit_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/list', name: 'produit_list', methods: ['GET'])]
-    public function list(ProduitRepository $produitRepository): Response
+    #[Route('/list/{caisse}', name: 'produit_list', methods: ['GET'], defaults:['caisse'=>false])]
+    public function list(ProduitRepository $produitRepository, Request $request): Response
     {
-        $produits = $produitRepository->getAllWithPrice();
+        
+        if ($request->get('caisse'))
+            $produits = $produitRepository->getAllWithPrice();
+        else
+            $produits = $produitRepository->getAllWithoutPrice();
+
         return new JsonResponse($produits);
     }
 
@@ -106,7 +114,7 @@ class ProduitController extends AbstractController
 
             $produits = $request->request->all('produit');
             $quantite = $request->request->all('quantite');
-            $prixId = $request->request->all('prixId');
+            $unites = $request->request->all('unite');
             $isVente = false;
 
             $mouvement = new Mouvement();
@@ -116,16 +124,16 @@ class ProduitController extends AbstractController
             foreach ($produits as $key => $produitId) {
                 $mouvementItem = new MouvementItem();
                 $produit = $entityManager->getReference(Produit::class, $produitId);
-                $prixUt = $entityManager->getReference(Prix::class, $prixId[$key]);
-                $stock = $entityManager->getRepository(Stock::class)->findByProduitUnite($produit, $prixUt);
+                $unite = $entityManager->getReference(ParametreValeur::class, $unites[$key]);
+                $stock = $entityManager->getRepository(Stock::class)->findByProduitUnite($produit, $unite);
                 if (!$stock) {
                     $stock = new Stock();
                     $stock->setProduit($produit);
-                    $stock->setPrix($prixUt);
+                    $stock->setUnite($unite);
                 }
                 $stock->updateStock($quantite[$key], $isVente);
 
-                $mouvementItem->setData($mouvement, $produit, $quantite[$key], 0, $prixUt);
+                $mouvementItem->setData($mouvement, $produit, $quantite[$key], 0, null, $unite);
                 $entityManager->persist($mouvementItem);
                 $entityManager->persist($stock);
             }

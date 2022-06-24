@@ -59,7 +59,7 @@ class StockRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('s')
             ->andWhere('s.produit = :produit')
             ->setParameter('produit', $produit)
-            ->andWhere('s.prix = :unite')
+            ->andWhere('s.unite = :unite')
             ->setParameter('unite', $unite)
             ->getQuery()
             ->getOneOrNullResult()

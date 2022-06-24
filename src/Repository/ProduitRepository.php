@@ -44,10 +44,27 @@ class ProduitRepository extends ServiceEntityRepository
     {
         $con = $this->getEntityManager()->getConnection();
         $rsm = new ResultSetMapping();
+        
         $query = $con->exeCuteQuery(
             "SELECT p.nom, p.id, GROUP_CONCAT(px.valeur, ';', u.valeur, ';', u.id, ';', px.id SEPARATOR '|') as prices FROM `produit` p 
                 join prix px ON px.produit_id = p.id 
                 join parametre_valeur u ON u.id = px.unite_id
+                Group by p.id"
+
+        );
+
+        return $query->fetchAllAssociative(); //\Doctrine\ORM\Query::HYDRATE_SCALAR);
+    }
+
+    public function getAllWithoutPrice()
+    {
+        $con = $this->getEntityManager()->getConnection();
+        $rsm = new ResultSetMapping();
+        
+        $query = $con->exeCuteQuery(
+            "SELECT p.nom, p.id, GROUP_CONCAT(0, ';', u.valeur, ';', u.id, ';', 0 SEPARATOR '|') as prices FROM `produit` p 
+                join produit_unites px ON px.produit_id = p.id 
+                join parametre_valeur u ON u.id = px.parametre_valeur_id
                 Group by p.id"
 
         );
@@ -76,9 +93,9 @@ class ProduitRepository extends ServiceEntityRepository
         $con = $this->getEntityManager()->getConnection();
         $query = $con->exeCuteQuery(
             "SELECT p.nom, p.id, GROUP_CONCAT(stk.quantite, ' ', u.valeur, '(s)' SEPARATOR ', ') as stocks FROM `produit` p 
-                join prix px ON px.produit_id = p.id
-                join stock stk ON stk.produit_id = p.id and px.id = stk.prix_id 
-                join parametre_valeur u ON u.id = px.unite_id
+                join produit_unites px ON px.produit_id = p.id
+                join stock stk ON stk.produit_id = p.id and px.parametre_valeur_id = stk.unite_id 
+                join parametre_valeur u ON u.id = px.parametre_valeur_id
                 Group by p.id"
 
         );

@@ -133,7 +133,7 @@ import Select from "react-select";
     }
 
     isFormValid = () => {
-        return (this.state.montantRendu < 0 || this.state.total == 0);
+        return this.isVente ? (this.state.montantRendu < 0 || this.state.total == 0) : !this.state.entries.length;
     }
     
     render () { 

@@ -29,10 +29,10 @@ class Stock
     private $quantite;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Prix::class)
+     * @ORM\ManyToOne(targetEntity=ParametreValeur::class)
      * @ORM\JoinColumn(nullable=false)
      */
-    private $prix;
+    private $unite;
 
     public function getId(): ?int
     {
@@ -70,15 +70,16 @@ class Stock
         return $this;        
     }
 
-    public function getPrix(): ?Prix
+    public function getUnite(): ?ParametreValeur
     {
-        return $this->prix;
+        return $this->unite;
     }
 
-    public function setPrix(?Prix $prix): self
+    public function setUnite(?ParametreValeur $unite): self
     {
-        $this->prix = $prix;
+        $this->unite = $unite;
 
         return $this;
     }
+
 }

@@ -58,15 +58,15 @@ class DashboardController extends AbstractController
                 $mouvementItem = new MouvementItem();
                 $produit = $entityManager->getReference(Produit::class, $produitId);
                 $prixUt = $entityManager->getReference(Prix::class, $prixId[$key]);
-                $stock = $entityManager->getRepository(Stock::class)->findByProduitUnite($produit, $prixUt);
+                $stock = $entityManager->getRepository(Stock::class)->findByProduitUnite($produit, $prixUt->getUnite());
                 if (!$stock) {
                     $stock = new Stock();
                     $stock->setProduit($produit);
-                    $stock->setPrix($prixUt);
+                    $stock->setUnite($prixUt->getUnite());
                 }
                 $stock->updateStock($quantite[$key], $isVente);
 
-                $mouvementItem->setData($mouvement, $produit, $quantite[$key], $total[$key], $prixUt);
+                $mouvementItem->setData($mouvement, $produit, $quantite[$key], $total[$key], $prixUt, $prixUt->getUnite());
                 $entityManager->persist($mouvementItem);
                 $sousTotal += $total[$key];
                 $entityManager->persist($stock);

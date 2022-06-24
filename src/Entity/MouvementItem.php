@@ -41,21 +41,28 @@ class MouvementItem
 
     /**
      * @ORM\ManyToOne(targetEntity=Prix::class, inversedBy="mouvementItems")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $prixUT;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=ParametreValeur::class, inversedBy="mouvementItems")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $unite;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function setData($mouvement, $produit, $quantite, $total, $prixUt){
+    public function setData($mouvement, $produit, $quantite, $total, $prixUt, $unite){
         $this->setMouvement($mouvement);
         $this->setProduit($produit);
         $this->setNombre($quantite);
         $this->setTotal($total);
         $this->setPrixUT($prixUt);
+        $this->setUnite($unite);
     }
 
     public function getProduit(): ?Produit
@@ -117,4 +124,18 @@ class MouvementItem
 
         return $this;
     }
+
+    public function getUnite(): ?ParametreValeur
+    {
+        return $this->unite;
+    }
+
+    public function setUnite(?ParametreValeur $unite): self
+    {
+        $this->unite = $unite;
+
+        return $this;
+    }
+
+    
 }
