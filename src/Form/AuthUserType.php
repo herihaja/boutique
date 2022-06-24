@@ -31,7 +31,6 @@ class AuthUserType extends AbstractType
                     'empty_data' =>  ''
                 ]
             )
-            ->add('isSuperuser')
             ->add('username', TextType::class, ['attr' => ['class' => 'form-control']]) //, HiddenType::class)
             ->add('isActive')
             ->add(

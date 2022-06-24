@@ -21,7 +21,7 @@ class DashboardController extends AbstractController
     public function index(): Response
     {
         $authUser = $this->getUser();
-        if ($authUser->isIsSuperuser())
+        if (!$authUser->isIsSuperuser())
             return $this->forward('App\Controller\DashboardController::caisse', [
                 'color' => 'green',
             ]);

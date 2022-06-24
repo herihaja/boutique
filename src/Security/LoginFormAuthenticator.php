@@ -25,6 +25,9 @@ use Symfony\Component\Security\Http\Util\TargetPathTrait;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
+use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
+use Symfony\Component\Security\Http\Authenticator\Passport\Badge\CsrfTokenBadge;
+
 
 class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 {
@@ -83,6 +86,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
     public function checkCredentials($credentials, UserInterface $user)
     {
+        print_r($credentials);exit;
         return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
     }
 
@@ -96,7 +100,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
         // For example : return new RedirectResponse($this->router->generate('some_route'));
         //throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
-        return new RedirectResponse('/parametre');
+        return new RedirectResponse('/');
     }
 
     protected function getLoginUrl(Request $request): string
@@ -116,6 +120,10 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
             $credentials['username']
         );
 
-        return new SelfValidatingPassport(new UserBadge($credentials['username']));
+        return new Passport(
+            new UserBadge($credentials['username']),
+            new PasswordCredentials($credentials['password']),
+            [new CsrfTokenBadge('authenticate', $credentials['csrf_token'])]
+        );
     }
 }
