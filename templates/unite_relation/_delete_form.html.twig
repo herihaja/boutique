@@ -1,0 +1,8 @@
+<form method="post" action="{{ path('app_unite_relation_delete', {'id': unite_relation.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ unite_relation.id) }}">
+    {% if is_edit is defined and is_edit %}
+    <a class="btn btn-info delete-btn delete_icon btn-fill" alt="Prix '{{ unite_relation }}'?">Supprimer</a>
+    {% else %}
+    <a href="javascript:void(0);" onclick="" class="delete_icon" alt="Prix '{{ unite_relation }}'?"><img src="/static/img/delete-icon.png" /></a>
+    {% endif %}
+</form>

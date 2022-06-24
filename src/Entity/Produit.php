@@ -72,12 +72,18 @@ class Produit
      */
     private $stocks;
 
+    /**
+     * @ORM\OneToMany(targetEntity=UniteRelation::class, mappedBy="produit", orphanRemoval=true)
+     */
+    private $uniteRelations;
+
     public function __construct()
     {
         $this->prix = new ArrayCollection();
         $this->mouvements = new ArrayCollection();
         $this->unites = new ArrayCollection();
         $this->stocks = new ArrayCollection();
+        $this->uniteRelations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -265,6 +271,36 @@ class Produit
             // set the owning side to null (unless already changed)
             if ($stock->getProduit() === $this) {
                 $stock->setProduit(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UniteRelation>
+     */
+    public function getUniteRelations(): Collection
+    {
+        return $this->uniteRelations;
+    }
+
+    public function addUniteRelation(UniteRelation $uniteRelation): self
+    {
+        if (!$this->uniteRelations->contains($uniteRelation)) {
+            $this->uniteRelations[] = $uniteRelation;
+            $uniteRelation->setProduit($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUniteRelation(UniteRelation $uniteRelation): self
+    {
+        if ($this->uniteRelations->removeElement($uniteRelation)) {
+            // set the owning side to null (unless already changed)
+            if ($uniteRelation->getProduit() === $this) {
+                $uniteRelation->setProduit(null);
             }
         }
 

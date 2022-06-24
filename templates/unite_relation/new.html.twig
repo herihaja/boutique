@@ -1,0 +1,18 @@
+{% extends 'base-breadcrumb-tabs.html.twig' %}
+
+{% block titre %}Ajouter une relation entités{% endblock %}
+
+
+{% block breadcrumb %}
+    {% set breadcrumb = {'root': app_name,
+            (path('produit_index')) : 'Produits' , 
+            (path('produit_edit', {'id': produit.id})) : produit ,
+            (path('app_unite_relation_index', {'id': produit.id})) : 'Relation entités' ,
+            'no-link': block('titre')} %}
+    {% include "breadcrumb.html.twig" %}
+{% endblock %}
+
+{% block tabContent %}
+	{{ include('unite_relation/_form.html.twig') }}
+{% endblock %}
+

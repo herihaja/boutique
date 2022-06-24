@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}UniteRelation{% endblock %}
+
+{% block body %}
+    <h1>UniteRelation</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ unite_relation.id }}</td>
+            </tr>
+            <tr>
+                <th>Multiple</th>
+                <td>{{ unite_relation.multiple }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_unite_relation_index') }}">back to list</a>
+
+    <a href="{{ path('app_unite_relation_edit', {'id': unite_relation.id}) }}">edit</a>
+
+    {{ include('unite_relation/_delete_form.html.twig') }}
+{% endblock %}

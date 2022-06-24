@@ -1,0 +1,49 @@
+{% extends 'base-breadcrumb-tabs.html.twig' %}
+
+{% block titre %}Liste des relations entre unités{% endblock %}
+
+
+{% block breadcrumb %}
+    {% set breadcrumb = {'root': app_name,
+            (path('produit_index')) : 'Produits' , 
+            (path('produit_edit', {'id': produit.id})) : produit ,
+            'no-link': block('titre')} %}
+    {% include "breadcrumb.html.twig" %}
+{% endblock %}
+
+{% block class_title_icon %}nc-icon nc-notes{% endblock %}
+
+
+{% block tabContent %}
+    <table class="table table-hover table-striped" id="liste-table">
+        <thead>
+            <tr>
+                <th>Unit&eacute;</th>
+                        <th>&nbsp;</th>
+                        <th>Multiple</th>
+                        <th>Unités 2</th>
+                    <th data-orderable="false">&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for unite_relation in unite_relations %}
+            <tr>
+                <td>{{ unite_relation.unite1 }}</td>
+                <td>=</td>
+                <td>{{ unite_relation.multiple }}</td>
+                <td>{{ unite_relation.unite2 }}</td>
+                <td>
+                    <a href="{{ path('app_unite_relation_edit', {'id': unite_relation.id}) }}"><img src="/static/img/edit-icon.png" style="width:25px;"/></a>
+                    {{ include('unite_relation/_delete_form.html.twig') }}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
+
+{% block add_button %}
+                        <button type="submit" class="btn btn-info btn-fill pull-right add-btn" onclick="location.href='{{ path('app_unite_relation_new', {'id': produit.id}) }}'">Ajouter une relation unités</button>
+{% endblock %}
+

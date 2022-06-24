@@ -1,0 +1,41 @@
+<form name="Prix" method="post" id="form-Prix" enctype="multipart/form-data">
+    <div class="row d-none">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label>Produit</label>
+                {{ form_widget(form.produit, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.produit) }}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <div class="form-group">
+                {{ form_widget(form.unite1, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.unite1) }}
+            </div>
+        </div>
+        <div class="col-1">
+            <div class="form-group text-center">
+                =
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="form-group">
+                {{ form_widget(form.multiple, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.multiple) }}
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group">
+                {{ form_widget(form.unite2, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.unite2) }}
+            </div>
+        </div>
+    </div>
+   
+                                    
+    <div class="clearfix"></div>
+    {{ form_widget(form._token) }}
+</form>
+    {% include "save-button.html.twig" %}
