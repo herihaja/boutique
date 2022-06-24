@@ -35,7 +35,7 @@ class AppFixtures extends Fixture
         $manager->persist($user);
 
         $parametre = new Parametre();
-        $parametre->setNomParametre("Categorie produit"); //1
+        $parametre->setNomParametre("Catégorie produit"); //1
         $parametre->setDescription("");
         $manager->persist($parametre);
 

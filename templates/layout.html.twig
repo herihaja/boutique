@@ -401,317 +401,38 @@
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="collapse" href="#rc-collapse-components">
                          <i class="nc-icon nc-support-17"></i> 
-                         <p>Renforcement de capacités</p>
+                         <p>Produit</p>
                             <b class="caret"></b>
                         </a>
                         <div class="collapse" id="rc-collapse-components">
                           <ul class="nav">
                             <li class="nav-item">
-                              <a class="nav-link" href="{{ path('dashboard') }}">
+                              <a class="nav-link" href="{{ path('produit_stock') }}">
                                 <i class="nc-icon nc-badge"></i>   
-                                <span class="sidebar-normal"> Formation/Accompagnement </span>
+                                <span class="sidebar-normal"> Stock </span>
                               </a>
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link" href="{{ path('dashboard') }}">
+                                <a class="nav-link" href="{{ path('approvisionnement') }}">
                                 <i class="nc-icon nc-check-2"></i>     
-                                <span class="sidebar-normal"> Valorisation </span>
+                                <span class="sidebar-normal"> Approvisionnement </span>
                               </a>
                             </li>
+
+                            <li class="nav-item ">
+                              <a class="nav-link" href="{{ path('produit_index') }}">
+                              <i class="nc-icon nc-check-2"></i>     
+                              <span class="sidebar-normal"> Gestion produit </span>
+                            </a>
+                          </li>
                           </ul>  
                         </div>
                         
                         
                         
                     </li>
-                    <!--li>
-                        <a class="nav-link nav-gris" href="#">
-                            <i class="nc-icon nc-badge"></i>
-                            <p>Formation continue</p>
-                        </a>
-                    </li-->
-                    <li class="nav-item ">
-                        <a class="nav-link" data-toggle="collapse" href="#formationInitialeCollapse">
-                         <i class="nc-icon nc-time-alarm"></i><p>Formation initiale</p>
-                            <b class="caret"></b>
-                          
-                        </a>
-                        <div class="collapse" id="formationInitialeCollapse">
-                          <ul class="nav">
-                            <li class="nav-item ">
-                                <a class="nav-link nav-gris disabled" href="{{ path('dashboard', {'id': 0}) }}">
-                                    <i class="nc-icon nc-atom"></i>
-                                    <span class="sidebar-normal"> Parcours de formation </span>
-                                </a>
-                            </li>
-                            <li class="nav-item ">
-                              <a class="nav-link nav-gris disabled" href="{{ path('dashboard') }}">
-                                <i class="nc-icon nc-puzzle-10"></i>
-                                <span>Scolarisation</span>
-                              </a>
-                            </li>
-                            <!--
-                            <li class="nav-item">
-                              <a class="nav-link  nav-gris disabled" href="{{ path('dashboard') }}">
-                                <i class="nc-icon nc-ruler-pencil"></i>
-                                <span>Examen</span>
-                              </a>
-                            </li>
-                            -->
-                          </ul>
-                        </div>
-                    </li>
                     
-                    <li class="nav-item ">
-                        <a class="nav-link" data-toggle="collapse" href="#collapseCertification">
-                         <i class="nc-icon nc-check-2"></i><p>Certification</p>
-                            <b class="caret"></b>
-                        </a>
-                        <div class="collapse" id="collapseCertification">
-                          <ul class="nav">
-                            <li class="nav-item ">
-                              <a class="nav-link" href="{{ path('dashboard') }}">
-                                <i class="nc-icon nc-badge"></i>
-                                <span>Certification</span>
-                              </a>
-                            </li>
-                            <li class="nav-item ">
-                              <a class="nav-link" href="{{ path('dashboard') }}">
-                                <i class="nc-icon nc-puzzle-10"></i>
-                                <span>Accr&eacute;ditation</span>
-                              </a>
-                            </li>
-                            <li class="nav-item ">
-                              <a class="nav-link nav-gris disabled" href="{{ path('dashboard') }}">
-                                <i class="nc-icon nc-ruler-pencil"></i>
-                                <span>Labellisation</span>
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                    </li>
                     
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#collapseBesoin">
-                            <i class="nc-icon nc-audio-92"></i>
-                            <p> Besoins </p>
-                        </a>
-                        <div class="collapse" id="collapseBesoin">
-                          <ul class="nav">
-                            <li class="nav-item ">
-                              <a class="nav-link" href="{{ path('dashboard') }}">
-                                <i class="nc-icon nc-puzzle-10"></i>
-                                <span>Expression de besoins</span>
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item ">
-                        <a class="nav-link" data-toggle="collapse" href="#componentsCollapse">
-                         <i class="nc-icon nc-time-alarm"></i><p>Activités</p>
-                            <b class="caret"></b>
-                        </a>
-                        <div class="collapse" id="componentsCollapse">
-                          <ul class="nav">
-                            <li class="nav-item ">
-                              <a class="nav-link" href="{{ path('dashboard') }}">
-                                <i class="nc-icon nc-puzzle-10"></i>
-                                <span>Hebdomadaire</span>
-                              </a>
-                            </li>
-                            <li class="nav-item ">
-                              <a class="nav-link" href="{{ path('dashboard') }}">
-                                <i class="nc-icon nc-single-copy-04"></i>
-                                <span class="sidebar-normal"> PTA </span>
-                              </a>
-                            </li>
-                            
-                            <li class="nav-item ">
-                              <a class="nav-link" href="{{ path('dashboard') }}">
-                                <i class="nc-icon nc-bullet-list-67"></i>
-                                <span>Activit&eacute;s</span>
-                              </a>
-                            </li>
-                            <li class="nav-item ">
-                              <a class="nav-link" href="{{ path('dashboard') }}">
-                                <i class="nc-icon nc-notes"></i>
-                                <span>Activit&eacute;s PTA</span>
-                              </a>
-                            </li>
-                            
-                            
-                            <li class="nav-item ">
-                              <a class="nav-link" href="{{ path('dashboard')}}">
-                                <i class="nc-icon nc-bullet-list-67"></i>
-                                <span> Reporting </span>
-                              </a>
-                            </li>
-                            
-                          </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item ">
-                        <a class="nav-link" data-toggle="collapse" href="#collapseCommunication">
-                         <i class="nc-icon nc-chat-round"></i><p>Communication</p>
-                            <b class="caret"></b>
-                        </a>
-                        
-                        <div class="collapse" id="collapseCommunication">
-                          <ul class="nav">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ path('dashboard') }}">
-                                        <i class="nc-icon nc-notification-70"></i>
-                                        <span>Publications</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link nav-gris disabled" href="javascript:void(0);">
-                                        <i class="nc-icon nc-notification-70"></i>
-                                        <span>Veille informationnelle</span>
-                                    </a>
-                                </li>
-                          </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item ">
-                        <a class="nav-link" data-toggle="collapse" href="#componentsCollapse1">
-                         <i class="nc-icon nc-single-02"></i><p>Bénéficiaires</p>
-                            <b class="caret"></b>
-                        </a>
-                        
-                        <div class="collapse" id="componentsCollapse1">
-                          <ul class="nav">
-                            <li class="nav-item ">
-                              
-                                <a class="nav-link" href="{{ path('dashboard') }}">
-                                <i class="nc-icon nc-air-baloon"></i>    
-                                <span class="sidebar-normal"> CTD </span>
-                              </a>
-                            </li>
-                            <li class="nav-item ">
-                             
-                                <a class="nav-link" href="{{ path('dashboard') }}">
-                                <i class="nc-icon nc-circle-09"></i>
-                                <span class="sidebar-normal"> Ressources humaines </span>
-                              </a>
-                            </li>
-                            <li class="nav-item ">
-                                <a class="nav-link" href="{{ path('dashboard') }}">
-                                <i class="nc-icon nc-circle-09"></i>
-                                <span class="sidebar-normal"> Autres activités de formation </span>
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                    </li>
-                    
-                    <li class="nav-item ">
-                        <a class="nav-link" data-toggle="collapse" href="#componentsCollapse3">
-                         <i class="nc-icon nc-support-17"></i> 
-                         <p>Ressources et Supports</p>
-                            <b class="caret"></b>
-                        </a>
-                        <div class="collapse" id="componentsCollapse3">
-                          <ul class="nav">
-                            <li class="nav-item ">
-                                <a class="nav-link" href="{{ path('dashboard') }}">
-                                <i class="nc-icon nc-circle-09"></i>     
-                                <span class="sidebar-normal"> Agents </span>
-                              </a>
-                            </li>
-                              <li>  
-                                <a class="nav-link" href="{{ path('dashboard') }}">
-                                  <i class="nc-icon nc-badge"></i>   
-                                  <span class="sidebar-normal"> Collaborateurs </span>
-                                </a>
-                              </li>
-                            
-                            <li class="nav-item ">
-                                
-                                <a class="nav-link" href="{{ path('dashboard') }}">
-                                <i class="nc-icon nc-album-2"></i>     
-                                <span class="sidebar-normal"> Organisations </span>
-                              </a>
-                            </li>
-                            <li class="nav-item ">                                
-                                <a class="nav-link" href="{{ path('dashboard') }}">
-                                <i class="nc-icon nc-pin-3"></i>     
-                                <span class="sidebar-normal"> Endroit d'intervention </span>
-                              </a>
-                            </li>
-
-                            <!--
-                            <li class="nav-item ">
-                                
-                                <a class="nav-link" href="{{ path('dashboard') }}">
-                                <i class="nc-icon nc-compass-05"></i> 
-                                <span class="sidebar-normal"> Rubriques budget </span>
-                              </a>
-                            </li>
-                            <li class="nav-item ">
-                                <a class="nav-link" href="{{ path('dashboard') }}">
-                                <i class="nc-icon nc-money-coins"></i> 
-                                <span class="sidebar-normal"> Compte administratif </span>
-                              </a>
-                            </li>
-                            -->
-                            <li class="nav-item ">
-                                <a class="nav-link" href="{{ path('dashboard') }}">
-                                    <i class="nc-icon nc-apple"></i>
-                                    <span class="sidebar-normal">Matériel/Fourniture</span>
-                              </a>
-                            </li>
-                            <li class="nav-item ">
-                                <a class="nav-link" href="{{ path('dashboard') }}">
-                                    <i class="nc-icon nc-button-play"></i>
-                                    <span class="sidebar-normal">Utilisation matériel</span>
-                              </a>
-                            </li>
-                            <li class="nav-item ">
-                                <a class="nav-link" href="{{ path('dashboard') }}">
-                                    <i class="nc-icon nc-ambulance"></i>
-                                    <span class="sidebar-normal">Acquisition matériel</span>
-                              </a>
-                            </li>
-                            <li class="nav-item ">
-                                <a class="nav-link nav-gris isDisabled" href="#0">
-                                    <i class="nc-icon nc-istanbul"></i> 
-                                    <span class="sidebar-normal"> Centre de formation </span>
-                              </a>
-                            </li>
-                            
-                          </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#componentsCollapse4">
-                         <i class="nc-icon nc-single-copy-04"></i><p>Fonds documentaires</p>
-                            <b class="caret"></b>
-                        </a>
-                        <div class="collapse" id="componentsCollapse4"> 
-                          <ul class="nav">
-                            <li class="nav-item ">
-                                <a class="nav-link" href="{{ path('dashboard') }}">
-                                                                  
-                                <i class="nc-icon nc-paper-2"></i> 
-                                <span class="sidebar-normal"> Base documentaires
-                                </span>
-                              </a>
-                            </li>
-                            
-                            <li class="nav-item ">
-                              
-                                <a class="nav-link nav-gris isDisabled" href="#0">
-                                                                  
-                                <i class="nc-icon nc-bullet-list-67"></i>
-                                <span class="sidebar-normal"> Rapports </span>
-                              </a>
-                            </li>
-                           </ul>
-                        </div>
-                    </li>
-
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="collapse" href="#administrationCollapse">
                          <i class="nc-icon nc-settings-gear-64"></i><p>Administration</p>
@@ -720,15 +441,15 @@
                         <div class="collapse" id="administrationCollapse"> 
                           <ul class="nav">
                             <li class="nav-item ">
-                                <a class="nav-link" href="{{ path('dashboard') }}">
+                                <a class="nav-link" href="{{ path('parametre_valeur_index', {'id': 1}) }}">
                                     <i class="nc-icon nc-bank"></i>
-                                    <span class="sidebar-normal">Organigramme</span>
+                                    <span class="sidebar-normal">Catégorie produit</span>
                               </a>
                             </li>  
                             <li class="nav-item ">
-                                <a class="nav-link" href="{{ path('dashboard') }}">
+                                <a class="nav-link" href="{{ path('parametre_valeur_index', {'id': 2}) }}">
                                     <i class="nc-icon nc-globe-2"></i>
-                                    <span class="sidebar-normal"> Th&egrave;me de formation </span>
+                                    <span class="sidebar-normal"> Type produit </span>
                               </a>
                             </li>
                             <li class="nav-item ">
@@ -749,62 +470,7 @@
                     </li>
 
 
-                    <li class="nav-item ">
-                        <li class="nav-item ">
-                        <a class="nav-link" data-toggle="collapse" href="#componentsCollapse5">
-                          <span><i class="nc-icon nc-single-copy-04"></i><p>Référentiels</p>
-                            <b class="caret"></b>
-                          </span>
-                        </a>
-                        <div class="collapse" id="componentsCollapse5">
-                          <ul class="nav">
-                            <li class="nav-item ">
-                              
-                                <a class="nav-link" href="{{ path('dashboard') }}">
-                                <i class="nc-icon nc-planet"></i>
-                                <span class="sidebar-normal"> Métiers</span>
-                              </a>
-                            </li>
-                            <!--
-                            <li class="nav-item ">
-                              
-                                <a class="nav-link nav-gris isDisabled" href="javascript:void(0);">
-                                    <i class="nc-icon nc-puzzle-10"></i>
-                                    <span class="sidebar-normal"> Compétences</span>
-                              </a>
-                            </li>
-                            <li class="nav-item ">
-                              
-                                <a class="nav-link nav-gris isDisabled" href="#0">
-                                <i class="nc-icon nc-notes"></i>
-                                <span class="sidebar-normal"> Formations </span>
-                              </a>
-                            </li>
-                            -->
-                            <li class="nav-item ">
-                                <a class="nav-link" href="{{ path('dashboard') }}">
-                                    <i class="nc-icon nc-chart-pie-36"></i>
-                                    <span class="sidebar-normal"> Modules </span>
-                              </a>
-                            </li>
-                            
-                            
-                            
-                              <li>
-                                <a class="nav-link" href="{{ path('dashboard') }}">
-                                   <i class="nc-icon nc-badge"></i>
-                                   <span class="sidebar-normal">Renforcement de capacités</span>
-                                </a>
-                             </li>
-                            <li class="nav-item ">
-                                <a class="nav-link" href="{{ path('dashboard') }}">
-                                    <i class="nc-icon nc-atom"></i>
-                                    <span class="sidebar-normal"> Session </span>
-                                </a>
-                            </li>
-                           </ul>
-                        </div>
-                    </li>
+                    
                     <li class="nav-item ">
                         <a class="nav-link nav-gris disabed" href="javascript:void(0);">
                             <i class="nc-icon nc-bank"></i>
