@@ -452,16 +452,18 @@
                                     <span class="sidebar-normal"> Type produit </span>
                               </a>
                             </li>
+
                             <li class="nav-item ">
-                              <a class="nav-link" href="{{ path('dashboard') }}">
-                                <i class="nc-icon nc-bullet-list-67"></i>
-                                <span>Programme de formation</span>
-                              </a>
-                            </li>
+                              <a class="nav-link" href="{{ path('parametre_valeur_index', {'id': 3}) }}">
+                                  <i class="nc-icon nc-globe-2"></i>
+                                  <span class="sidebar-normal"> Unité produit </span>
+                            </a>
+                          </li>
+                            
                             <li class="nav-item ">
-                                <a class="nav-link" href="{{ path('dashboard') }}">
+                                <a class="nav-link" href="{{ path('parametre_index') }}">
                                     <i class="nc-icon nc-preferences-circle-rotate"></i>
-                                    <span class="sidebar-normal"> Parametres</span>
+                                    <span class="sidebar-normal"> Paramètres</span>
                               </a>
                             </li>
 
@@ -470,14 +472,6 @@
                     </li>
 
 
-                    
-                    <li class="nav-item ">
-                        <a class="nav-link nav-gris disabed" href="javascript:void(0);">
-                            <i class="nc-icon nc-bank"></i>
-                            <p>Reporting</p>
-                            <b class="caret"></b>
-                      </a>
-                    </li> 
                     <li class="nav-item ">
                         <a class="nav-link" data-toggle="collapse" href="#componentsCollapse6">
                          <i class="nc-icon nc-settings-90"></i><p>Administration système</p>
@@ -487,25 +481,19 @@
                           <ul class="nav">
                             
                             <li class="nav-item ">  
-                                <a class="nav-link" href="{{ path('dashboard') }}">
+                                <a class="nav-link" href="{{ path('utilisateur_index') }}">
                                     <i class="nc-icon nc-single-02"></i>
                                     <span class="sidebar-normal"> Gestion utilisateur</span>
                               </a>
                             </li>
-                            <li class="nav-item ">  
+                            <!--li class="nav-item ">  
                                 <a class="nav-link" href="{{ path('dashboard') }}">
                                     <i class="nc-icon nc-badge"></i>
                                     <span class="sidebar-normal"> Gestion groupe d'utilisateurs</span>
                               </a>
-                            </li>
+                            </li-->
                             
-                            <li class="nav-item ">
-                              
-                                <a class="nav-link" href="{{ path('dashboard') }}">
-                                    <i class="nc-icon nc-square-pin"></i>
-                                    <span class="sidebar-normal"> Localités</span>
-                              </a>
-                            </li>
+                            
                            </ul>
                         </div>
                     </li>

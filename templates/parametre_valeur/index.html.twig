@@ -16,8 +16,8 @@
     <table class="table table-hover table-striped" id="liste-table">
         <thead>
             <tr>
+                <th>Valeur</th>
                         <th>Code</th>
-                        <th>Valeur</th>
                         <th>Valeur 2</th>
                         <th>Description</th>
                     <th data-orderable="false">&nbsp;</th>
@@ -26,8 +26,8 @@
         <tbody>
         {% for parametre_valeur in parametre_valeurs %}
             <tr>
-                <td>{{ parametre_valeur.codeValeur }}</td>
                 <td>{{ parametre_valeur.valeur }}</td>
+                <td>{{ parametre_valeur.codeValeur }}</td>
                 <td>{{ parametre_valeur.valeur2 }}</td>
                 <td>{{ parametre_valeur.description }}</td>
                 <td>
