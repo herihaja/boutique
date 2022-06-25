@@ -4,9 +4,22 @@ namespace App\Entity;
 
 use App\Repository\UniteRelationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=UniteRelationRepository::class)
+ * @ORM\Table( 
+ *    uniqueConstraints={
+ *        @ORM\UniqueConstraint(name="relation_unite_unique", columns={"produit_id", "unite1_id", "unite2_id"})
+ *    }
+ * )
+ * 
+ * @UniqueEntity(
+ *     fields={"produit", "unite1", "unite2"}, 
+ *     errorPath="unite1",
+ *     message="Cette combinaison (produit, unités) existe déjà."
+ * )
  */
 class UniteRelation
 {
@@ -24,6 +37,15 @@ class UniteRelation
     private $produit;
 
     /**
+     * 
+     *  @Assert\Expression(
+     *     "this.getUnite1() != this.getUnite2()",
+     *     message="Les unités ne doivent pas être la même"
+     * )
+     * @Assert\Expression(
+     *     "this.getMultiple() != 1",
+     *     message="Le multiple doit être différent de 1!"
+     * )
      * @ORM\ManyToOne(targetEntity=ParametreValeur::class)
      * @ORM\JoinColumn(nullable=false)
      */

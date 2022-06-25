@@ -11,12 +11,14 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Entity\ParametreValeur;
 
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+
 class UniteRelationType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('multiple')
+            ->add('multiple', NumberType::class, ['html5'=> true, 'attr' => ['step'=>'0.1']])
             ->add('produit')
             ->add('unite1', EntityType::class, [
                 'class' => ParametreValeur::class,
