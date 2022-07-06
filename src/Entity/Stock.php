@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\StockRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Criteria;
 
 /**
  * @ORM\Entity(repositoryClass=StockRepository::class)
@@ -63,9 +64,18 @@ class Stock
         return $this;
     }
 
-    public function updateStock($quantite, $sortie){
+    public function updateStock($quantite, $isSortie){
         $qte = $this->getQuantite();
-        $qte += ($sortie) ? - $quantite : $quantite;
+        $qte += ($isSortie) ? - $quantite : $quantite;
+
+        /***  Handle smartly stock, use bigger entity stock if current one is exhausted */
+        if ($qte < 0) {
+            $biggerUniteAndMultiple = $this->getBiggerUniteStock();
+            $biggerUnitestock = $biggerUniteAndMultiple[0];
+            $biggerUnitestock->updateStock(1, $isSortie);
+            $qte = $biggerUniteAndMultiple[1] + $qte;
+        }
+
         $this->setQuantite($qte);
         return $this;        
     }
@@ -82,4 +92,28 @@ class Stock
         return $this;
     }
 
+    public function getBiggerUniteStock(){
+        $stocks = $this->getProduit()->getStocks();
+        $relations = $this->getProduit()->getUniteRelations();
+        $biggerUnite = [];
+
+        foreach ($relations as $relation){
+            if ($relation->getUnite1() == $this->getUnite() && $relation->getMultiple() < 1) {
+                $biggerUnite[] = [$relation->getUnite2(), $relation->getMultiple()];
+            }
+
+            elseif($relation->getUnite2() == $this->getUnite() && $relation->getMultiple() > 1) {
+                $biggerUnite[] = [$relation->getUnite1(), $relation->getMultiple()];
+            }
+        }
+
+        if (count($biggerUnite) == 1) {
+            $criteria = Criteria::create()
+                ->where(Criteria::expr()->eq("unite", $biggerUnite[0][0]))
+                ->andWhere(Criteria::expr()->gt("quantite", 0));   
+
+            return [$stocks->matching($criteria)->first(), $biggerUnite[0][1]];
+        }
+        
+    }
 }
