@@ -1,5 +1,5 @@
+import '../styles/app.scss';
 import '../styles/app.css';
-
 // start the Stimulus application
 import '../bootstrap';
 
@@ -87,6 +87,7 @@ import Select from "react-select";
         for (const index in toSelectProduits){
             if (toSelectProduits[index].id == e.target.value) {
                 var selected = toSelectProduits[index];
+                /********* todo: herihaja  if (this.isVente)     ***/
                 toSelectProduits.splice(index, 1);
                 break;
             }

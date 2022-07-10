@@ -1,20 +1,132 @@
 {% extends 'base-breadcrumb.html.twig' %}
 
-{% block title %}Hello DashboardController!{% endblock %}
+{% block titre %}Tableau de bord{% endblock %}
 
-{% block body %}
+{% block block_js %}
+<!--  Charts Plugin -->
+	<script src="/static/js/chartist.min.js"></script>
+    <script src="/static/js/plugins/chartist-plugin-legend.js"></script>
+    <script type="text/javascript">
+    
+    	$(document).ready(function(){
+            var agentsData = {
+                    labels: ['En mission (2)', 'Non disponible (4)', 'Disponible (1)'],
+                    series: [2, 4, 1]
+                    };
+            var rcData = {
+                    labels: ['En preparation (2)', 'En cours (2)', 'Réalisées (12)'],
+                    series: [2, 2, 12]
+                    };
+            var pieOptions = {
+                animationEnabled: true,
+                donut: true,
+                showLabel: true,
+                plugins: [
+                    Chartist.plugins.legend(),
+                ],
+                labelInterpolationFnc: function(value) {
+                    return value
+                },
+                height: 200,
+	        };
+            //Chartist.Pie('#agentsPie', agentsData, pieOptions );
+            //Chartist.Pie('#rcPie', rcData, pieOptions );
+
+            var data = {
+                labels: ["{{ frequenceVente[1]|raw }}"],//['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                series: JSON.parse('{{ frequenceVente[0] | json_encode | raw }}')
+            };
+
+            var options = {
+                seriesBarDistance: 30,
+                animationEnabled: true,
+                plugins: [Chartist.plugins.legend({
+                    position: 'bottom'
+                })]
+            };
+            var responsiveOptions = [
+                ['screen and (max-width: 640px)', {
+                    seriesBarDistance: 5,
+                    axisX: {
+                    labelInterpolationFnc: function (value) {
+                        return value[0];
+                    }
+                    }
+                }]
+            ];
+
+            var chart = new Chartist.Bar('#rhBar', data, options, responsiveOptions);
+            chart.on('draw', function(data) {
+                if(data.type == 'bar') {
+                    data.element.animate({
+                        y2: {
+                            dur: '0.5s',
+                            from: data.y1,
+                            to: data.y2
+                        }
+                    });
+                }
+            });
+            /*
+            chart.on('draw', function(data) {
+                if(data.type === 'slice') {
+                    // Get the total path length in order to use for dash array animation
+                    var pathLength = data.element._node.getTotalLength();
+
+                    // Set a dasharray that matches the path length as prerequisite to animate dashoffset
+                    data.element.attr({
+                    'stroke-dasharray': pathLength + 'px ' + pathLength + 'px'
+                    });
+
+                    // Create animation definition while also assigning an ID to the animation for later sync usage
+                    var animationDefinition = {
+                    'stroke-dashoffset': {
+                        id: 'anim' + data.index,
+                        dur: 1000,
+                        from: -pathLength + 'px',
+                        to:  '0px',
+                        easing: Chartist.Svg.Easing.easeOutQuint,
+                        // We need to use `fill: 'freeze'` otherwise our animation will fall back to initial (not visible)
+                        fill: 'freeze'
+                    }
+                    };
+
+                    // If this was not the first slice, we need to time the animation so that it uses the end sync event of the previous animation
+                    if(data.index !== 0) {
+                    animationDefinition['stroke-dashoffset'].begin = 'anim' + (data.index - 1) + '.end';
+                    }
+
+                    // We need to set an initial value before the animation starts as we are not in guided mode which would do that for us
+                    data.element.attr({
+                    'stroke-dashoffset': -pathLength + 'px'
+                    });
+
+                    // We can't use guided mode as the animations need to rely on setting begin manually
+                    // See http://gionkunz.github.io/chartist-js/api-documentation.html#chartistsvg-function-animate
+                    data.element.animate(animationDefinition, false);
+                }
+            });
+            */
+        });
+	</script>
+{% endblock %}
+
+
+{% block contenu %}
 <style>
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/ubuntu/projects/boutique/src/Controller/DashboardController.php'|file_link(0) }}">src/Controller/DashboardController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/ubuntu/projects/boutique/templates/dashboard/index.html.twig'|file_link(0) }}">templates/dashboard/index.html.twig</a></code></li>
-    </ul>
+    <div id="agentsPie">
+    </div>
+    <b>Fréquence des ventes:</b>
+    <div id="rcPie">
+    </div>
+    <div id="rhBar">
+    </div>
 </div>
 {% endblock %}

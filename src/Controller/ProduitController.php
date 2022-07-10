@@ -5,17 +5,12 @@ namespace App\Controller;
 use App\Entity\Produit;
 use App\Form\ProduitType;
 use App\Repository\ProduitRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Entity\Stock;
-use App\Entity\Mouvement;
-use App\Entity\MouvementItem;
-use App\Entity\ParametreValeur;
-use App\Entity\Prix;
+use App\Service\ProduitService;
 
 #[Route('/produit')]
 class ProduitController extends AbstractController
@@ -107,39 +102,12 @@ class ProduitController extends AbstractController
     }
 
     #[Route('/approvisionnement', name: 'approvisionnement')]
-    public function approvisionnement(Request $request, EntityManagerInterface $entityManager): Response
+    public function approvisionnement(Request $request, ProduitService $service): Response
     {
         if ($request->isMethod("post")) {
             $user = $this->getUser();
 
-            $produits = $request->request->all('produit');
-            $quantite = $request->request->all('quantite');
-            $unites = $request->request->all('unite');
-            $isVente = false;
-
-            $mouvement = new Mouvement();
-            $mouvement->setApproData($user);
-            $entityManager->persist($mouvement);
-            
-            foreach ($produits as $key => $produitId) {
-                $mouvementItem = new MouvementItem();
-                $produit = $entityManager->getReference(Produit::class, $produitId);
-                $unite = $entityManager->getReference(ParametreValeur::class, $unites[$key]);
-                $stock = $entityManager->getRepository(Stock::class)->findByProduitUnite($produit, $unite);
-                if (!$stock) {
-                    $stock = new Stock();
-                    $stock->setProduit($produit);
-                    $stock->setUnite($unite);
-                }
-                $stock->updateStock($quantite[$key], $isVente);
-
-                $mouvementItem->setData($mouvement, $produit, $quantite[$key], 0, null, $unite);
-                $entityManager->persist($mouvementItem);
-                $entityManager->persist($stock);
-            }
-
-            
-            $entityManager->flush();
+            $service->handleApprovisionnement($request->request, $user);
             return $this->redirectToRoute('approvisionnement');
         }
 

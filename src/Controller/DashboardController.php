@@ -2,24 +2,19 @@
 
 namespace App\Controller;
 
-use App\Entity\Produit;
-use App\Entity\Mouvement;
-use App\Entity\MouvementItem;
-use App\Entity\Prix;
-use App\Entity\Stock;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Service\ProduitService;
 
 use App\Form\CaisseType;
+use App\Repository\ProduitRepository;
 
 class DashboardController extends AbstractController
 {
     #[Route('/', name: 'dashboard')]
-    public function index(): Response
+    public function index(ProduitService $service, ProduitRepository $repo): Response
     {
         $authUser = $this->getUser();
         if (!$authUser->isIsSuperuser())
@@ -28,9 +23,12 @@ class DashboardController extends AbstractController
             ]);
         else
             $redirectUrl = 'dashboard';
-
+        
+        $frequenceVente = $repo->getFrequenceVente();
+        
         return $this->render('dashboard/index.html.twig', [
             'controller_name' => 'DashboardController',
+            'frequenceVente' => $frequenceVente
         ]);
     }
 

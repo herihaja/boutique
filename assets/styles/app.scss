@@ -1,0 +1,79 @@
+
+// Series names and colors. This can be extended or customized as desired. Just add more series and colors.
+$ct-series-names: (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o,  p, q, r, s, t, u, v, w, x, y, w, 0, 1, 2, 3) !default;
+$ct-series-colors: (
+  #1DC7EA,
+  #FB404B,
+  #FFA534,
+  #9368E9,
+  #87CB16,
+  #1F77D0,
+  #5e5e5e,
+  #dd4b39,
+  #35465c,
+  #e52d27,
+  #55acee,
+  #cc2127,
+  #1769ff,
+  #6188e2,
+  #a748ca,
+
+  #d70206,
+  #f05b4f,
+  #f4c63d,
+  #d17905,
+  #453d3f,
+  #59922b,
+  #0544d3,
+  #6b0392,
+  #f05b4f,
+  #dda458,
+  #eacf7d,
+  #86797d,
+  #b2c326,
+  #6188e2,
+  #a748ca
+) !default;
+
+
+.ct-legend {
+    position: relative;
+    z-index: 10;
+
+    li {
+        position: relative;
+        padding-left: 23px;
+        margin-bottom: 3px;
+        display: inline-block;
+        margin-right: 10px;
+        cursor: pointer;
+    }
+
+    li:before {
+        width: 12px;
+        height: 12px;
+        position: absolute;
+        left: 0;
+        top: 7px;
+        content: '';
+        border: 3px solid transparent;
+        border-radius: 2px;
+    }
+
+    li.inactive:before {
+        background: transparent;
+    }
+
+    &.ct-legend-inside {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    @for $i from 0 to length($ct-series-colors) {
+        .ct-series-#{$i}:before {
+            background-color: nth($ct-series-colors, $i + 1);
+            border-color: nth($ct-series-colors, $i + 1);
+        }
+    }
+}

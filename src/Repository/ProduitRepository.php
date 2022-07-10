@@ -101,16 +101,52 @@ class ProduitRepository extends ServiceEntityRepository
         );
 
         return $query->fetchAllAssociative();
-
     }
 
-    //    public function findOneBySomeField($value): ?Produit
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function getFrequenceVente(){
+        $con = $this->getEntityManager()->getConnection();
+        $query = $con->exeCuteQuery(
+            "select t.nom, GROUP_CONCAT(t.jour) as dates, GROUP_CONCAT(t.frequence) as frequency FROM 
+                (SELECT p.nom, p.id, count(mi.id) as frequence, Date(m.date_mouvement) as jour FROM `produit` p 
+                    join mouvement_item mi ON mi.produit_id = p.id
+                    join mouvement m ON m.id = mi.mouvement_id
+                    where m.is_vente = true
+                    Group by p.id, DATE(m.date_mouvement)
+                    ORDER BY date(m.date_mouvement) ASC
+                ) as t GROUP BY t.id"
+        );
+
+        $dateQuery = $con->exeCuteQuery(
+            "select Distinct(DATE(m.date_mouvement)) as dates from mouvement as m where m.is_vente = true"
+        );
+
+        $dateResult = $dateQuery->fetchAllAssociative();
+
+        $results = $query->fetchAllAssociative();
+        $labels = [];
+        $datas = [];
+        foreach ($results as $produit) {
+            $dates = explode(",", $produit['dates']);
+            $frequences = explode(",", $produit['frequency']);
+            $data = [];
+        
+            foreach($dateResult as $dateItem) {
+                $date = $dateItem['dates'];
+                if (!in_array($date, $labels))
+                    $labels[] = $date;
+
+                if (in_array($date, $dates)){
+
+                    $index = array_search($date, $dates);
+                    $data[] = $frequences[$index];
+                } else {
+                    $data[] = 0;
+                }
+                
+            }
+            $datas[] = ['name'=>$produit['nom'], 'data'=>$data];
+        }
+
+        return [$datas, implode('", "', $labels)];
+    }
 }
