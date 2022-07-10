@@ -20,15 +20,15 @@ class DashboardController extends AbstractController
         if (!$authUser->isIsSuperuser())
             return $this->forward('App\Controller\DashboardController::caisse', [
                 'color' => 'green',
-            ]);
-        else
-            $redirectUrl = 'dashboard';
-        
-        $frequenceVente = $repo->getFrequenceVente();
+            ]);        
+    
+        $frequenceVente = $repo->getDailySale();
+        $stockAndSales = $repo->compareStockAndSales();
         
         return $this->render('dashboard/index.html.twig', [
             'controller_name' => 'DashboardController',
-            'frequenceVente' => $frequenceVente
+            'frequenceVente' => $frequenceVente,
+            'stockAndSales' => $stockAndSales
         ]);
     }
 

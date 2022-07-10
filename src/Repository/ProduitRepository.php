@@ -103,7 +103,7 @@ class ProduitRepository extends ServiceEntityRepository
         return $query->fetchAllAssociative();
     }
 
-    public function getFrequenceVente(){
+    public function getDailySale(){
         $con = $this->getEntityManager()->getConnection();
         $query = $con->exeCuteQuery(
             "select t.nom, GROUP_CONCAT(t.jour) as dates, GROUP_CONCAT(t.frequence) as frequency FROM 
@@ -136,17 +136,68 @@ class ProduitRepository extends ServiceEntityRepository
                     $labels[] = $date;
 
                 if (in_array($date, $dates)){
-
                     $index = array_search($date, $dates);
                     $data[] = $frequences[$index];
                 } else {
                     $data[] = 0;
-                }
-                
+                }                
             }
             $datas[] = ['name'=>$produit['nom'], 'data'=>$data];
         }
+        return [$datas, implode('", "', $labels)];
+    }
 
+    public function getSaleFrequencyLast30Days(){
+        $con = $this->getEntityManager()->getConnection();
+        $query = $con->exeCuteQuery(
+            "select t.nom, GROUP_CONCAT(t.frequence) as frequency FROM 
+                (SELECT p.nom, p.id, count(mi.id) as frequence FROM `produit` p 
+                    join mouvement_item mi ON mi.produit_id = p.id
+                    join mouvement m ON m.id = mi.mouvement_id
+                    where m.is_vente = true and m.date_mouvement >= DATE_ADD(CURDATE(), INTERVAL -30 DAY)
+                    Group by p.id
+                ) as t GROUP BY t.id"
+        );
+
+        $results = $query->fetchAllAssociative();
+        $labels = [];
+        $datas = [];
+        foreach ($results as $produit) {
+            $frequences = explode(",", $produit['frequency']);
+            $datas[] = ['name'=>$produit['nom'], 'data'=> [$frequences[0]]];
+        }
+
+        return [$datas, implode('", "', $labels)];
+    }
+
+    public function compareStockAndSales(){
+        $con = $this->getEntityManager()->getConnection();
+        $query = $con->executeQuery(
+            "select t.nom, SUM(t.quantite) as quantite, SUM(t.stk) as stock FROM 
+                (SELECT CONCAT(p.nom, ' (' ,u.valeur, ')') as nom, p.id, u.valeur, SUM(mi.nombre) as quantite, SUM(s.quantite) as stk FROM `produit` p 
+                    join mouvement_item mi ON mi.produit_id = p.id
+                    join mouvement m ON m.id = mi.mouvement_id
+                    join prix px ON px.id = mi.prix_ut_id
+                    join parametre_valeur u ON u.id = px.unite_id
+                    join stock s ON s.unite_id = u.id and p.id = s.produit_id
+                    where m.is_vente = true and m.date_mouvement >= DATE_ADD(CURDATE(), INTERVAL -7 DAY)
+                    Group by p.id, u.valeur
+                ) as t GROUP BY t.id, t.nom"
+        );
+
+        $results = $query->fetchAllAssociative();
+        
+        $labels = [];
+        $stock = [];
+        $vente = [];
+        foreach ($results as $produit) {
+            $labels[] = $produit['nom'];
+            $stock[] = $produit['stock']; 
+            $vente[] = $produit['quantite'];                
+        }
+
+        $datas[] = ['name' => "Vente", 'data' => $vente];
+        $datas[] = ['name' => "Stock", 'data' => $stock];
         return [$datas, implode('", "', $labels)];
     }
 }
