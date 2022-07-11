@@ -22,7 +22,7 @@ class DashboardController extends AbstractController
                 'color' => 'green',
             ]);        
     
-        $frequenceVente = $repo->getDailySale();
+        $frequenceVente = $repo->getSaleFrequencyLast30Days();
         $stockAndSales = $repo->compareStockAndSales();
         
         return $this->render('dashboard/index.html.twig', [

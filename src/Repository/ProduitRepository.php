@@ -49,6 +49,7 @@ class ProduitRepository extends ServiceEntityRepository
             "SELECT p.nom, p.id, GROUP_CONCAT(px.valeur, ';', u.valeur, ';', u.id, ';', px.id SEPARATOR '|') as prices FROM `produit` p 
                 join prix px ON px.produit_id = p.id 
                 join parametre_valeur u ON u.id = px.unite_id
+                join stock s ON s.produit_id = p.id and s.quantite > 0
                 Group by p.id"
 
         );
@@ -174,14 +175,14 @@ class ProduitRepository extends ServiceEntityRepository
         $con = $this->getEntityManager()->getConnection();
         $query = $con->executeQuery(
             "select t.nom, SUM(t.quantite) as quantite, SUM(t.stk) as stock FROM 
-                (SELECT CONCAT(p.nom, ' (' ,u.valeur, ')') as nom, p.id, u.valeur, SUM(mi.nombre) as quantite, SUM(s.quantite) as stk FROM `produit` p 
+                (SELECT CONCAT(p.nom, ' (' ,u.valeur, ')') as nom, p.id, u.valeur, SUM(mi.nombre) as quantite, s.quantite as stk FROM `produit` p 
                     join mouvement_item mi ON mi.produit_id = p.id
                     join mouvement m ON m.id = mi.mouvement_id
                     join prix px ON px.id = mi.prix_ut_id
                     join parametre_valeur u ON u.id = px.unite_id
                     join stock s ON s.unite_id = u.id and p.id = s.produit_id
                     where m.is_vente = true and m.date_mouvement >= DATE_ADD(CURDATE(), INTERVAL -7 DAY)
-                    Group by p.id, u.valeur
+                    Group by p.id, u.valeur, s.id
                 ) as t GROUP BY t.id, t.nom"
         );
 

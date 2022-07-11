@@ -24,6 +24,16 @@ class Produit
      */
     private $nom;
 
+    /**
+     * @ORM\Column(type="string", length=150, nullable=true)
+     */
+    private $barCode;
+
+    /**
+     * @ORM\Column(type="string", length=150, nullable=true)
+     */
+    private $qrCode;
+
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\ParametreValeur", inversedBy="produitsByCat")
@@ -307,6 +317,27 @@ class Produit
         return $this;
     }
 
-    
+    public function getBarCode(): ?string
+    {
+        return $this->barCode;
+    }
 
+    public function setBarCode(?string $barCode): self
+    {
+        $this->barCode = $barCode;
+
+        return $this;
+    }
+
+    public function getQrCode(): ?string
+    {
+        return $this->qrCode;
+    }
+
+    public function setQrCode(?string $qrCode): self
+    {
+        $this->qrCode = $qrCode;
+
+        return $this;
+    }
 }
