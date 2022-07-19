@@ -7,12 +7,12 @@ import '../bootstrap';
 import React, {StrictMode} from 'react';
 import MouvementItem from './components/MouvementItem';
 import { createRoot } from 'react-dom/client';
-import { Modal, Button, Form } from "react-bootstrap";
-import Select from "react-select";
-
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
 
 
  class Mouvement extends React.Component {
+
     constructor(props) {
         super();
 
@@ -26,6 +26,7 @@ import Select from "react-select";
             montantRendu: 0
         };
         this.isVente = props.operation == "vente" ;
+        this.submitButton = React.createRef(null);
     }
 
     refsCollection = {};
@@ -80,12 +81,15 @@ import Select from "react-select";
         this.setState({entries: entries, toSelectProduits: toSelectProduits});
     }
 
-    selectProduit = (e) => {
+    selectProduit = (e, value, reason, details) => {
+        if (reason == "clear")
+            return false;
+
         var toSelectProduits = this.state.toSelectProduits;
         var entries = this.state.entries;
         var selected = false;
         for (const index in toSelectProduits){
-            if (toSelectProduits[index].id == e.target.value) {
+            if (toSelectProduits[index].id == value.id) {
                 var selected = toSelectProduits[index];
                 /********* todo: herihaja  if (this.isVente)     ***/
                 toSelectProduits.splice(index, 1);
@@ -114,6 +118,7 @@ import Select from "react-select";
             });
         }
         this.setState({toSelectProduits, entries});
+        this.submitButton.current.focus();
         return false;
     }
 
@@ -136,6 +141,7 @@ import Select from "react-select";
     isFormValid = () => {
         return this.isVente ? (this.state.montantRendu < 0 || this.state.total == 0) : !this.state.entries.length;
     }
+
     
     render () { 
         let total = 0;
@@ -175,19 +181,27 @@ import Select from "react-select";
                         )}
                         <tr>
                             <td colSpan="2">
-                                <select id="produitSelect" onChange={this.selectProduit}>
-                                    <option value="">-- Selectionnez Produit</option>
-                                    
-                                        {this.state.toSelectProduits.map(
-                                            (toSelect, index) => (
-                                            
-                                        <option value={ toSelect.id } key={toSelect.id}>{ toSelect.nom }</option>
-                                            )
-                                        )}
-                                    
-                                </select>
+                                <Autocomplete
+                                    disablePortal
+                                    id="combo-box-produit"
+                                    options={this.state.toSelectProduits.map(
+                                        (toSelect, index) => (
+                                        
+                                            { 'label': toSelect.nom, 'id': toSelect.id }
+                                        )
+                                    )}
+                                    onChange={this.selectProduit}
+                                    sx={{ width: 300 }}
+                                    noOptionsText={''}
+                                    clearOnEscape={true}
+                                    blurOnSelect={true}
+                                    renderInput={(params) => <TextField {...params} label="Produit" />}
+                                />
+                                
                             </td>
-                            <td></td>
+                            <td>
+                                
+                            </td>
                             { this.isVente ? <>
                             <td>Total:</td>
                             <td>
@@ -203,19 +217,19 @@ import Select from "react-select";
                     <div className="col-md-6">
                         <div className="form-group">
                             <label>Montant rémis</label>
-                                <input type="number" className="form-control" name="montantRemis" required="required" onChange={this.changeMontantRemis}/>
+                                <input type="number"  className="form-control" name="montantRemis" required="required" onChange={this.changeMontantRemis}/>
                         </div>
                     </div>
                     <div className="col-md-6">
                         <div className="form-group">
                             <label>Montant rendu</label>
-                                <input type="number" className="form-control" name="montantRendu" min="0" readOnly="readonly" value={this.state.montantRendu}/>
+                                <input type="number"  className="form-control" name="montantRendu" min="0" readOnly="readonly" value={this.state.montantRendu}/>
                         </div>
                     </div>
                 </div></>:null}
                 <div className="row save-button" >
                     <div className="col-md-12">
-                        <button type="submit" className="btn btn-info btn-fill pull-right save-btn" disabled={this.isFormValid()}>Enregistrer</button>
+                        <button type="submit" ref={this.submitButton} className="btn btn-info btn-fill pull-right save-btn" disabled={this.isFormValid()}>Enregistrer</button>
                     </div>
                 </div>
                 <StrictMode>
