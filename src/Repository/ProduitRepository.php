@@ -61,18 +61,17 @@ class ProduitRepository extends ServiceEntityRepository
     public function getAllWithoutPrice()
     {
         $con = $this->getEntityManager()->getConnection();
-        $rsm = new ResultSetMapping();
         
         $query = $con->exeCuteQuery(
             "SELECT p.nom, p.id, GROUP_CONCAT(0, ';', u.valeur, ';', u.id, ';', 0 SEPARATOR '|') as prices FROM `produit` p 
                 join produit_unites px ON px.produit_id = p.id 
                 join parametre_valeur u ON u.id = px.parametre_valeur_id
-                Group by p.id,
+                Group by p.id
                 ORDER BY p.nom ASC"
 
         );
 
-        return $query->fetchAllAssociative(); //\Doctrine\ORM\Query::HYDRATE_SCALAR);
+        return $query->fetchAllAssociative();
 
     }
 
@@ -99,7 +98,7 @@ class ProduitRepository extends ServiceEntityRepository
                 join produit_unites px ON px.produit_id = p.id
                 join stock stk ON stk.produit_id = p.id and px.parametre_valeur_id = stk.unite_id 
                 join parametre_valeur u ON u.id = px.parametre_valeur_id
-                Group by p.id,
+                Group by p.id
                 ORDER BY p.nom ASC"
 
         );
