@@ -88,7 +88,7 @@ class AuthUser implements UserInterface, PasswordAuthenticatedUserInterface
 
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\AuthGroup", mappedBy="users", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="App\Entity\AuthGroup", inversedBy="users", cascade={"persist"})
      */
     private $groups;
 
@@ -379,5 +379,14 @@ class AuthUser implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+
+    public function setSingleGroup(AuthGroup $group){
+        $this->groups->clear();
+        $this->addGroup($group);
+    }
+
+    public function getSingleGroup(){
+        return $this->groups->first();
     }
 }

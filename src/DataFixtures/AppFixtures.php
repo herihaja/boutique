@@ -19,8 +19,8 @@ class AppFixtures extends Fixture
     {
 
         $personne = new Personne();
-        $personne->setPrenom("Herihaja");
-        $personne->setNom("Rabenaivo");
+        $personne->setPrenom("Admin");
+        $personne->setNom("Boutique");
         $personne->setTel1("0331413687");
         $personne->setAdresse("Analamahitsy Ilafy");
         $manager->persist($personne);
@@ -184,6 +184,18 @@ class AppFixtures extends Fixture
         $categorieProduit->setValeur2(0);
         $categorieProduit->setDescription("");
         $manager->persist($categorieProduit);
+
+        $group = new AuthGroup();
+        $group->setName("Vendeur(se)");
+        $manager->persist($group);
+
+        $group = new AuthGroup();
+        $group->setName("Agent appro");
+        $manager->persist($group);
+
+        $group = new AuthGroup();
+        $group->setName("Administrateur");
+        $manager->persist($group);
 
         $manager->flush();
     }

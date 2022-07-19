@@ -36,7 +36,7 @@ class AuthGroup
     private $description;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\AuthUser", inversedBy="groups")
+     * @ORM\ManyToMany(targetEntity="App\Entity\AuthUser", mappedBy="groups")
      */
     private $users;
 

@@ -2,12 +2,14 @@
 
 namespace App\Form;
 
+use App\Entity\AuthGroup;
 use App\Entity\AuthUser;
 use App\Form\Personne;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -16,6 +18,8 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints\Regex;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class AuthUserType extends AbstractType
 {
@@ -42,7 +46,18 @@ class AuthUserType extends AbstractType
                 ]
             )
             ->add('avatar', FileType::class, ["data_class" => null, 'required' => false])
-            ->add('groups')
+            ->add('singleGroup', EntityType::class, [
+                'expanded' => true,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                        ->orderBy('u.name', 'ASC');
+                },
+                'class' => AuthGroup::class,
+                'choice_value' => function ($entity) {
+                    return $entity ? $entity->getId() : '';
+                },
+                'multiple' => false
+            ])
             ->add('permissions')
             ->add('personne', PersonneType::class);
     }

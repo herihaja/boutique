@@ -1,5 +1,11 @@
 
             <div class="container-fluid">
+                <style>
+                    #auth_user_singleGroup label{
+                        width: 30%;
+                        margin-left: 4px;
+                    }
+                </style>
                     <div class="row">
                         <div class="col-md-8">
                             <div class="card">
@@ -110,8 +116,8 @@
                                         <div class="row hidden">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                     <label>Groupes</label>
-                                                     {{ form_widget(form.groups, {'attr': {'class': 'form-control select-multiple-searchable'}}) }}
+                                                     <label></label>
+                                                     {{ form_widget(form.singleGroup, {'attr': {'class': 'form-control'}}) }}
                                                 </div>
                                             </div>
                                         </div>
