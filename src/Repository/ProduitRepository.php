@@ -50,7 +50,8 @@ class ProduitRepository extends ServiceEntityRepository
                 join prix px ON px.produit_id = p.id 
                 join parametre_valeur u ON u.id = px.unite_id
                 join stock s ON s.produit_id = p.id and s.quantite > 0
-                Group by p.id"
+                Group by p.id
+                ORDER BY p.nom ASC"
 
         );
 
@@ -66,7 +67,8 @@ class ProduitRepository extends ServiceEntityRepository
             "SELECT p.nom, p.id, GROUP_CONCAT(0, ';', u.valeur, ';', u.id, ';', 0 SEPARATOR '|') as prices FROM `produit` p 
                 join produit_unites px ON px.produit_id = p.id 
                 join parametre_valeur u ON u.id = px.parametre_valeur_id
-                Group by p.id"
+                Group by p.id,
+                ORDER BY p.nom ASC"
 
         );
 
@@ -97,14 +99,15 @@ class ProduitRepository extends ServiceEntityRepository
                 join produit_unites px ON px.produit_id = p.id
                 join stock stk ON stk.produit_id = p.id and px.parametre_valeur_id = stk.unite_id 
                 join parametre_valeur u ON u.id = px.parametre_valeur_id
-                Group by p.id"
+                Group by p.id,
+                ORDER BY p.nom ASC"
 
         );
 
         return $query->fetchAllAssociative();
     }
 
-    public function getDailySale(){
+    public function getDailySaleProduct(){
         $con = $this->getEntityManager()->getConnection();
         $query = $con->exeCuteQuery(
             "select t.nom, GROUP_CONCAT(t.jour) as dates, GROUP_CONCAT(t.frequence) as frequency FROM 
@@ -200,5 +203,28 @@ class ProduitRepository extends ServiceEntityRepository
         $datas[] = ['name' => "Vente", 'data' => $vente];
         $datas[] = ['name' => "Stock", 'data' => $stock];
         return [$datas, implode('", "', $labels)];
+    }
+
+
+
+    public function getDailySale(){
+        $con = $this->getEntityManager()->getConnection();
+        $query = $con->exeCuteQuery(
+            "select t.*  from (SELECT SUM(m.montant_total) as total, Date(m.date_mouvement) as jour FROM mouvement m
+                    where m.is_vente = true and m.date_mouvement >= DATE_ADD(CURDATE(), INTERVAL -30 DAY)
+                    Group by DATE(m.date_mouvement)
+                    ORDER BY date(m.date_mouvement) DESC
+                    LIMIT 5) as t order by t.jour ASC
+                "
+        );
+
+        $results = $query->fetchAllAssociative();
+        $labels = [];
+        $datas = [];
+        foreach ($results as $sale) {
+            $labels[] = $sale['jour'];
+            $datas[] = ($sale['total']);
+        }
+        return [[$datas], implode('", "', $labels)];
     }
 }

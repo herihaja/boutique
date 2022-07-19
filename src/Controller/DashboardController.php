@@ -24,11 +24,13 @@ class DashboardController extends AbstractController
     
         $frequenceVente = $repo->getSaleFrequencyLast30Days();
         $stockAndSales = $repo->compareStockAndSales();
+        $dailySales = $repo->getDailySale();
         
         return $this->render('dashboard/index.html.twig', [
             'controller_name' => 'DashboardController',
             'frequenceVente' => $frequenceVente,
-            'stockAndSales' => $stockAndSales
+            'stockAndSales' => $stockAndSales,
+            'salesData' => $dailySales
         ]);
     }
 
