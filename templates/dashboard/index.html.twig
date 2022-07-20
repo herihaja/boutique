@@ -2,6 +2,12 @@
 
 {% block titre %}Tableau de bord{% endblock %}
 
+{% block breadcrumb %}
+    {% set breadcrumb = {'main': app_name, 
+        'no-link': block('titre')} %}
+    {% include "breadcrumb.html.twig" %}
+{% endblock %}
+
 {% block block_js %}
 <!--  Charts Plugin -->
 	<script src="/static/js/chartist.min.js"></script>

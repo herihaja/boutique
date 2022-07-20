@@ -147,7 +147,7 @@ import TextField from '@mui/material/TextField';
         let total = 0;
         return (
             <div className="Mouvement-container">
-                <table className="table table-hover table-striped" id="liste-table">
+                <table className="table table-hover table-striped" id="liste-table-react">
                     <thead>
                         <tr>
                             

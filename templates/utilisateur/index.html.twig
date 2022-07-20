@@ -4,7 +4,8 @@
 
 {% block breadcrumb %}
     {% set breadcrumb = {'root': app_name,
-            (path('utilisateur_index')) : 'Gestion utilisateur' , 
+        'main': 'Administration système',
+            (path('utilisateur_index')) : 'Gestion des utilisateurs' , 
             'no-link': block('titre')} %}
     {% include "breadcrumb.html.twig" %}
 {% endblock %}

@@ -2,6 +2,12 @@
 
 {% block titre %}Bienvenu à la caisse de {{ app_name }}{% endblock %}
 
+{% block breadcrumb %}
+    {% set breadcrumb = {'main': app_name, 'root': 'Caisse',
+        'no-link': block('titre')} %}
+    {% include "breadcrumb.html.twig" %}
+{% endblock %}
+
 {% block contenu %}
     <script>
         const produitListUrl = "{{ path('produit_list', {'caisse': true})|escape('js') }}";

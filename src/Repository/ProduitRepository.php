@@ -55,7 +55,7 @@ class ProduitRepository extends ServiceEntityRepository
 
         );
 
-        return $query->fetchAllAssociative(); //\Doctrine\ORM\Query::HYDRATE_SCALAR);
+        return $query->fetchAllAssociative();
     }
 
     public function getAllWithoutPrice()

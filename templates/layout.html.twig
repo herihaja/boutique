@@ -246,6 +246,11 @@
           width: 12px; 
           margin-top: -5px;
         }
+
+        div.logo a span{
+            font-size: 1.5rem;
+            color: #FFF;
+        }
         
     </style>
 
@@ -254,6 +259,7 @@
         $(document).ready(function() {
 
             /* Initialize datable with French language activated by default */
+            if ($('#liste-table, .liste-table').length)
             BTQ.dt = $('#liste-table, .liste-table').DataTable({
                 //language: {url: "/static/js/datatable-French.json"},
             });
@@ -336,6 +342,7 @@
             getMenu = function (rank, parentNode=false){
                 var menu = $("ol.breadcrumb li:nth-child(" + rank +") a").html();
                 menu = $.escapeSelector(menu);
+               
                 if (parentNode) {
                     var nodeActiveMenu = parentNode.find(".nav a.nav-link:contains('" + menu +"')");
                 } else {
@@ -356,13 +363,15 @@
                 return nodeActiveMenu;
             }
             
-            var firstMenu = getMenu(1);
+            var firstMenu = getMenu(2);
+            
             firstMenu.addClass("active");
             if (firstMenu.attr("data-toggle") == "collapse") {
                 $(firstMenu.attr("href")).collapse("show");
-                var ndMenu = getMenu(2, firstMenu.parent());
+                var ndMenu = getMenu(3, firstMenu.parent());
                 if (ndMenu.length == 0) {
-                    ndMenu = getMenu(1, firstMenu.parent());
+                    ndMenu = getMenu(2, firstMenu.parent());
+                    console.log(ndMenu.first());
                 }
                 if (ndMenu.length == 2){
                     ndMenu = ndMenu.first();
@@ -394,7 +403,7 @@
             <div class="sidebar-wrapper">
                 <div class="logo" align="center">
                   <a href="{{ path('dashboard') }}">
-			              <img src="/static/img/server_white.png" height="40px"> <img src="/static/img/logo.jpg">                    
+                    <span>{{ app_name }}</span> <!--img src="/static/img/logo.jpg"-->                    
                   </a>
                 </div>
                 <ul class="nav" id="mainNav">
@@ -450,7 +459,7 @@
                             <li class="nav-item ">
                                 <a class="nav-link" href="{{ path('parametre_valeur_index', {'id': 1}) }}">
                                     <i class="nc-icon nc-chart-pie-35"></i>
-                                    <span class="sidebar-normal">Catégorie produit</span>
+                                    <span class="sidebar-normal"> Catégorie produit </span>
                               </a>
                             </li>  
                             <li class="nav-item ">
@@ -490,7 +499,7 @@
                             <li class="nav-item ">  
                                 <a class="nav-link" href="{{ path('utilisateur_index') }}">
                                     <i class="nc-icon nc-single-02"></i>
-                                    <span class="sidebar-normal"> Gestion utilisateur</span>
+                                    <span class="sidebar-normal"> Gestion des utilisateurs</span>
                               </a>
                             </li>
                             <!--li class="nav-item ">  

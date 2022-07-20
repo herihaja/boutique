@@ -6,7 +6,8 @@
 {% block breadcrumb %}
     {% set breadcrumb = {'main': app_name, 
         'root': 'Administration',    
-    'no-link': block('titre')} %}
+        (path('parametre_index')) : 'Paramètres' , 
+        'no-link': block('titre')} %}
     {% include "breadcrumb.html.twig" %}
 {% endblock %}
 {% block class_title_icon %}nc-icon nc-notes{% endblock %}

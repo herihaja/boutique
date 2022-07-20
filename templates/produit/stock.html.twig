@@ -4,9 +4,9 @@
 
 
 {% block breadcrumb %}
-    {% set breadcrumb = {'root': app_name,
-            (path('produit_index')) : 'Produits' , 
-            'no-link': block('titre')} %}
+    {% set breadcrumb = {'main': app_name, 'root': 'Produit',
+        'no-link2' : 'Stock' , 
+        'no-link': block('titre')} %}
     {% include "breadcrumb.html.twig" %}
 {% endblock %}
 
