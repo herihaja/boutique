@@ -408,7 +408,7 @@
                 </div>
                 <ul class="nav" id="mainNav">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('caisse') }}">
+                        <a class="nav-link{% if not is_granted("ROLE_VENDEUR(SE)") and not is_granted("ROLE_ADMINISTRATEUR") %} disabled{% endif %}" href="{{ path('caisse') }}">
                          <i class="nc-icon nc-cart-simple"></i> 
                          <p>Caisse</p>
                             <b class="caret"></b>
@@ -423,20 +423,20 @@
                         <div class="collapse" id="rc-collapse-components">
                           <ul class="nav">
                             <li class="nav-item">
-                              <a class="nav-link" href="{{ path('produit_stock') }}">
+                              <a class="nav-link{% if not is_granted("ROLE_VENDEUR(SE)") and not is_granted("ROLE_ADMINISTRATEUR") %} disabled{% endif %}" href="{{ path('produit_stock') }}">
                                 <i class="nc-icon nc-bullet-list-67"></i>   
                                 <span class="sidebar-normal"> Stock </span>
                               </a>
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link" href="{{ path('approvisionnement') }}">
+                                <a class="nav-link{% if not is_granted("ROLE_AGENT_APPRO") and not is_granted("ROLE_ADMINISTRATEUR") %} disabled{% endif %}" href="{{ path('approvisionnement') }}">
                                 <i class="nc-icon nc-delivery-fast"></i>     
                                 <span class="sidebar-normal"> Approvisionnement </span>
                               </a>
                             </li>
 
                             <li class="nav-item ">
-                              <a class="nav-link" href="{{ path('produit_index') }}">
+                              <a class="nav-link{% if not is_granted("ROLE_ADMINISTRATEUR") %} disabled{% endif %}" href="{{ path('produit_index') }}">
                               <i class="nc-icon nc-app"></i>     
                               <span class="sidebar-normal"> Gestion produit </span>
                             </a>
@@ -450,7 +450,7 @@
                     
                     
                     <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#administrationCollapse">
+                        <a class="nav-link{% if not is_granted("ROLE_ADMINISTRATEUR") %} disabled{% endif %}" data-toggle="collapse" href="#administrationCollapse">
                          <i class="nc-icon nc-settings-gear-64"></i><p>Administration</p>
                             <b class="caret"></b>
                         </a>
@@ -489,7 +489,7 @@
 
 
                     <li class="nav-item ">
-                        <a class="nav-link" data-toggle="collapse" href="#componentsCollapse6">
+                        <a class="nav-link{% if not is_granted("ROLE_ADMINISTRATEUR") %} disabled{% endif %}" data-toggle="collapse" href="#componentsCollapse6">
                          <i class="nc-icon nc-settings-90"></i><p>Administration système</p>
                             <b class="caret"></b>
                         </a>
@@ -497,7 +497,7 @@
                           <ul class="nav">
                             
                             <li class="nav-item ">  
-                                <a class="nav-link" href="{{ path('utilisateur_index') }}">
+                                <a class="nav-link{% if not is_granted("ROLE_ADMINISTRATEUR") %} disabled{% endif %}" href="{{ path('utilisateur_index') }}">
                                     <i class="nc-icon nc-single-02"></i>
                                     <span class="sidebar-normal"> Gestion des utilisateurs</span>
                               </a>
@@ -560,9 +560,9 @@
                             
                         </ul>
                         <ul class="navbar-nav ml-auto">
-                            <li class="nav-item dropdown card card-user" style="border:none;" id="accounttab">
+                            <li class="nav-item dropdown card card-user" style="border:none; min-width: 230px;" id="accounttab">
                                 <a class="nav-link  dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding:0px;"> 
-                                    <span style="padding-top: 22px; padding-right: 9px;">{{ app.user.personne }}</span>                                    
+                                    <span style="padding-top: 22px; padding-right: 9px;min-width: 230px; text-align:right;">{{ app.user.personne }}</span>                                    
                                     {% if app.user.avatar %}
                                             <img class="avatar border-gray" src="data:image/png;base64,{{ app.user.encodedAvatar }}" alt="..." style="width:40px; height:40px; top:22px;">
                                     {% else %}

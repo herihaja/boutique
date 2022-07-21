@@ -296,6 +296,7 @@ class AuthUser implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
+    /*
     public function getRoles(): array
     {
         $roles = [];
@@ -308,7 +309,7 @@ class AuthUser implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $roles;
-    }
+    }*/
 
     public static function getById($entityManager, $id)
     {
@@ -388,5 +389,14 @@ class AuthUser implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getSingleGroup(){
         return $this->groups->first();
+    }
+
+    public function getRoles(): array
+    {
+        $roles = [];
+        foreach($this->groups as $group){
+            $roles[] = "ROLE_".str_replace(" ", "_", strtoupper($group));
+        }
+        return $roles;
     }
 }

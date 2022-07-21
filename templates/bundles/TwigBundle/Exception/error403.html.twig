@@ -1,0 +1,17 @@
+{% extends 'base-breadcrumb.html.twig' %}
+
+{% block titre %}Accès non autorisé{% endblock %}
+
+{% block breadcrumb %}
+    {% set breadcrumb = {'main': app_name, 'root': 'Erreur',
+        'no-link': block('titre')} %}
+    {% include "breadcrumb.html.twig" %}
+{% endblock %}
+
+
+{% block contenu %}
+    <p>
+        Vous n'avez pas accès à la page demandée.
+        <a href="{{ path('dashboard') }}">Accueil</a>.
+    </p>
+{% endblock %}

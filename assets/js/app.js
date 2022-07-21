@@ -242,4 +242,5 @@ import TextField from '@mui/material/TextField';
 }
 
 const rootElement = document.getElementById("MouvementItem-list");
-createRoot(rootElement).render(<Mouvement operation={rootElement.getAttribute('data-param')}/>);
+if (rootElement)
+    createRoot(rootElement).render(<Mouvement operation={rootElement.getAttribute('data-param')}/>);

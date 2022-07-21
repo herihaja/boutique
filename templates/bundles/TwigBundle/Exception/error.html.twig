@@ -1,0 +1,18 @@
+{% extends 'base-breadcrumb.html.twig' %}
+
+{% block titre %}Une erreur s'est produite{% endblock %}
+
+{% block breadcrumb %}
+    {% set breadcrumb = {'main': app_name, 'root': 'Erreur',
+        'no-link': block('titre')} %}
+    {% include "breadcrumb.html.twig" %}
+{% endblock %}
+
+
+{% block contenu %}
+    <p>
+        Veuillez noter les étapes qui ont conduit à cette erreur et en informer le développeur.
+        Merci et bonne journée,
+        <a href="{{ path('dashboard') }}">Accueil</a>.
+    </p>
+{% endblock %}

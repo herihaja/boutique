@@ -17,10 +17,14 @@ class DashboardController extends AbstractController
     public function index(ProduitService $service, ProduitRepository $repo): Response
     {
         $authUser = $this->getUser();
-        if (!$authUser->isIsSuperuser())
+        $roles = $authUser->getRoles();
+        if (in_array("ROLE_VENDEUR(SE)", $roles))
             return $this->forward('App\Controller\DashboardController::caisse', [
                 'color' => 'green',
-            ]);        
+            ]); 
+
+        if (in_array("ROLE_AGENT_APPRO", $roles))
+            return $this->forward('App\Controller\ProduitController::approvisionnement', []); 
     
         $frequenceVente = $repo->getSaleFrequencyLast30Days();
         $stockAndSales = $repo->compareStockAndSales();
