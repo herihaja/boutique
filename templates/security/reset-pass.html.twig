@@ -73,47 +73,55 @@
         <div >
 
             <div class="col-md-12">
+                <h5>Ré-initialisation de votre mot de passe</h5><br/>
                         {# If there's any error, display it to the user #}
                         {% if error %}
-                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        <div class="alert alert-success">{{ error}}</div>
                         {% endif %}
+                        
 
-                         <form method="post">
-
-
-                         <div class="row">
-                            <div class="col-md-12">
-                                <div id="div_id_username" class="form-group">
-                                    <label for="id_username" class=" requiredField">
-                                         Nom d’utilisateur<span class="asteriskField">*</span>
-                                    </label>
-                                    <div class="">
-                                        <input type="text" value="{{ last_username }}" name="username" id="inputEmail" class="form-control" placeholder="Nom d'utilisateur" required autofocus>
-                                    </div>
-                                 </div>
-                            </div>
-                         </div>
-                         <div class="row">
-                            <div class="col-md-12">
-                                <div id="div_id_password" class="form-group">
-                                    <label for="id_password" class=" requiredField">
-                                        Mot de passe<span class="asteriskField">*</span>
-                                    </label>
-                                    <div class="">
-                                        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Mot de passe" required>
-                                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
-                                    </div>
+                        <div>
+                            {{ form_errors(form) }}
+                        </div>
+                        <form action="" method="post" enctype="multipart/form-data">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                         <label for="" class=" requiredField">
+                                             Nouveau mot de passe
+                                         </label>
+                                         <div class="">
+                                         {{ form_widget(form.password.first, {'attr': {'class': 'form-control'}}) }}
+                                         {{ form_errors(form.password.first) }}
+                                         </div>
+                                     </div>
                                 </div>
                             </div>
-                         </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                         <label for="" class=" requiredField">
+                                             Confirmation
+                                         </label>
+                                         <div class="">
+                                         {{ form_widget(form.password.second, {'attr': {'class': 'form-control'}}) }}
+                                         {{ form_errors(form.password.second) }}
+                                         </div>
+                                     </div>
+                                </div>
+                            </div>
+
+
+                         
+                         
                          <div class="row">
                               <div class="col-md-12">
-                                        <button type="submit" class="btn btn-info btn-fill pull-right">S'identifier</button>
-                                        <a href="{{ url("forgot_password") }}" class="ml-4">Mot de passe oublié?</a>
+                                        <button type="submit" class="btn btn-info btn-fill pull-right">Ré-initialiser mot de passe</button>
+                                        <a href="{{ url("app_login") }}" class="ml-4">S'identifier</a>
                               </div>
                          </div>
                          <div class="clearfix"></div>
-                         
+                         {{ form_widget(form._token) }}
                      </form>
                  </div>
 

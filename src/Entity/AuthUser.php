@@ -107,6 +107,12 @@ class AuthUser implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $mouvementTraites;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="token", type="string", length=32, nullable=true)
+     */
+    private $token;
 
 
     public function __construct()
@@ -398,5 +404,17 @@ class AuthUser implements UserInterface, PasswordAuthenticatedUserInterface
             $roles[] = "ROLE_".str_replace(" ", "_", strtoupper($group));
         }
         return $roles;
+    }
+
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    public function setToken(?string $token): self
+    {
+        $this->token = $token;
+
+        return $this;
     }
 }

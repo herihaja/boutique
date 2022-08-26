@@ -25,31 +25,28 @@ class AuthUserRepository extends ServiceEntityRepository
 
     public function findByGroupName($groupList)
     {
-        //$groupList = [3];
         $query = $this->createQueryBuilder('a')
             ->join("a.groups", "g")
             ->andWhere('g.name in (:val)')
             ->setParameter('val', $groupList)
             ->orderBy('a.id', 'ASC')
-            //->setMaxResults(10)
             ->getQuery()
-            //dump($query->getSql());exit;
 
         ;
         return $query->getResult();
     }
 
-    /*
-    public function findOneBySomeField($value): ?AuthUser
+    
+    public function findOneByIdentifiant($value): ?AuthUser
     {
         return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
+            ->andWhere('a.username = :val')
+            ->orWhere('a.email = :val')
             ->setParameter('val', $value)
             ->getQuery()
             ->getOneOrNullResult()
         ;
     }
-    */
 
 
     ///**

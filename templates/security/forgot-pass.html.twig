@@ -74,8 +74,8 @@
 
             <div class="col-md-12">
                         {# If there's any error, display it to the user #}
-                        {% if error %}
-                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        {% if message %}
+                        <div class="alert {% if success %}alert-success{% else %}alert-danger{% endif %}">{{ message}}</div>
                         {% endif %}
 
                          <form method="post">
@@ -88,32 +88,19 @@
                                          Nom d’utilisateur<span class="asteriskField">*</span>
                                     </label>
                                     <div class="">
-                                        <input type="text" value="{{ last_username }}" name="username" id="inputEmail" class="form-control" placeholder="Nom d'utilisateur" required autofocus>
+                                        <input type="text" value="{{ last_username }}" name="username" id="inputEmail" class="form-control" placeholder="Nom d'utilisateur ou adresse email" required autofocus>
                                     </div>
                                  </div>
                             </div>
                          </div>
-                         <div class="row">
-                            <div class="col-md-12">
-                                <div id="div_id_password" class="form-group">
-                                    <label for="id_password" class=" requiredField">
-                                        Mot de passe<span class="asteriskField">*</span>
-                                    </label>
-                                    <div class="">
-                                        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Mot de passe" required>
-                                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
-                                    </div>
-                                </div>
-                            </div>
-                         </div>
+                         
                          <div class="row">
                               <div class="col-md-12">
-                                        <button type="submit" class="btn btn-info btn-fill pull-right">S'identifier</button>
-                                        <a href="{{ url("forgot_password") }}" class="ml-4">Mot de passe oublié?</a>
+                                        <button type="submit" class="btn btn-info btn-fill pull-right">Ré-initialiser mot de passe</button>
+                                        <a href="{{ url("app_login") }}" class="ml-4">S'identifier</a>
                               </div>
                          </div>
                          <div class="clearfix"></div>
-                         
                      </form>
                  </div>
 

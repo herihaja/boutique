@@ -1,5 +1,9 @@
 {% extends 'utilisateur/new.html.twig' %}
 
+{% if not editProfile %}
 {% set delete_button="utilisateur/_delete_form.html.twig" %}
+{% endif %}
 
-{% block titre %}Modifier un utilisateur{% endblock %}
+{% set titre = editProfile ? "Modifier votre profile utilisateur" : "Modifier un utilisateur"%}
+
+{% block titre %}{{ titre }}{% endblock %}
