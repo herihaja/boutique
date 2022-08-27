@@ -31,8 +31,8 @@ security:
         - { path: ^/mot-de-passe-oublie$, roles: PUBLIC_ACCESS }
         - { path: ^/re-initialiser-mot-de-passe/*, roles: PUBLIC_ACCESS }
         - { path: ^/produit/approvisionnement, roles: [ROLE_ADMINISTRATEUR, ROLE_AGENT_APPRO] }
-        - { path: ^/produit/list, roles: [ROLE_ADMINISTRATEUR, ROLE_AGENT_APPRO, ROLE_VENDEUR(SE)] }
-        - { path: ^/caisse, roles: [ROLE_ADMINISTRATEUR, ROLE_VENDEUR(SE)] }
+        - { path: ^/produit/list, roles: [ROLE_ADMINISTRATEUR, ROLE_AGENT_APPRO, ROLE_CAISSIER(E)] }
+        - { path: ^/caisse, roles: [ROLE_ADMINISTRATEUR, ROLE_CAISSIER(E)] }
         - { path: ^/produit/*, roles: ROLE_ADMINISTRATEUR }
         - { path: ^/parametre/*, roles: ROLE_ADMINISTRATEUR }
         - { path: ^/parametre-valeur/*, roles: ROLE_ADMINISTRATEUR }

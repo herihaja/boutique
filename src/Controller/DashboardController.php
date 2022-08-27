@@ -18,7 +18,7 @@ class DashboardController extends AbstractController
     {
         $authUser = $this->getUser();
         $roles = $authUser->getRoles();
-        if (in_array("ROLE_VENDEUR(SE)", $roles))
+        if (in_array("ROLE_CAISSIER(E)", $roles))
             return $this->forward('App\Controller\DashboardController::caisse', [
                 'color' => 'green',
             ]); 

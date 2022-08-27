@@ -408,7 +408,7 @@
                 </div>
                 <ul class="nav" id="mainNav">
                     <li class="nav-item">
-                        <a class="nav-link{% if not is_granted("ROLE_VENDEUR(SE)") and not is_granted("ROLE_ADMINISTRATEUR") %} disabled{% endif %}" href="{{ path('caisse') }}">
+                        <a class="nav-link{% if not is_granted("ROLE_CAISSIER(E)") and not is_granted("ROLE_ADMINISTRATEUR") %} disabled{% endif %}" href="{{ path('caisse') }}">
                          <i class="nc-icon nc-cart-simple"></i> 
                          <p>Caisse</p>
                             <b class="caret"></b>
@@ -423,7 +423,7 @@
                         <div class="collapse" id="rc-collapse-components">
                           <ul class="nav">
                             <li class="nav-item">
-                              <a class="nav-link{% if not is_granted("ROLE_VENDEUR(SE)") and not is_granted("ROLE_ADMINISTRATEUR") %} disabled{% endif %}" href="{{ path('produit_stock') }}">
+                              <a class="nav-link{% if not is_granted("ROLE_CAISSIER(E)") and not is_granted("ROLE_ADMINISTRATEUR") %} disabled{% endif %}" href="{{ path('produit_stock') }}">
                                 <i class="nc-icon nc-bullet-list-67"></i>   
                                 <span class="sidebar-normal"> Stock </span>
                               </a>

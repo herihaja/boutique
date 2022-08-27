@@ -62,8 +62,12 @@ class SecurityController extends AbstractController
             $username = $request->request->get('username');
             $user = $userRepository->findOneByIdentifiant($username);
             if ($user) {
-                $message = $this->processResetPass($user, $mailer, $em);
-                $success = true;
+                if ($user->getEmail()){
+                    $message = $this->processResetPass($user, $mailer, $em);
+                    $success = true;
+                } else
+                    $message = "Vous n'avez pas d'adresse e-mail enregistré. <br/> Pour ré-initialiser votre mot de passe, veuillez demander à l'administrateur du système.";
+                
             }else
                 $message = "Identifiant incorrecte!";
         }

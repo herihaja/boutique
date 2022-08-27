@@ -186,7 +186,7 @@ class AppFixtures extends Fixture
         $manager->persist($categorieProduit);
 
         $group = new AuthGroup();
-        $group->setName("Vendeur(se)");
+        $group->setName("Caissier(e)");
         $manager->persist($group);
 
         $group = new AuthGroup();
