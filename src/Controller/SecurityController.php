@@ -14,9 +14,19 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Mime\Email;
 use App\Form\ResetPasswordForm;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use App\Entity\AuthUser;
+use App\Form\SignupForm;
 
 class SecurityController extends AbstractController
 {
+
+    public function __construct(
+        private MailerInterface $mailer,
+    )
+    {
+        
+    }
+
     /**
      * @Route("/login", name="app_login")
      */
@@ -52,7 +62,6 @@ class SecurityController extends AbstractController
         AuthenticationUtils $authenticationUtils, 
         Request $request,
         AuthUserRepository $userRepository,
-        MailerInterface $mailer,
         EntityManagerInterface $em,
     ) :Response
     {
@@ -85,19 +94,25 @@ class SecurityController extends AbstractController
         $entityManager->persist($user);
         $entityManager->flush();
 
+        $params = ['token' => $token, 'user'=> $user];
+        $this->sendMailToUser($user, "reset-pass", "Mot de passe oublié", $params);
+        return  "Email avec instruction envoyé";
+    }
+
+    private function sendMailToUser($user, $template, $subject, $parameters){
         $mailContents = $this->renderView(
-            "emails/reset-pass.html.twig", 
-            ['token' => $token, 'user'=> $user]
+            "emails/".$template.".html.twig", 
+            $parameters
         );
         
         $email = (new Email())
             ->from('contact@herihaja.com')
             ->to($user->getEmail())
-            ->subject('Mot de passe oublié')
+            ->subject($subject)
             ->html($mailContents);
 
-        $mailer->send($email);
-        return  "Email avec instruction envoyé";
+        $this->mailer->send($email);
+
     }
 
     /**
@@ -141,5 +156,46 @@ class SecurityController extends AbstractController
                 'error' => $message,
             ]
         );
+    }
+
+    /**
+     * @Route("/inscription/", name="signup")
+     */
+    public function signup(
+        Request $request, 
+        //AuthUserRepository $userRepository,
+        EntityManagerInterface $entityManager,
+        UserPasswordHasherInterface $passwordEncoder
+    ):Response
+    {
+        $authUser = new AuthUser();
+        $form = $this->createForm(SignupForm::class, $authUser);
+        $form->handleRequest($request);
+        $message = '';
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $authUser->setPassword(
+                $passwordEncoder->hashPassword(
+                    $authUser,
+                    $this->getParameter("default_password")
+                )
+            );
+            $entityManager->persist($authUser);
+            $entityManager->flush();
+
+            $params = ['user'=> $authUser, 'password' => $this->getParameter("default_password")];
+            $this->sendMailToUser($authUser, "signup", "Bienvenue sur notre application", $params);
+
+            $message = "Vous étes enregistré, un email vous a été envoyé.";
+            $authUser = new AuthUser();
+            $form = $this->createForm(SignupForm::class, $authUser);
+            //return $this->redirectToRoute('utilisateur_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('utilisateur/signup.html.twig', [
+            'auth_user' => $authUser,
+            'form' => $form,
+            'message' => $message
+        ]);
     }
 }

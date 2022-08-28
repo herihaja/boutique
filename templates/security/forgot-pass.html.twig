@@ -75,7 +75,7 @@
             <div class="col-md-12">
                         {# If there's any error, display it to the user #}
                         {% if message %}
-                        <div class="alert {% if success %}alert-success{% else %}alert-danger{% endif %}">{{ message}}</div>
+                        <div class="alert {% if success %}alert-success{% else %}alert-danger{% endif %}">{{ message | raw}}</div>
                         {% endif %}
 
                          <form method="post">

@@ -30,6 +30,7 @@ security:
         - { path: ^/login$, roles: PUBLIC_ACCESS }
         - { path: ^/mot-de-passe-oublie$, roles: PUBLIC_ACCESS }
         - { path: ^/re-initialiser-mot-de-passe/*, roles: PUBLIC_ACCESS }
+        - { path: ^/inscription/, roles: PUBLIC_ACCESS }
         - { path: ^/produit/approvisionnement, roles: [ROLE_ADMINISTRATEUR, ROLE_AGENT_APPRO] }
         - { path: ^/produit/list, roles: [ROLE_ADMINISTRATEUR, ROLE_AGENT_APPRO, ROLE_CAISSIER(E)] }
         - { path: ^/caisse, roles: [ROLE_ADMINISTRATEUR, ROLE_CAISSIER(E)] }

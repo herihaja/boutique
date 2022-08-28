@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenu sur notre application</title>
+</head>
+<body>
+
+    <h5>Bonjour {{ user.personne }}</h5>
+    <br/>
+    <p>Merci de vous être inscrit sur notre application.</p>
+    <br/>
+    <p>Votre identifiant est: <b>{{ user.username }}</b><br/>Votre mot de passe est: <b>{{ password }}</b>, 
+        <br/>Veuillez vous connecter <a href="{{ url('app_login') }}">ici</a>, et ensuite modifier votre mot de passe.
+    </p>
+
+
+    <br/><br/>
+    <p>Merci et bonne journée</p>
+</body>
+</html>
