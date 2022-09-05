@@ -71,9 +71,11 @@ class Stock
         /***  Handle smartly stock, use bigger entity stock if current one is exhausted */
         if ($qte < 0) {
             $biggerUniteAndMultiple = $this->getBiggerUniteStock();
-            $biggerUnitestock = $biggerUniteAndMultiple[0];
-            $biggerUnitestock->updateStock(1, $isSortie);
-            $qte = $biggerUniteAndMultiple[1] + $qte;
+            if (count($biggerUniteAndMultiple)) {
+                $biggerUnitestock = $biggerUniteAndMultiple[0];
+                $biggerUnitestock->updateStock(1, $isSortie);
+                $qte = $biggerUniteAndMultiple[1] + $qte;
+            }
         }
 
         $this->setQuantite($qte);
