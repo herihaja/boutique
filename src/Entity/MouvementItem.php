@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\MouvementItemRepository;
 use Doctrine\ORM\Mapping as ORM;
+use DateTime;
 
 /**
  * @ORM\Entity(repositoryClass=MouvementItemRepository::class)
@@ -51,18 +52,27 @@ class MouvementItem
      */
     private $unite;
 
+    /**
+     * @var \Date
+     *
+     * @ORM\Column(name="date_peremption", type="date")
+     */
+    private $datePeremption;
+    
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function setData($mouvement, $produit, $quantite, $total, $prixUt, $unite){
+    public function setData($mouvement, $produit, $quantite, $total, $prixUt, $unite, $datePeremption){
         $this->setMouvement($mouvement);
         $this->setProduit($produit);
         $this->setNombre($quantite);
         $this->setTotal($total);
         $this->setPrixUT($prixUt);
-        $this->setUnite($unite);
+        $this->setUnite($unite)
+            ->setDatePeremption($datePeremption);
     }
 
     public function getProduit(): ?Produit
@@ -137,5 +147,15 @@ class MouvementItem
         return $this;
     }
 
-    
+    public function getDatePeremption(): ?\DateTimeInterface
+    {
+        return $this->datePeremption;
+    }
+
+    public function setDatePeremption(\DateTimeInterface $datePeremption): self
+    {
+        $this->datePeremption = $datePeremption;
+
+        return $this;
+    }
 }

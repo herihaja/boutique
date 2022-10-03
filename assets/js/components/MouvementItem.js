@@ -1,5 +1,8 @@
     // ./assets/js/components/MouvementItem.js
     import React from 'react';
+    import DatePicker, { registerLocale } from "react-datepicker";
+    import fr from "date-fns/locale/fr";
+    registerLocale("fr", fr)
      
     class MouvementItem extends React.Component {
         constructor (props) {
@@ -10,11 +13,13 @@
             this.prix = props.prix;
             this.clickDelete = props.clickDelete;
             this.id = props.id;
+            this.datePeremption = props.datePeremption;
             this.unite = props.unite;
             this.state = {'quantite': props.quantite, 
-            'unite': props.unite || Object.keys(props.prix)[0], 'total':0};
+            'unite': props.unite || Object.keys(props.prix)[0], 'total':0, 'datePeremption': ''};
             this.updateTotalState();
             this.isVente = props.isVente;
+            this.datesPeremption = props.datesPeremption;
         }
 
         updateTotalState = () => {
@@ -49,12 +54,44 @@
             return this.prix[this.state.unite].prixId;
         }
 
+        selectedDatePeremption = (date) => {
+            this.setState({'datePeremption': date});
+            return date;
+        }
+
+        formatDate = (date) => {
+            var l = date.split("/");
+            return l.reverse().join("/");
+        }
+
         render () {
             return (
             <tr>
                 
                 <td className="col">
                     <p><a href="#" onClick={ () => this.clickDelete(this)}><img src="/static/img/delete-icon.png" className='deleteProduit'/></a> &nbsp; {this.produitNom}</p>
+                </td>
+                
+                <td className="col" data={this.datesPeremption.length}>
+                    { this.isVente ? 
+                        <select onChange={this.selectedDatePeremption} name="datePeremption[]">
+                            {this.datesPeremption.map(
+                                (value, key) => (
+                                    <option value={ value } key={key}>{ value }</option>
+                                )
+                            )}
+                        </select>
+                     :
+                        <DatePicker
+                            selected={this.state.datePeremption}
+                            onChange={(date) => this.selectedDatePeremption(date)}
+                            timeInputLabel="Time:"
+                            dateFormat="dd/MM/yyyy"
+                            locale="fr"
+                            name="datePeremption[]"
+                        />
+                    }
+                    
                 </td>
                 <td className="col">
                     <input type="hidden" name="produit[]" value={this.id}/>
@@ -76,9 +113,10 @@
                 <td className="col" >
                     { this.prixUnitaire()}
                 </td>
-                <td className="col">
-                    {this.prixTotal() }
-                </td> </> :
+                <td className="col" >
+                    { this.prixTotal()}
+                </td>
+                 </> :
                 null
                 }
                 <td>&nbsp;</td>

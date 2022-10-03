@@ -46,10 +46,13 @@ class ProduitRepository extends ServiceEntityRepository
         $rsm = new ResultSetMapping();
         
         $query = $con->exeCuteQuery(
-            "SELECT p.nom, p.id, GROUP_CONCAT(px.valeur, ';', u.valeur, ';', u.id, ';', px.id SEPARATOR '|') as prices FROM `produit` p 
+            "SELECT p.nom, p.id, GROUP_CONCAT(px.valeur, ';', u.valeur, ';', u.id, ';', px.id SEPARATOR '|') as prices,
+                GROUP_CONCAT(DISTINCT DATE_FORMAT(mi.date_peremption, \"%d/%m/%Y\") ORDER BY mi.date_peremption ASC SEPARATOR '|') AS datesPeremption
+             FROM `produit` p 
                 join prix px ON px.produit_id = p.id 
                 join parametre_valeur u ON u.id = px.unite_id
                 join stock s ON s.produit_id = p.id and s.quantite > 0
+                join mouvement_item mi ON mi.produit_id = p.id and mi.prix_ut_id is null
                 Group by p.id
                 ORDER BY p.nom ASC"
 
@@ -63,7 +66,9 @@ class ProduitRepository extends ServiceEntityRepository
         $con = $this->getEntityManager()->getConnection();
         
         $query = $con->exeCuteQuery(
-            "SELECT p.nom, p.id, GROUP_CONCAT(0, ';', u.valeur, ';', u.id, ';', 0 SEPARATOR '|') as prices FROM `produit` p 
+            "SELECT p.nom, p.id, GROUP_CONCAT(0, ';', u.valeur, ';', u.id, ';', 0 SEPARATOR '|') as prices,
+                '' as datesPeremption
+             FROM `produit` p 
                 join produit_unites px ON px.produit_id = p.id 
                 join parametre_valeur u ON u.id = px.parametre_valeur_id
                 Group by p.id
@@ -94,7 +99,7 @@ class ProduitRepository extends ServiceEntityRepository
     {
         $con = $this->getEntityManager()->getConnection();
         $query = $con->exeCuteQuery(
-            "SELECT p.nom, p.id, GROUP_CONCAT(stk.quantite, ' ', u.valeur, '(s)' SEPARATOR ', ') as stocks FROM `produit` p 
+            "SELECT p.nom, p.id, GROUP_CONCAT('Exp:(', DATE_FORMAT(stk.date_peremption, \"%d/%m/%Y\") ,') ',stk.quantite, ' ', u.valeur, '(s)' SEPARATOR ' / ') as stocks FROM `produit` p 
                 join produit_unites px ON px.produit_id = p.id
                 join stock stk ON stk.produit_id = p.id and px.parametre_valeur_id = stk.unite_id 
                 join parametre_valeur u ON u.id = px.parametre_valeur_id
@@ -113,6 +118,7 @@ class ProduitRepository extends ServiceEntityRepository
                 (SELECT p.nom, p.id, count(mi.id) as frequence, Date(m.date_mouvement) as jour FROM `produit` p 
                     join mouvement_item mi ON mi.produit_id = p.id
                     join mouvement m ON m.id = mi.mouvement_id
+
                     where m.is_vente = true
                     Group by p.id, DATE(m.date_mouvement)
                     ORDER BY date(m.date_mouvement) ASC
@@ -175,17 +181,18 @@ class ProduitRepository extends ServiceEntityRepository
 
     public function compareStockAndSales(){
         $con = $this->getEntityManager()->getConnection();
+        
         $query = $con->executeQuery(
             "select t.nom, SUM(t.quantite) as quantite, SUM(t.stk) as stock FROM 
-                (SELECT CONCAT(p.nom, ' (' ,u.valeur, ')') as nom, p.id, u.valeur, SUM(mi.nombre) as quantite, s.quantite as stk FROM `produit` p 
-                    join mouvement_item mi ON mi.produit_id = p.id
-                    join mouvement m ON m.id = mi.mouvement_id
-                    join prix px ON px.id = mi.prix_ut_id
-                    join parametre_valeur u ON u.id = px.unite_id
-                    join stock s ON s.unite_id = u.id and p.id = s.produit_id
-                    where m.is_vente = true and m.date_mouvement >= DATE_ADD(CURDATE(), INTERVAL -7 DAY)
-                    Group by p.id, u.valeur, s.id
-                ) as t GROUP BY t.id, t.nom"
+            (SELECT CONCAT(p.nom, ' (' ,u.valeur, ')') as nom, p.id, u.valeur, SUM(mi.nombre) as quantite, sum(s.quantite) as stk FROM `produit` p 
+                join mouvement_item mi ON mi.produit_id = p.id
+                join mouvement m ON m.id = mi.mouvement_id
+                join prix px ON px.id = mi.prix_ut_id
+                join parametre_valeur u ON u.id = px.unite_id
+                join (select sum(quantite) as quantite, produit_id, unite_id from stock group by produit_id, unite_id) as s ON s.unite_id = u.id and p.id = s.produit_id
+                where m.is_vente = true and m.date_mouvement >= DATE_ADD(CURDATE(), INTERVAL -7 DAY)
+                Group by p.id, u.valeur
+            ) as t GROUP BY t.id, t.nom"
         );
 
         $results = $query->fetchAllAssociative();

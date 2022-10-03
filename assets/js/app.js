@@ -98,6 +98,7 @@ import TextField from '@mui/material/TextField';
         }
         if (selected) {
             var prices = selected.prices.split("|");
+            var datesPeremption = selected.datesPeremption.split("|");
             selected['prix'] = [];
             for(var i in prices) {
                 var prix = prices[i].split(";");
@@ -114,7 +115,8 @@ import TextField from '@mui/material/TextField';
                 'quantite': 1, 
                 'prix': selected.prix, 
                 'unite':selected.unite,
-                'produitNom': selected.nom
+                'produitNom': selected.nom,
+                'datesPeremption': datesPeremption
             });
         }
         this.setState({toSelectProduits, entries});
@@ -152,6 +154,7 @@ import TextField from '@mui/material/TextField';
                         <tr>
                             
                                     <th>Produit</th>
+                                    <th>Date de péremption</th>
                                     <th>Nombre</th>
                                     <th>Unité</th>
                                     { this.isVente ? <>
@@ -176,6 +179,7 @@ import TextField from '@mui/material/TextField';
                                     clickDelete={this.clickDeleteItem}
                                     addPrixToTotal={this.addPrixToTotal}
                                     isVente={this.isVente}
+                                    datesPeremption={product.datesPeremption}
                                 />
                             )
                         )}
@@ -199,15 +203,15 @@ import TextField from '@mui/material/TextField';
                                 />
                                 
                             </td>
-                            <td>
-                                
+                            <td colSpan="2">
+                                &nbsp;
                             </td>
                             { this.isVente ? <>
                             <td>Total:</td>
                             <td>
                                 <input type="hidden" name="grandTotal" value={this.state.total}/>
                                 {this.state.total}
-                            </td></>: null}
+                            </td></>: "&nbsp;"}
                             <td>&nbsp;</td>
                         </tr>
                     </tbody>

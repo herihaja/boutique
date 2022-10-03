@@ -10,6 +10,7 @@ use App\Entity\Stock;
 use App\Entity\Produit;
 use App\Entity\Prix;
 use App\Entity\ParametreValeur;
+use DateTime;
 
 
 class ProduitService
@@ -33,7 +34,9 @@ class ProduitService
         $grandTotal = $postData->get('grandTotal');
         $montantRemis = $postData->get('montantRemis');
         $montantRendu = $postData->get('montantRendu');
-
+        $datePeremptions = $postData->all('datePeremption');
+        
+        
         $mouvement = new Mouvement();
         if ($isVente)
             $mouvement->setVenteData($grandTotal, $montantRemis, $montantRendu, $user);
@@ -47,6 +50,7 @@ class ProduitService
         foreach ($produits as $key => $produitId) {
             $mouvementItem = new MouvementItem();
             $produit = $this->entityManager->getReference(Produit::class, $produitId);
+            $datePeremption = Datetime::createFromFormat("d/m/Y", $datePeremptions[$key]);
             
             if ($isVente) {
                 $prixUt = $this->entityManager->getReference(Prix::class, $prixId[$key]);
@@ -56,15 +60,16 @@ class ProduitService
                 $prixUt = null;
             }
 
-            $stock = $this->entityManager->getRepository(Stock::class)->findByProduitUnite($produit, $unite);
+            $stock = $this->entityManager->getRepository(Stock::class)->findByProduitUnite($produit, $unite, $datePeremption);
             if (!$stock) {
                 $stock = new Stock();
                 $stock->setProduit($produit);
                 $stock->setUnite($unite);
+                $stock->setDatePeremption($datePeremption);
             }
-            $stock->updateStock($quantite[$key], $isVente);
+            $stock->updateStock($quantite[$key], $isVente, $datePeremptions[$key]);
 
-            $mouvementItem->setData($mouvement, $produit, $quantite[$key], $total[$key], $prixUt, $unite);
+            $mouvementItem->setData($mouvement, $produit, $quantite[$key], $total[$key], $prixUt, $unite, $datePeremption);
             $this->entityManager->persist($mouvementItem);
             $sousTotal += $total[$key];
             $this->entityManager->persist($stock);

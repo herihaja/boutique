@@ -54,13 +54,15 @@ class StockRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-    public function findByProduitUnite($produit, $unite): ?Stock
+    public function findByProduitUnite($produit, $unite, $datePeremption): ?Stock
     {
         return $this->createQueryBuilder('s')
             ->andWhere('s.produit = :produit')
             ->setParameter('produit', $produit)
             ->andWhere('s.unite = :unite')
+            ->andWhere('s.datePeremption = :datePeremption')
             ->setParameter('unite', $unite)
+            ->setParameter('datePeremption',$datePeremption->format("Y/m/d"))
             ->getQuery()
             ->getOneOrNullResult()
         ;

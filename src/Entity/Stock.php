@@ -35,6 +35,13 @@ class Stock
      */
     private $unite;
 
+    /**
+     * @var \Date
+     *
+     * @ORM\Column(name="date_peremption", type="date")
+     */
+    private $datePeremption;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -116,6 +123,18 @@ class Stock
 
             return [$stocks->matching($criteria)->first(), $biggerUnite[0][1]];
         }
-        
+        return [];
+    }
+
+    public function getDatePeremption(): ?\DateTimeInterface
+    {
+        return $this->datePeremption;
+    }
+
+    public function setDatePeremption(\DateTimeInterface $datePeremption): self
+    {
+        $this->datePeremption = $datePeremption;
+
+        return $this;
     }
 }
